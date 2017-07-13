@@ -1,0 +1,167 @@
+% University of Alberta Example Thesis
+% By the Rogue's Gallery, Department of Computing Science
+% Last updated 16 Dec 2004
+
+% Note: you will probably have to edit the thesis.sty file to comment or uncomment bits and pieces (e.g. co-supervisor, externals, etc)
+
+\documentclass[12pt]{report}          % for default format
+
+% import other packages here
+\usepackage{thesis}  % Earlier version says this should be last package 
+                     % imported. Never checked if this is still true. 
+                     % Having this second last before the next one seems fine.
+\usepackage{xmpincl} % Seems to be needed when converting to PDF/A, 
+                     % particularly on Macs
+
+%% Correct title for TOC
+\renewcommand{\contentsname}{Table of Contents}
+
+% Fill in the following
+\title{Thesis Title} % Title can't use formulae, symbols, superscripts, subscripts, greek letters, etc. all of which should be replaced with word substitutes
+\author{Author Name}
+
+\degree{\MSc}
+%\degree{\PhD} % uncomment respective degree
+
+\dept{Computing Science}  % Write Computing Science or Civil Engineering.
+
+% If you have a specialization, uncomment the following line and enter it below.
+% It must correspond with what it says on Bear Tracks. If like most people you
+% don't have one, just leave commented
+%\field{Specialization Field}
+
+% Put the year that you submitted your thesis below
+\submissionyear{\number2014}
+
+
+
+
+
+\begin{document}
+
+\preamblepagenumbering % lower case roman numerals for early pages
+\titlepage % adds title page. Can be commented out before submission if convenient
+
+% The following environments should be filled in as needed. 
+% FGSR requires the abstract first, then a preface.
+% This can be followed by a dedication or quote (optional).
+% FGSR requirements are not clear if you can have both a dedication and quote
+% or if you are restricted to one or the other.
+% This is then followed by an optional acknowledgements section, then a 
+% mandatory table of contents, and then the thesis itself.
+
+% environment for abstract.
+\begin{abstract}
+Your abstract here. 
+The abstract is not allowed to be more than 700 words and cannot include non-text content.
+It must also be double-spaced. 
+The rest of the document must be at least one-and-a-half spaced.
+\end{abstract}
+
+
+\doublespacing
+% \truedoublespacing     Add inside abstract environment if you want that in abstract
+% \singlespacing
+% \onehalfspacing
+
+
+% environment for preface
+% If you want the preface to not be double-spaced, uncomment the corresponding 
+% setting above.
+\begin{preface} 
+A preface is now mandatory if the thesis includes work that appeared in a journal article (it doesn't mention conference publications) or if ethics approval were needed for any part of the thesis.
+Otherwise it is optional.
+See the FGSR requirements for examples of how this can look.
+\end{preface}
+
+% Below are the dedication page and the quote page. FGSR requirements are not
+% clear on if you can have one of each or just one or the other.
+
+% Dedication page
+\begin{dedication}
+	\vspace*{1in}
+	\begin{center}
+	         \emph{To the Count} \\
+             \emph{For teaching me everything I need to know about math.}
+	\end{center}
+\end{dedication}
+
+% Quote page
+\begin{quotepage}
+ \vspace*{1in}
+ \begin{center}
+	\emph{I think there is a world market for maybe five computers.}
+	\begin{flushright}
+		-- Thomas J.\ Watson, IBM Chairman, 1943.
+	\end{flushright}
+ \end{center}
+\end{quotepage}
+
+% environment for acknowledgements.
+\begin{acknowledgements} 
+Put any acknowledgements here.
+The acknowledgements can't be more than 2 pages in length.
+\end{acknowledgements}
+
+\singlespacing % Flip to single spacing for table of contents settings
+               % This has been accepted in the past and shouldn't be a problem
+               % Now the table of contents etc.
+               
+\tableofcontents
+\listoftables  % if you have any
+\listoffigures % if you have any
+               % minimal support for list of plates and symbols (Optional)
+%\begin{listofplates}
+%...            % you are responsible for formatting this page.
+%\end{listofplates}
+%\begin{listofsymbols}
+%...            % You are responsible for formatting this page
+%\end{listofsymbols}
+               
+% A glossary of terms is also optional, but no such functionality has been added
+               
+% The rest of the document has to be at least one-half-spaced.
+% Double-spacing is most common, but uncomment whichever you want, or 
+% single-spacing if you just want to do that for your personal purposes.
+% Long-quoted passages and footnotes can be in single spacing
+\doublespacing
+% \truedoublespacing     Add inside abstract environment if you want that in abstract
+% \singlespacing
+% \onehalfspacing
+
+
+
+\setforbodyoftext % settings for the body including roman numeral numbering starting at 1
+
+%  ... The bulk of your magnificient thesis  goes here ... 
+%  hopefully more than two lines! Use standard Latex sectioning commands
+%  like \chapter ect. End with the bibliography
+% See FGSR requirements for any additional requirements on the body
+
+\chapter{Introduction}
+
+Here is a test reference \cite{Knuth68:art_of_programming}.
+These additional lines have been added just to demonstrate the spacing for the rest of the document.
+
+% Other chapters here
+
+
+\clearpage\addcontentsline{toc}{chapter}{Bibliography}
+     %add the above line to get "Bibliography" in the table of contents.
+%
+\singlespacing % optional;  Bibliography is better in single spacing
+               %            but you may choose different
+               %            Don't use \singlespacing if your thesis
+               %            is already in single spacing
+%
+\bibliographystyle{plain} % Or which ever you wish. Plain is good
+                          % for long bibs.
+\bibliography{refs}
+
+\doublespacing
+
+%\appendix  %  If you have any appendices
+            % Use standard Latex sectioning commands
+            % like \chapter etc.
+
+\end{document}
