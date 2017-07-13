@@ -1,0 +1,17 @@
+% A workaround to allow relative paths in included subfiles
+% that are to be compiled separately
+% See https://tex.stackexchange.com/questions/153312/subfiles-inside-a-subfile-using-relative-paths
+\providecommand{\main}{..}
+\documentclass[\main/thesis.tex]{subfiles}
+
+\begin{document}
+
+% environment for abstract.
+\begin{abstract}
+Your abstract here. 
+The abstract is not allowed to be more than 700 words and cannot include non-text content.
+It must also be double-spaced. 
+The rest of the document must be at least one-and-a-half spaced.
+\end{abstract}
+
+\end{document}

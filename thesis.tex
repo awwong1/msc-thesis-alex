@@ -6,11 +6,16 @@
 %       to comment or uncomment bits and pieces
 %       (e.g. co-supervisor, externals, etc)
 
+% A workaround to allow relative paths in included subfiles
+% that are to be compiled separately
+% See https://tex.stackexchange.com/questions/153312/subfiles-inside-a-subfile-using-relative-paths
+\providecommand{\main}{.}
 \documentclass[12pt]{report}          % for default format
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % Package dependencies  %
 %%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{subfiles}
 \usepackage{amssymb,amsmath}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref} % See https://en.wikibooks.org/wiki/LaTeX/Hyperlinks#Customization
@@ -25,7 +30,7 @@
 \usepackage{xmpincl} % Seems to be needed when converting to PDF/A, 
                      % particularly on Macs
 
-\usepackage{uathesis}  % Earlier version says this should be last package 
+\usepackage{\main/uathesis}  % Earlier version says this should be last package 
                      % imported. Never checked if this is still true. 
                      % Having this second last before the next one seems fine.
 
@@ -77,28 +82,22 @@
 % Put the year that you submitted your thesis below
 \submissionyear{\number2014}
 
+%%%%%%%%%%%%%%%%%%%%%
+% Document Content  %
+%%%%%%%%%%%%%%%%%%%%%
+
+% This is a modular document.
+% The 'subfiles' package allows you to typeset the included
+% documents separately from the main document, so that you
+% can view only pieces of the thesis at a time.
+% See https://en.wikibooks.org/wiki/LaTeX/Modular_Documents
 
 \begin{document}
 
 \preamblepagenumbering % lower case roman numerals for early pages
 \titlepage % adds title page. Can be commented out before submission if convenient
 
-% The following environments should be filled in as needed. 
-% FGSR requires the abstract first, then a preface.
-% This can be followed by a dedication or quote (optional).
-% FGSR requirements are not clear if you can have both a dedication and quote
-% or if you are restricted to one or the other.
-% This is then followed by an optional acknowledgements section, then a 
-% mandatory table of contents, and then the thesis itself.
-
-% environment for abstract.
-\begin{abstract}
-Your abstract here. 
-The abstract is not allowed to be more than 700 words and cannot include non-text content.
-It must also be double-spaced. 
-The rest of the document must be at least one-and-a-half spaced.
-\end{abstract}
-
+\subfile{\main/tex/abstract.tex}
 
 \doublespacing
 % \truedoublespacing     Add inside abstract environment if you want that in abstract
@@ -176,7 +175,7 @@ The acknowledgements can't be more than 2 pages in length.
 
 %  ... The bulk of your magnificient thesis  goes here ... 
 %  hopefully more than two lines! Use standard Latex sectioning commands
-%  like \chapter ect. End with the bibliography
+%  like \chapter etc. End with the bibliography
 % See FGSR requirements for any additional requirements on the body
 
 \chapter{Introduction}
