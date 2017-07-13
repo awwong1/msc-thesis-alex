@@ -1,17 +1,61 @@
 % University of Alberta Example Thesis
 % By the Rogue's Gallery, Department of Computing Science
-% Last updated 16 Dec 2004
+% Last updated July 13, 2017
 
-% Note: you will probably have to edit the thesis.sty file to comment or uncomment bits and pieces (e.g. co-supervisor, externals, etc)
+% Note: You will probably have to edit the uathesis.sty file
+%       to comment or uncomment bits and pieces
+%       (e.g. co-supervisor, externals, etc)
 
 \documentclass[12pt]{report}          % for default format
 
-% import other packages here
-\usepackage{thesis}  % Earlier version says this should be last package 
-                     % imported. Never checked if this is still true. 
-                     % Having this second last before the next one seems fine.
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package dependencies  %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amssymb,amsmath}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref} % See https://en.wikibooks.org/wiki/LaTeX/Hyperlinks#Customization
+\usepackage{tabulary} % Better text wrapping in tables. See https://en.wikibooks.org/wiki/LaTeX/Tables
+\usepackage{rotating} % For the 'sidewaystable' environment. See https://en.wikibooks.org/wiki/LaTeX/Rotations
+\usepackage{multirow} % For multirow/multicolumn cells in a table. See https://en.wikibooks.org/wiki/LaTeX/Tables#Columns_spanning_multiple_rows
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{enumitem}   % for more control over enumerate
+\usepackage{parskip} % Extra space between paragraphs
 \usepackage{xmpincl} % Seems to be needed when converting to PDF/A, 
                      % particularly on Macs
+
+\usepackage{uathesis}  % Earlier version says this should be last package 
+                     % imported. Never checked if this is still true. 
+                     % Having this second last before the next one seems fine.
+
+%%%%%%%%%%%%%%%
+% biblatex    %
+%%%%%%%%%%%%%%%
+\usepackage[backend=biber,style=apa,sortcites=true,sorting=nyt]{biblatex}
+\usepackage{csquotes}
+
+\addbibresource{refs.bib}
+% Needed to prevent the following error with 'apa6' bibliography generation:
+% Undefined control sequence. <argument> \mkbibdateapalongextra{year}{month}{day}\iffieldundef {endyear}
+% See http://tex.stackexchange.com/questions/115703/yearmonthday-added-to-bibliography-when-using-apa6-with-biblatex-and-biber-bac#115717
+\usepackage[american]{babel}
+\DeclareLanguageMapping{american}{american-apa}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package-related tweaks   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Rename 'Require' and 'Ensure' in pseudocode to 'Input' and 'Output'
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+% Compensate for 'parskip', which removes indentation
+\setlength{\parindent}{15pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title page and Table of Contents Tweaks %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Correct title for TOC
 \renewcommand{\contentsname}{Table of Contents}
@@ -32,9 +76,6 @@
 
 % Put the year that you submitted your thesis below
 \submissionyear{\number2014}
-
-
-
 
 
 \begin{document}
@@ -145,18 +186,17 @@ These additional lines have been added just to demonstrate the spacing for the r
 
 % Other chapters here
 
-
-\clearpage\addcontentsline{toc}{chapter}{Bibliography}
-     %add the above line to get "Bibliography" in the table of contents.
+% Renaming the bibliography: See http://tex.stackexchange.com/questions/12597/renaming-the-bibliography-page-using-bibtex
+\renewcommand\bibname{References}
+\clearpage\addcontentsline{toc}{chapter}{\bibname}
+     %add the above line to get "References" in the table of contents.
 %
 \singlespacing % optional;  Bibliography is better in single spacing
                %            but you may choose different
                %            Don't use \singlespacing if your thesis
                %            is already in single spacing
 %
-\bibliographystyle{plain} % Or which ever you wish. Plain is good
-                          % for long bibs.
-\bibliography{refs}
+\printbibliography
 
 \doublespacing
 

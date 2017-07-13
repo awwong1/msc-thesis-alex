@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% $Id: thesis.sty,v 3.0 2003/02/24 20:50:36 pinchak Exp $
+% $Id: uathesis.sty,v 2.0 2017/07/13 11:48:00 pinchak Exp $
 %
 % U. of A. THESIS DOCUMENT STYLE
 % Version 0.8  -- November 1987  for LaTeX version 2.09
@@ -55,6 +55,11 @@
 %   1 on the first page.
 %   Also got rid of a lot of functionality that was no longer used to make
 %   things cleaner.
+%
+% Version 2.0 -- July 2017
+%   Updated by Bernard Llanos
+%   - TODO Summarize changes in the Git commit history.
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % How to Use This style file??
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -64,13 +69,13 @@
 % 
 % To use with LaTeX 2.09, simply change your documentstyle command
 % to one of the following:
-%   \documentstyle[thesis,twoside]{report}	% for double-sided printers
-%   \documentstyle[thesis]{report}		% for single-sided printers
-%   \documentstyle[10pt,thesis]{report}		% for 10pt format
-%   \documentstyle[11pt,thesis]{report}		% for 11pt format
-%   \documentstyle[12pt,thesis]{report}		% for 12pt format
+%   \documentstyle[uathesis,twoside]{report}	% for double-sided printers
+%   \documentstyle[uathesis]{report}		% for single-sided printers
+%   \documentstyle[10pt,uathesis]{report}		% for 10pt format
+%   \documentstyle[11pt,uathesis]{report}		% for 11pt format
+%   \documentstyle[12pt,uathesis]{report}		% for 12pt format
 %
-% Make sure thesis is the last option loaded.
+% Make sure uathesis is the last option loaded.
 %
 %%%%%%%%%%%
 % LaTeX2e %
@@ -86,7 +91,7 @@
 %   \usepackage{...}
 %   \usepackage{...}
 %   \usepackage{...}
-%   \usepackage{thesis}
+%   \usepackage{uathesis}
 %   \usepackage{xmpincl}
 %
 % Make sure these are the last packages loaded. The last one is for PDF/A 
@@ -208,6 +213,8 @@
 %\end{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ProvidesPackage{uathesis}
 
 %%%%%%% Added by Narendra Ravi.
 %%%%%%%    Using \baselineskip is better than using \baselinestretch
