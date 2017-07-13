@@ -1,0 +1,17 @@
+% A workaround to allow relative paths in included subfiles
+% that are to be compiled separately
+% See https://tex.stackexchange.com/questions/153312/subfiles-inside-a-subfile-using-relative-paths
+\providecommand{\main}{..}
+\documentclass[\main/thesis.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Introduction}
+
+Here is a test reference \cite{Knuth68:art_of_programming}.
+These additional lines have been added just to demonstrate the spacing
+for the rest of the document. Spacing will differ between the typeset main
+document, and typeset individual documents, as the commands
+to change spacing for the body of the thesis are only in the main document.
+
+\end{document}

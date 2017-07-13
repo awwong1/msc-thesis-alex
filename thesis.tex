@@ -26,7 +26,7 @@
 \usepackage{algorithm}
 \usepackage{graphicx}
 \usepackage{enumitem}   % for more control over enumerate
-\usepackage{parskip} % Extra space between paragraphs
+% \usepackage{parskip} % Extra space between paragraphs
 \usepackage{xmpincl} % Seems to be needed when converting to PDF/A, 
                      % particularly on Macs
 
@@ -40,7 +40,7 @@
 \usepackage[backend=biber,style=apa,sortcites=true,sorting=nyt]{biblatex}
 \usepackage{csquotes}
 
-\addbibresource{refs.bib}
+\addbibresource{\main/refs.bib}
 % Needed to prevent the following error with 'apa6' bibliography generation:
 % Undefined control sequence. <argument> \mkbibdateapalongextra{year}{month}{day}\iffieldundef {endyear}
 % See http://tex.stackexchange.com/questions/115703/yearmonthday-added-to-bibliography-when-using-apa6-with-biblatex-and-biber-bac#115717
@@ -55,8 +55,8 @@
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 
-% Compensate for 'parskip', which removes indentation
-\setlength{\parindent}{15pt}
+% Compensate for 'parskip' (if used), which removes indentation
+% \setlength{\parindent}{15pt}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Title page and Table of Contents Tweaks %
@@ -91,6 +91,11 @@
 % documents separately from the main document, so that you
 % can view only pieces of the thesis at a time.
 % See https://en.wikibooks.org/wiki/LaTeX/Modular_Documents
+%
+% Subfiles that contain references: You can just run
+% `biber subfilename` on them when compiling them individually.
+% There is no need to make them reference the bibliography database
+% 'refs.bib', as they inherit the reference from this file.
 
 \begin{document}
 
@@ -104,44 +109,16 @@
 % \singlespacing
 % \onehalfspacing
 
-
-% environment for preface
-% If you want the preface to not be double-spaced, uncomment the corresponding 
-% setting above.
-\begin{preface} 
-A preface is now mandatory if the thesis includes work that appeared in a journal article (it doesn't mention conference publications) or if ethics approval were needed for any part of the thesis.
-Otherwise it is optional.
-See the FGSR requirements for examples of how this can look.
-\end{preface}
+% A preface is not always required
+\subfile{\main/tex/preface.tex}
 
 % Below are the dedication page and the quote page. FGSR requirements are not
 % clear on if you can have one of each or just one or the other.
 
-% Dedication page
-\begin{dedication}
-	\vspace*{1in}
-	\begin{center}
-	         \emph{To the Count} \\
-             \emph{For teaching me everything I need to know about math.}
-	\end{center}
-\end{dedication}
+\subfile{\main/tex/dedication.tex}
+\subfile{\main/tex/quote.tex}
 
-% Quote page
-\begin{quotepage}
- \vspace*{1in}
- \begin{center}
-	\emph{I think there is a world market for maybe five computers.}
-	\begin{flushright}
-		-- Thomas J.\ Watson, IBM Chairman, 1943.
-	\end{flushright}
- \end{center}
-\end{quotepage}
-
-% environment for acknowledgements.
-\begin{acknowledgements} 
-Put any acknowledgements here.
-The acknowledgements can't be more than 2 pages in length.
-\end{acknowledgements}
+\subfile{\main/tex/acknowledgements.tex}
 
 \singlespacing % Flip to single spacing for table of contents settings
                % This has been accepted in the past and shouldn't be a problem
@@ -169,8 +146,6 @@ The acknowledgements can't be more than 2 pages in length.
 % \singlespacing
 % \onehalfspacing
 
-
-
 \setforbodyoftext % settings for the body including roman numeral numbering starting at 1
 
 %  ... The bulk of your magnificient thesis  goes here ... 
@@ -178,12 +153,7 @@ The acknowledgements can't be more than 2 pages in length.
 %  like \chapter etc. End with the bibliography
 % See FGSR requirements for any additional requirements on the body
 
-\chapter{Introduction}
-
-Here is a test reference \cite{Knuth68:art_of_programming}.
-These additional lines have been added just to demonstrate the spacing for the rest of the document.
-
-% Other chapters here
+\subfile{\main/tex/introduction.tex}
 
 % Renaming the bibliography: See http://tex.stackexchange.com/questions/12597/renaming-the-bibliography-page-using-bibtex
 \renewcommand\bibname{References}

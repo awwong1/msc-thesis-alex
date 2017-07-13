@@ -1,0 +1,15 @@
+% A workaround to allow relative paths in included subfiles
+% that are to be compiled separately
+% See https://tex.stackexchange.com/questions/153312/subfiles-inside-a-subfile-using-relative-paths
+\providecommand{\main}{..}
+\documentclass[\main/thesis.tex]{subfiles}
+
+\begin{document}
+
+% environment for acknowledgements.
+\begin{acknowledgements} 
+Put any acknowledgements here.
+The acknowledgements can't be more than 2 pages in length.
+\end{acknowledgements}
+
+\end{document}

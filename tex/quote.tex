@@ -1,0 +1,20 @@
+% A workaround to allow relative paths in included subfiles
+% that are to be compiled separately
+% See https://tex.stackexchange.com/questions/153312/subfiles-inside-a-subfile-using-relative-paths
+\providecommand{\main}{..}
+\documentclass[\main/thesis.tex]{subfiles}
+
+\begin{document}
+
+% Quote page
+\begin{quotepage}
+ \vspace*{1in}
+ \begin{center}
+	\emph{I think there is a world market for maybe five computers.}
+	\begin{flushright}
+		-- Thomas J.\ Watson, IBM Chairman, 1943.
+	\end{flushright}
+ \end{center}
+\end{quotepage}
+
+\end{document}
