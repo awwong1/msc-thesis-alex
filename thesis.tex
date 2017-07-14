@@ -16,6 +16,7 @@
 % Package dependencies  %
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{subfiles}
+\usepackage[titletoc]{appendix}
 \usepackage{amssymb,amsmath}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref} % See https://en.wikibooks.org/wiki/LaTeX/Hyperlinks#Customization
@@ -26,7 +27,6 @@
 \usepackage{algorithm}
 \usepackage{graphicx}
 \usepackage{enumitem}   % for more control over enumerate
-% \usepackage{parskip} % Extra space between paragraphs
 \usepackage{xmpincl} % Seems to be needed when converting to PDF/A, 
                      % particularly on Macs
 
@@ -37,7 +37,7 @@
 %%%%%%%%%%%%%%%
 % biblatex    %
 %%%%%%%%%%%%%%%
-\usepackage[backend=biber,style=apa,sortcites=true,sorting=nyt]{biblatex}
+\usepackage[backend=biber,style=ieee,sortcites=true,sorting=nyt]{biblatex}
 \usepackage{csquotes}
 
 \addbibresource{\main/refs.bib}
@@ -54,9 +54,6 @@
 % Rename 'Require' and 'Ensure' in pseudocode to 'Input' and 'Output'
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
-
-% Compensate for 'parskip' (if used), which removes indentation
-% \setlength{\parindent}{15pt}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Title page and Table of Contents Tweaks %
@@ -75,12 +72,13 @@
 \dept{Computing Science}  % Write Computing Science or Civil Engineering.
 
 % If you have a specialization, uncomment the following line and enter it below.
-% It must correspond with what it says on Bear Tracks. If like most people you
-% don't have one, just leave commented
+% It must correspond with what it says on Bear Tracks
+% (Academics>My Academics>Graduation). If, like most people, you don't have one,
+% just leave it commented.
 %\field{Specialization Field}
 
 % Put the year that you submitted your thesis below
-\submissionyear{\number2014}
+\submissionyear{\number2017}
 
 %%%%%%%%%%%%%%%%%%%%%
 % Document Content  %
@@ -105,7 +103,7 @@
 \subfile{\main/tex/abstract.tex}
 
 \doublespacing
-% \truedoublespacing     Add inside abstract environment if you want that in abstract
+% \truedoublespacing
 % \singlespacing
 % \onehalfspacing
 
@@ -113,7 +111,12 @@
 \subfile{\main/tex/preface.tex}
 
 % Below are the dedication page and the quote page. FGSR requirements are not
-% clear on if you can have one of each or just one or the other.
+% clear on if you can have one of each or just one or the other. They do say to
+% ask your supervisor if you should have them at all.
+%
+% The CS Department links to a comparison of pre- and post-Spring 2014 thesis
+% guidelines (https://www.ualberta.ca/computing-science/graduate-studies/current-students/dissertation-guidelines)
+% The comparison document lists an optional dedication page, but no quote page.
 
 \subfile{\main/tex/dedication.tex}
 \subfile{\main/tex/quote.tex}
@@ -125,9 +128,10 @@
                % Now the table of contents etc.
                
 \tableofcontents
-\listoftables  % if you have any
-\listoffigures % if you have any
-               % minimal support for list of plates and symbols (Optional)
+\listoftables  % only if you have any
+\listoffigures % only if you have any
+
+% minimal support for list of plates and symbols (Optional)
 %\begin{listofplates}
 %...            % you are responsible for formatting this page.
 %\end{listofplates}
@@ -135,14 +139,15 @@
 %...            % You are responsible for formatting this page
 %\end{listofsymbols}
                
-% A glossary of terms is also optional, but no such functionality has been added
+% A glossary of terms is also optional,
+% but no such functionality yet exists in this template.
                
 % The rest of the document has to be at least one-half-spaced.
 % Double-spacing is most common, but uncomment whichever you want, or 
 % single-spacing if you just want to do that for your personal purposes.
 % Long-quoted passages and footnotes can be in single spacing
 \doublespacing
-% \truedoublespacing     Add inside abstract environment if you want that in abstract
+% \truedoublespacing
 % \singlespacing
 % \onehalfspacing
 
@@ -169,8 +174,13 @@
 
 \doublespacing
 
-%\appendix  %  If you have any appendices
-            % Use standard Latex sectioning commands
-            % like \chapter etc.
+% Appendices are optional.
+%
+% The standard `\appendix` macro will not put the word "appendix" before
+% table of contents entries.
+% See https://tex.stackexchange.com/questions/44858/adding-the-word-appendix-to-table-of-contents-in-latex
+\begin{appendices}
+\subfile{\main/tex/background.tex}
+\end{appendices}
 
 \end{document}

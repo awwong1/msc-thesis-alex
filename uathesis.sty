@@ -2,6 +2,11 @@
 % $Id: uathesis.sty,v 2.0 2017/07/13 11:48:00 pinchak Exp $
 %
 % U. of A. THESIS DOCUMENT STYLE
+%
+%%%%%%%%%%%%%%%%%%%%
+% REVISION HISTORY %
+%%%%%%%%%%%%%%%%%%%%
+%
 % Version 0.8  -- November 1987  for LaTeX version 2.09
 %	Author: Fahiem Bacchus with many macros taken from 
 %                       Leslie Lamport REPORT document style.
@@ -63,6 +68,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % How to Use This style file??
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 %%%%%%%%%%%%%%
 % LaTeX 2.09 %
 %%%%%%%%%%%%%%
@@ -97,121 +103,12 @@
 % Make sure these are the last packages loaded. The last one is for PDF/A 
 % conversion. It seems to be necessary on Macs, not sure if it is needed elsewhere.
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%
+% Example %
+%%%%%%%%%%%
 %
-% The rest of your thesis latex file should look some thing like this.
-% 
-%% Correct title for TOC
-%\renewcommand{\contentsname}{Table of Contents}
-%
-%% Fill in the following
-%\title{Thesis Title}
-%\author{Author Name}
-%
-%\degree{\MSc}
-%%\degree{\PhD} % uncomment respective degree
-%
-%\dept{Computing Science}  % Write Computing Science or Civil Engineering.
-%
-%% If you have a specialization, uncomment the following line and enter it below.
-%% It must correspond with what it says on Bear Tracks. If like most people you
-%% don't have one, just leave commented
-%%\field{Specialization Field}
-%
-%% Put the year that you submitted your thesis below
-%\submissionyear{\number2014}
-%
-%\begin{document}
-%
-%\preamblepagenumbering % lower case roman numerals for early pages
-%\titlepage % adds title page. Can be commented out before submission if convenient
-%
-%% environment for abstract.
-%\begin{abstract}
-%Your abstract here. 
-%\end{abstract}
-%
-%\doublespacing
-%
-%% environment for preface
-%\begin{preface} 
-% Preface here.
-%\end{preface}
-%
-%% Below are the optional dedication page and the optional quote page. 
-%
-%% Dedication page
-%\begin{dedication}
-%	\vspace*{1in}
-%	\begin{center}
-%	         \emph{To the Count} \\
-%             \emph{For teaching me everything I need to know about math.}
-%	\end{center}
-%\end{dedication}
-%
-%% Quote page
-%\begin{quotepage}
-% \vspace*{1in}
-% \begin{center}
-%	\emph{I think there is a world market for maybe five computers.}
-%	\begin{flushright}
-%		-- Thomas J.\ Watson, IBM Chairman, 1943.
-%	\end{flushright}
-% \end{center}
-%\end{quotepage}
-%
-%% environment for acknowledgements.
-%\begin{acknowledgements} 
-%Put any acknowledgements here.
-%\end{acknowledgements}
-%
-%\singlespacing % Flip to single spacing for table of contents settings
-%               % This has been accepted in the past and shouldn't be a problem
-%               % Now the table of contents etc.
-%               
-%\tableofcontents
-%\listoftables  % if you have any
-%\listoffigures % if you have any
-%               % minimal support for list of plates and symbols (Optional)
-%%\begin{listofplates}
-%%...            % you are responsible for formatting this page.
-%%\end{listofplates}
-%%\begin{listofsymbols}
-%%...            % You are responsible for formatting this page
-%%\end{listofsymbols}
-%               
-%% A glossary of terms is also optional, but no such functionality has been added
-%               
-%\doublespacing
-%
-%\setforbodyoftext % settings for the body including roman numeral numbering starting at 1
-%
-%%  ... The bulk of your magnificient thesis  goes here ... 
-%%  hopefully more than two lines! Use standard Latex sectioning commands
-%%  like \chapter ect. End with the bibliography
-%% See FGSR requirements for any additional requirements on the body
-%
-%
-%\clearpage\addcontentsline{toc}{chapter}{Bibliography}
-%     %add the above line to get "Bibliography" in the table of contents.
-%%
-%\singlespacing % optional;  Bibliography is better in single spacing
-%               %            but you may choose different
-%               %            Don't use \singlespacing if your thesis
-%               %            is already in single spacing
-%%
-%\bibliographystyle{plain} % Or which ever you wish. Plain is good
-%                          % for long bibs.
-%\bibliography{refs}
-%
-%\doublespacing
-%
-%%\appendix  %  If you have any appendices
-%            % Use standard Latex sectioning commands
-%            % like \chapter etc.
-%
-%\end{document}
-
+% Refer to 'thesis.tex' for a minimum working example of a document
+% using this style.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%% Added by Narendra Ravi.
@@ -224,17 +121,10 @@
 \newcommand{\truedoublespacing}{\baselineskip 2em}
 \newcommand{\normalspacing}{\singlespacing}
 
-
-% left/right margin parameters for thesis style report
-\oddsidemargin 0.5in
-\evensidemargin 0.5in
-\textwidth 5.5in
-
-% top/bottom margin parameters for thesis style report
-\topmargin 0in
-\headheight 0in
-\headsep 0in
-\textheight 9in
+% Margins and page number positions
+% See https://tex.stackexchange.com/questions/49852/page-numbers-and-margins?rq=1
+\usepackage[left=1.5in,right=1.5in,top=1.0in,bottom=1.0in,
+  footskip=0.25in]{geometry}
 
 %Other default settings
 \date{ }
@@ -340,7 +230,7 @@
 %         generated using \begin{abstract}, \end{abstract}
 % 
 %
-\def\abstract{\cleardoublepage\chapter*{Abstract}\pagestyle{plain}\doublespacing}
+\def\abstract{\cleardoublepage\chapter*{Abstract}\pagestyle{plain}\truedoublespacing}
 \def\endabstract{\newpage}
 
 %
