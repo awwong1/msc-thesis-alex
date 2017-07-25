@@ -1,0 +1,26 @@
+% A workaround to allow relative paths in included subfiles
+% that are to be compiled separately
+% See https://tex.stackexchange.com/questions/153312/subfiles-inside-a-subfile-using-relative-paths
+\providecommand{\main}{..}
+\documentclass[\main/thesis.tex]{subfiles}
+
+\onlyinsubfile{\externaldocument{\main/tex/introduction}}
+
+\begin{document}
+
+\chapter{Conclusion}
+
+Referring back to the introduction (Section \ref{sec:crossRef}), we see
+that cross-references between files are correctly handled when the files
+are compiled separately, and when the main document is compiled.
+When the main document is compiled, cross-references are hyperlinked.
+The values of the cross-references will change between the two compilation
+scenarios, however. (Each chapter, compiled on its own, becomes ``Chapter 1''.)
+
+\begin{note}[Caution:]
+For cross-references to work, when files are compiled separately,
+the referenced file must be compiled at least once before the
+referring file is compiled.
+\end{note}
+
+\end{document}

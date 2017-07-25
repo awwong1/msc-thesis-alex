@@ -19,7 +19,9 @@
 \usepackage[titletoc]{appendix}
 \usepackage{amssymb,amsmath}
 \usepackage{url}
+\usepackage{xr-hyper}
 \usepackage[hidelinks]{hyperref} % See https://en.wikibooks.org/wiki/LaTeX/Hyperlinks#Customization
+% \usepackage{zref-xr,zref-user} % Does not seem to make hyperlinks in references
 \usepackage{tabulary} % Better text wrapping in tables. See https://en.wikibooks.org/wiki/LaTeX/Tables
 \usepackage{rotating} % For the 'sidewaystable' environment. See https://en.wikibooks.org/wiki/LaTeX/Rotations
 \usepackage{multirow} % For multirow/multicolumn cells in a table. See https://en.wikibooks.org/wiki/LaTeX/Tables#Columns_spanning_multiple_rows
@@ -27,6 +29,7 @@
 \usepackage{algorithm}
 \usepackage{graphicx}
 \usepackage{enumitem}   % for more control over enumerate
+\usepackage{mdwlist}	% compact lists and the 'note' environment
 \usepackage{xmpincl} % Seems to be needed when converting to PDF/A, 
                      % particularly on Macs
 
@@ -95,7 +98,13 @@
 % There is no need to make them reference the bibliography database
 % 'refs.bib', as they inherit the reference from this file.
 
+\newcommand{\onlyinsubfile}[1]{#1}
+\newcommand{\notinsubfile}[1]{}
+
 \begin{document}
+
+\renewcommand{\onlyinsubfile}[1]{}
+\renewcommand{\notinsubfile}[1]{#1}
 
 \preamblepagenumbering % lower case roman numerals for early pages
 \titlepage % adds title page. Can be commented out before submission if convenient
@@ -159,6 +168,7 @@
 % See FGSR requirements for any additional requirements on the body
 
 \subfile{\main/tex/introduction.tex}
+\subfile{\main/tex/conclusion.tex}
 
 % Renaming the bibliography: See http://tex.stackexchange.com/questions/12597/renaming-the-bibliography-page-using-bibtex
 \renewcommand\bibname{References}
