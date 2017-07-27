@@ -20,7 +20,7 @@
 \usepackage{amssymb,amsmath}
 \usepackage{url}
 \usepackage{xr-hyper}
-\usepackage[hidelinks]{hyperref} % See https://en.wikibooks.org/wiki/LaTeX/Hyperlinks#Customization
+\usepackage[breaklinks=true,hidelinks]{hyperref} % See https://en.wikibooks.org/wiki/LaTeX/Hyperlinks#Customization
 % \usepackage{zref-xr,zref-user} % Does not seem to make hyperlinks in references
 \usepackage{tabulary} % Better text wrapping in tables. See https://en.wikibooks.org/wiki/LaTeX/Tables
 \usepackage{rotating} % For the 'sidewaystable' environment. See https://en.wikibooks.org/wiki/LaTeX/Rotations
@@ -30,6 +30,9 @@
 \usepackage{graphicx}
 \usepackage{enumitem}   % for more control over enumerate
 \usepackage{mdwlist}	% compact lists and the 'note' environment
+\usepackage{xspace}
+\usepackage{xcolor}
+\usepackage{csquotes} % Also used with biblatex
 \usepackage{xmpincl} % Seems to be needed when converting to PDF/A, 
                      % particularly on Macs
 
@@ -40,8 +43,21 @@
 %%%%%%%%%%%%%%%
 % biblatex    %
 %%%%%%%%%%%%%%%
-\usepackage[backend=biber,style=ieee,sortcites=true,sorting=nyt]{biblatex}
-\usepackage{csquotes}
+% (Added by Bernard Llanos)
+% biblatex is intended to be the successor to BibTeX
+% (https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management#biblatex)
+\usepackage[backend=biber,style=ieee,backref=true,sortcites=true,sorting=nyt]{biblatex}
+% `backref=true` adds back references - Links to the in-text citations from
+% the corresponding bibliography entries. Back references are not mentioned
+% in thesis guidelines, but are, in my opinion, helpful for reading and editing.
+
+% The following macro will put back references on the right edge of the page
+% (https://tex.stackexchange.com/questions/149009/biblatex-pagebackref-reference-in-the-flush-right-margin)
+\renewbibmacro*{pageref}{%
+   \iflistundef{pageref}
+     {\renewcommand{\finentrypunct}{\addperiod}}
+     {\renewcommand{\finentrypunct}{\addspace}%
+      \printtext{\addperiod\hfill\rlap{\hskip15pt\colorbox{blue!5}{\scriptsize\printlist[pageref][-\value{listtotal}]{pageref}}}}}}
 
 \addbibresource{\main/refs.bib}
 % Needed to prevent the following error with 'apa6' bibliography generation:
@@ -57,6 +73,25 @@
 % Rename 'Require' and 'Ensure' in pseudocode to 'Input' and 'Output'
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Shorthands               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% From the CVPR paper template (http://cvpr2017.thecvf.com/submission/main_conference/author_guidelines)
+% Add a period to the end of an abbreviation unless there's one
+% already, then \xspace.
+\makeatletter
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+
+\def\eg{\emph{e.g}\onedot} \def\Eg{\emph{E.g}\onedot}
+\def\ie{\emph{i.e}\onedot} \def\Ie{\emph{I.e}\onedot}
+\def\cf{\emph{c.f}\onedot} \def\Cf{\emph{C.f}\onedot}
+\def\etc{\emph{etc}\onedot} \def\vs{\emph{vs}\onedot}
+\def\wrt{w.r.t\onedot} \def\dof{d.o.f\onedot}
+\def\etal{\emph{et al}\onedot}
+\makeatother
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Title page and Table of Contents Tweaks %
