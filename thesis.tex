@@ -1,6 +1,6 @@
 % University of Alberta Example Thesis
 % By the Rogue's Gallery, Department of Computing Science
-% Last updated July 13, 2017
+% Last updated September 15, 2017
 
 % Note: You will probably have to edit the uathesis.sty file
 %       to comment or uncomment bits and pieces
@@ -15,18 +15,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % Package dependencies  %
 %%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
 \usepackage{subfiles}
 \usepackage[titletoc]{appendix}
 \usepackage{amssymb,amsmath}
 \usepackage{url}
 \usepackage{xr-hyper}
 \usepackage[breaklinks=true,hidelinks]{hyperref} % See https://en.wikibooks.org/wiki/LaTeX/Hyperlinks#Customization
-% \usepackage{zref-xr,zref-user} % Does not seem to make hyperlinks in references
 \usepackage{tabulary} % Better text wrapping in tables. See https://en.wikibooks.org/wiki/LaTeX/Tables
 \usepackage{rotating} % For the 'sidewaystable' environment. See https://en.wikibooks.org/wiki/LaTeX/Rotations
 \usepackage{multirow} % For multirow/multicolumn cells in a table. See https://en.wikibooks.org/wiki/LaTeX/Tables#Columns_spanning_multiple_rows
-\usepackage{algorithmic}
-\usepackage{algorithm}
 \usepackage{graphicx}
 \usepackage{enumitem}   % for more control over enumerate
 \usepackage{mdwlist}	% compact lists and the 'note' environment
@@ -51,6 +49,8 @@
 % the corresponding bibliography entries. Back references are not mentioned
 % in thesis guidelines, but are, in my opinion, helpful for reading and editing.
 
+\usepackage[american]{babel}
+
 % The following macro will put back references on the right edge of the page
 % (https://tex.stackexchange.com/questions/149009/biblatex-pagebackref-reference-in-the-flush-right-margin)
 \renewbibmacro*{pageref}{%
@@ -60,19 +60,6 @@
       \printtext{\addperiod\hfill\rlap{\hskip15pt\colorbox{blue!5}{\scriptsize\printlist[pageref][-\value{listtotal}]{pageref}}}}}}
 
 \addbibresource{\main/refs.bib}
-% Needed to prevent the following error with 'apa6' bibliography generation:
-% Undefined control sequence. <argument> \mkbibdateapalongextra{year}{month}{day}\iffieldundef {endyear}
-% See http://tex.stackexchange.com/questions/115703/yearmonthday-added-to-bibliography-when-using-apa6-with-biblatex-and-biber-bac#115717
-\usepackage[american]{babel}
-\DeclareLanguageMapping{american}{american-apa}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Package-related tweaks   %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Rename 'Require' and 'Ensure' in pseudocode to 'Input' and 'Output'
-\renewcommand{\algorithmicrequire}{\textbf{Input:}}
-\renewcommand{\algorithmicensure}{\textbf{Output:}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Shorthands               %
