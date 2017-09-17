@@ -29,4 +29,16 @@ A sample equation \eqref{eq:test} follows:
 y = \frac{1}{x^2} + 4 \label{eq:test}
 \end{equation}
 
+A sample table, Table \ref{tab:test}:
+
+\begin{table}[h]
+    \centering
+    \begin{tabulary}{0.75\textwidth}{r|L}
+    \textbf{Non-wrapping column} & \textbf{Wrapping column} \\ \hline
+    This is an ordinary column & This is a balanced-width column, where text will wrap
+    \end{tabulary}
+    \caption[A sample table] {A sample table created using the \href{https://ctan.org/pkg/tabulary}{\texttt{tabulary}} package}
+    \label{tab:test}
+\end{table}
+
 \end{document}
