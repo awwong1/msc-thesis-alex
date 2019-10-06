@@ -20,23 +20,23 @@
 \usepackage[titletoc]{appendix}
 \usepackage{amssymb,amsmath}
 \usepackage{url}
-\usepackage{xr-hyper}
+% For cross-references between files
+% https://tex.stackexchange.com/questions/77774/undefined-control-sequence-when-cross-referencing-with-xr-hyper
+\usepackage{nameref,zref-xr}
+\zxrsetup{toltxlabel}
 \usepackage[breaklinks=true,hidelinks]{hyperref} % See https://en.wikibooks.org/wiki/LaTeX/Hyperlinks#Customization
 \usepackage{tabulary} % Better text wrapping in tables. See https://en.wikibooks.org/wiki/LaTeX/Tables
 \usepackage{rotating} % For the 'sidewaystable' environment. See https://en.wikibooks.org/wiki/LaTeX/Rotations
 \usepackage{multirow} % For multirow/multicolumn cells in a table. See https://en.wikibooks.org/wiki/LaTeX/Tables#Columns_spanning_multiple_rows
 \usepackage{graphicx}
-\usepackage{enumitem}   % for more control over enumerate
-\usepackage{mdwlist}	% compact lists and the 'note' environment
+%\usepackage{subcaption} % A package that can be used to create sub-figures
+\usepackage{enumitem} % for more control over enumerate
+\usepackage{mdwlist}	% the 'note' environment
 \usepackage{xspace}
 \usepackage{xcolor}
 \usepackage{csquotes} % Also used with biblatex
 \usepackage{xmpincl} % Seems to be needed when converting to PDF/A, 
                      % particularly on Macs
-
-\usepackage{\main/uathesis}  % Earlier version says this should be last package 
-                     % imported. Never checked if this is still true. 
-                     % Having this second last before the next one seems fine.
 
 %%%%%%%%%%%%%%%
 % biblatex    %
@@ -44,7 +44,13 @@
 % (Added by Bernard Llanos)
 % biblatex is intended to be the successor to BibTeX
 % (https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management#biblatex)
-\usepackage[backend=biber,style=ieee,backref=true,sortcites=true,sorting=nyt]{biblatex}
+\usepackage[%
+backend=biber,%
+style=ieee,%
+backref=false,%
+sortcites=true,sorting=nyt,%
+mincitenames=1,maxcitenames=2%
+]{biblatex}
 % `backref=true` adds back references - Links to the in-text citations from
 % the corresponding bibliography entries. Back references are not mentioned
 % in thesis guidelines, but are, in my opinion, helpful for reading and editing.
@@ -61,6 +67,28 @@
 
 \addbibresource{\main/refs.bib}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Glossary and acronyms (optional) %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[nogroupskip,nonumberlist,nopostdot]{glossaries}
+
+\setacronymstyle{long-short-desc}
+\setglossarystyle{altlist}
+
+% A simple, but limited way to produce a sorted glossary
+% Other options are described in the 'glossaries' Beginner's Guide (https://ctan.org/pkg/glossaries)
+\makenoidxglossaries % use TeX to sort
+
+% Glossary entries will be loaded from a separate file
+\loadglsentries{\main/tex/glossary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Thesis style package %
+%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{\main/uathesis}  % Earlier version says this should be last package 
+                     % imported. Never checked if this is still true. 
+                     % Having this second last before the next one seems fine.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Shorthands               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -75,7 +103,7 @@
 \def\eg{\emph{e.g}\onedot} \def\Eg{\emph{E.g}\onedot}
 \def\ie{\emph{i.e}\onedot} \def\Ie{\emph{I.e}\onedot}
 \def\cf{\emph{c.f}\onedot} \def\Cf{\emph{C.f}\onedot}
-\def\etc{\emph{etc}\onedot} \def\vs{\emph{vs}\onedot}
+\def\etc{\emph{etc}\onedot} \def\vs{vs\onedot}
 \def\wrt{w.r.t\onedot} \def\dof{d.o.f\onedot}
 \def\etal{\emph{et al}\onedot}
 \makeatother
@@ -103,7 +131,7 @@
 %\field{Specialization Field}
 
 % Put the year that you submitted your thesis below
-\submissionyear{\number2017}
+\submissionyear{\number2019}
 
 %%%%%%%%%%%%%%%%%%%%%
 % Document Content  %
@@ -170,8 +198,8 @@
 %...            % You are responsible for formatting this page
 %\end{listofsymbols}
                
-% A glossary of terms is also optional,
-% but no such functionality yet exists in this template.
+% A glossary of terms is also optional
+\printnoidxglossaries
                
 % The rest of the document has to be at least one-half-spaced.
 % Double-spacing is most common, but uncomment whichever you want, or 
