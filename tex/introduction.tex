@@ -1,6 +1,5 @@
-% A workaround to allow relative paths in included subfiles
-% that are to be compiled separately
-% See https://tex.stackexchange.com/questions/153312/subfiles-inside-a-subfile-using-relative-paths
+% Allow relative paths in included subfiles that are compiled separately
+% See https://tex.stackexchange.com/questions/153312/
 \providecommand{\main}{..}
 \documentclass[\main/thesis.tex]{subfiles}
 
@@ -33,15 +32,21 @@ A sample table, Table \ref{tab:test}:
 
 \begin{table}[h]
     \centering
-    \begin{tabulary}{0.75\textwidth}{r|L}
-    \textbf{Non-wrapping column} & \textbf{Wrapping column} \\ \hline
-    This is an ordinary column & This is a balanced-width column, where text will wrap
-    \end{tabulary}
-    \caption[A sample table] {A sample table created using the \href{https://ctan.org/pkg/tabulary}{\texttt{tabulary}} package}
+    \begin{tabular}{r|l}
+    \textbf{Right aligned column} & \textbf{Left aligned column} \\ \hline
+    This is a right aligned column & Left aligned column
+    \end{tabular}
+    \caption{A sample table using \texttt{tabular}}
     \label{tab:test}
 \end{table}
 
 If there are many acronyms, such as \gls{asa}, and specialized technical terms, consider adding a glossary.
 Sample \gls{sampleGlossaryEntry}, and acroynm (\gls{asa}) descriptions are provided above.
+
+\begin{enumerate}[leftmargin=*,nosep]
+    \item Sample enumeration
+    \item Using the \texttt{enumitem} package.
+    \item \eg Foobar
+\end{enumerate}
 
 \end{document}

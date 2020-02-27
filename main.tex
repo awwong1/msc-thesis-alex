@@ -1,0 +1,186 @@
+% University of Alberta Example Thesis
+% By the Rogue's Gallery, Department of Computing Science
+
+% Allow relative paths in included subfiles that are compiled separately
+% See https://tex.stackexchange.com/questions/153312/
+\providecommand{\main}{.}
+\documentclass[12pt]{report}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package dependencies  %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}             % UTF-8 encoded tex
+\usepackage{subfiles}                   % Multi-file project support
+\usepackage[titletoc]{appendix}         % Put 'Appendix' in TOC with title
+\usepackage{amssymb,amsmath}            % Extended symbol & math support
+\usepackage{nameref,zref-xr}            % Cross-references between files
+\usepackage[breaklinks]{hyperref}       % Customizeable hyperlinks
+\usepackage{multirow}                   % Multirow/multicolumn cells in a table
+\usepackage{graphicx}                   % Enhanced 'includegraphics'
+\usepackage{enumitem}                   % Enhanced 'enumerate'
+\usepackage{mdwlist}                    % Enables 'note' environment
+\usepackage{xspace}                     % Conditional forward lookup for space character
+\usepackage[american]{babel}            % Culturally determined typographical & hyphenation patterns
+\usepackage[nonumberlist]{glossaries}   % Glossary support
+\usepackage{\main/uathesis}             % UAlberta thesis styles
+\usepackage{xmpincl}                    % Embedded extensible metadata
+
+%%%%%%%%%%%%%%%%%%
+% Packages Setup %
+%%%%%%%%%%%%%%%%%%
+% Cross-References; https://tex.stackexchange.com/q/77774/
+\zxrsetup{toltxlabel}
+% Hyperlink configuration
+\hypersetup{colorlinks,allcolors=black}
+% Glossary configuration
+\setacronymstyle{long-short-desc}
+\setglossarystyle{altlist}
+\makenoidxglossaries
+\loadglsentries{\main/tex/glossary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Shorthands               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% From the http://cvpr2017.thecvf.com/submission/main_conference/author_guidelines
+% Add a period to the end of an abbreviation unless there's one already, then \xspace.
+\makeatletter
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+
+\def\eg{\emph{e.g}\onedot} \def\Eg{\emph{E.g}\onedot}
+\def\ie{\emph{i.e}\onedot} \def\Ie{\emph{I.e}\onedot}
+\def\cf{\emph{c.f}\onedot} \def\Cf{\emph{C.f}\onedot}
+\def\etc{\emph{etc}\onedot} \def\vs{vs\onedot}
+\def\wrt{w.r.t\onedot} \def\dof{d.o.f\onedot}
+\def\etal{\emph{et al}\onedot}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title Page and Table of Contents Tweaks %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Correct title for TOC
+\renewcommand{\contentsname}{Table of Contents}
+
+% Title cannot use formulae, symbols, superscripts, subscripts, greek letters
+% all of which should be replaced with word substitutes
+\title{Thesis Title}
+\author{Author Name}
+
+% Choose degree
+\degree{\MSc}
+%\degree{\PhD}
+
+% Choose department
+\dept{Computing Science}
+% \dept{Civil Engineering}
+
+% If you have a specialization, enter it below (must correspond with Bear Tracks)
+%\field{Specialization Field}
+
+% Put the year that you submitted your thesis below
+\submissionyear{\number\year}
+
+%%%%%%%%%%%%%%%%%%%%%
+% Document Content  %
+%%%%%%%%%%%%%%%%%%%%%
+
+% This is a modular document.
+% The 'subfiles' package allows you to typeset the included
+% documents separately from the main document, so that you
+% can view only pieces of the thesis at a time.
+% See https://en.wikibooks.org/wiki/LaTeX/Modular_Documents
+
+\newcommand{\onlyinsubfile}[1]{#1}
+\newcommand{\notinsubfile}[1]{}
+\begin{document}
+\renewcommand{\onlyinsubfile}[1]{}
+\renewcommand{\notinsubfile}[1]{#1}
+
+\preamblepagenumbering % lower case roman numerals for early pages
+\titlepage % adds title page. Can be commented out before submission if convenient
+
+\subfile{\main/tex/abstract.tex}
+
+\doublespacing
+% \truedoublespacing
+% \singlespacing
+% \onehalfspacing
+
+% A preface is not always required
+\subfile{\main/tex/preface.tex}
+
+% Below are the dedication page and the quote page. FGSR requirements are not
+% clear on if you can have one of each or just one or the other. They do say to
+% ask your supervisor if you should have them at all.
+%
+% The CS Department links to a comparison of pre- and post-Spring 2014 thesis
+% guidelines (https://www.ualberta.ca/computing-science/graduate-studies/current-students/dissertation-guidelines)
+% The comparison document lists an optional dedication page, but no quote page.
+
+\subfile{\main/tex/dedication.tex}
+\subfile{\main/tex/quote.tex}
+
+\subfile{\main/tex/acknowledgements.tex}
+
+\singlespacing % Flip to single spacing for table of contents settings
+               % This has been accepted in the past and shouldn't be a problem
+               % Now the table of contents etc.
+               
+\tableofcontents
+\listoftables  % only if you have any
+\listoffigures % only if you have any
+
+% minimal support for list of plates and symbols (Optional)
+%\begin{listofplates}
+%...            % you are responsible for formatting this page.
+%\end{listofplates}
+%\begin{listofsymbols}
+%...            % You are responsible for formatting this page
+%\end{listofsymbols}
+               
+% A glossary of terms is also optional
+\printnoidxglossaries
+               
+% The rest of the document has to be at least one-half-spaced.
+% Double-spacing is most common, but uncomment whichever you want, or 
+% single-spacing if you just want to do that for your personal purposes.
+% Long-quoted passages and footnotes can be in single spacing
+\doublespacing
+% \truedoublespacing
+% \singlespacing
+% \onehalfspacing
+
+\setforbodyoftext % settings for the body including roman numeral numbering starting at 1
+
+%  ... The bulk of your magnificent thesis  goes here ... 
+%  hopefully more than two lines! Use standard Latex sectioning commands
+%  like \chapter etc. End with the bibliography
+% See FGSR requirements for any additional requirements on the body
+
+\subfile{\main/tex/introduction.tex}
+\subfile{\main/tex/conclusion.tex}
+
+% Renaming bibliography: http://tex.stackexchange.com/questions/12597/
+\renewcommand\bibname{References}
+\clearpage\addcontentsline{toc}{chapter}{\bibname}
+% add the above line to get "References" in the table of contents.
+\singlespacing % optional;  Bibliography is better in single spacing
+               %            but you may choose different
+               %            Don't use \singlespacing if your thesis
+               %            is already in single spacing
+\bibliography{\main/main.bib}
+\bibliographystyle{plain}
+
+\doublespacing
+
+% Appendices are optional.
+%
+% Standard `\appendix` macro will not put the word "appendix" before TOC entries.
+% See https://tex.stackexchange.com/questions/44858/
+\begin{appendices}
+\subfile{\main/tex/background.tex}
+\end{appendices}
+
+\end{document}
