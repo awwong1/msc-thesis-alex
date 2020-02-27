@@ -18,3 +18,7 @@ tectonic main.tex && inotifywait --quiet --monitor --event close_write --format 
 # in another terminal, open it in a pdf
 okular ./main.pdf
 ```
+
+## License
+
+[The Unlicense](LICENSE); This is free and unencumbered software released into the public domain.
