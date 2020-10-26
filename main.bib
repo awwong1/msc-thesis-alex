@@ -4,3 +4,144 @@
   year      = {1968},
   publisher = {Addison-Wesley}
 }
+
+@inproceedings{wong2020CINC-multilabel-ECG,
+  abstract = {The 12-lead electrocardiogram (ECG) is a commonly used tool for detecting cardiac abnormalities such as atrial fibrillation, blocks, and irregular complexes. For the Phy- sioNet/CinC 2020 Challenge, we built an algorithm using gradient boosted tree ensembles fitted on morphology and signal processing features to classify ECG diagnosis.  For each lead, we derive features from heart rate vari- ability, PQRST template shape, and the full signal wave- form. We join the features of all 12 leads to fit an ensem- ble of gradient boosting decision trees to predict probabil- ities of ECG instances belonging to each class. We train a phase one set of feature importance determining models to isolate the top 1,000 most important features to use in our phase two diagnosis prediction models. We use re- peated random sub-sampling by splitting our dataset of 43,101 records into 100 independent runs of 85:15 train- ing/validation splits for our internal evaluation results.  Our methodology generates us an official phase valida- tion set score of 0.476 and test set score of -0.080 under the team name, CVC, placing us 36 out of 41 in the rankings.},
+  accepted = {2020-10-01},
+  author = {Alexander W Wong and Weijie Sun and Sunil V Kalmady and Padma Kaul and Abram Hindle},
+  authors = {Alexander W Wong, Weijie Sun, Sunil V Kalmady, Padma Kaul, Abram Hindle},
+  booktitle = {2020 Computing in Cardiology (CinC) PhysioNet Challenge},
+  code = {wong2020CINC-multilabel-ECG},
+  date = {2020-09-21},
+  funding = {NSERC Discovery},
+  location = {Rimini, Italy},
+  pagerange = {1--4},
+  pages = {1--4},
+  rate = {41/300 or 13%},
+  role = {Co-Author},
+  title = {Multilabel 12-Lead Electrocardiogram Classification Using Gradient Boosting Tree Ensemble},
+  type = {inproceedings},
+  url = {http://softwareprocess.ca/pubs/wong2020CINC-multilabel-ECG.pdf},
+  venue = {2020 Computing in Cardiology (CinC) PhysioNet Challenge},
+  year = {2020}
+}
+
+@article{doi:10.1161/CIR.0000000000000757,
+  author = {Salim S. Virani  and Alvaro Alonso  and Emelia J. Benjamin  and Marcio S. Bittencourt  and Clifton W. Callaway  and April P. Carson  and Alanna M. Chamberlain  and Alexander R. Chang  and Susan Cheng  and Francesca N. Delling  and Luc Djousse  and Mitchell S.V. Elkind  and Jane F. Ferguson  and Myriam Fornage  and Sadiya S. Khan  and Brett M. Kissela  and Kristen L. Knutson  and Tak W. Kwan  and Daniel T. Lackland  and Tené T. Lewis  and Judith H. Lichtman  and Chris T. Longenecker  and Matthew Shane Loop  and Pamela L. Lutsey  and Seth S. Martin  and Kunihiro Matsushita  and Andrew E. Moran  and Michael E. Mussolino  and Amanda Marma Perak  and Wayne D. Rosamond  and Gregory A. Roth  and Uchechukwu K.A. Sampson  and Gary M. Satou  and Emily B. Schroeder  and Svati H. Shah  and Christina M. Shay  and Nicole L. Spartano  and Andrew Stokes  and David L. Tirschwell  and Lisa B. VanWagner  and Connie W. Tsao  and null null },
+  title = {Heart Disease and Stroke Statistics\&\#x2014;2020 Update: A Report From the American Heart Association},
+  journal = {Circulation},
+  volume = {141},
+  number = {9},
+  pages = {e139-e596},
+  year = {2020},
+  doi = {10.1161/CIR.0000000000000757},
+  URL = {https://www.ahajournals.org/doi/abs/10.1161/CIR.0000000000000757},
+  eprint = {https://www.ahajournals.org/doi/pdf/10.1161/CIR.0000000000000757}
+}
+
+@article{schlapfer_computer-interpreted_2017,
+  title = {Computer-{Interpreted} {Electrocardiograms}: {Benefits} and {Limitations}},
+  volume = {70},
+  copyright = {2017 American College of Cardiology Foundation},
+  issn = {0735-1097, 1558-3597},
+  shorttitle = {Computer-{Interpreted} {Electrocardiograms}},
+  doi = {10.1016/j.jacc.2017.07.723},
+  language = {en},
+  number = {9},
+  urldate = {2020-06-11},
+  journal = {Journal of the American College of Cardiology},
+  author = {Schläpfer, Jürg and Wellens, Hein J.},
+  month = aug,
+  year = {2017},
+  note = {Publisher: Journal of the American College of Cardiology Section: The Present and Future},
+  keywords = {algorithms, software},
+  pages = {1183--1192}
+}
+
+@article{physionet_challenge_2020,
+  author = {Perez Alday, Erick A. and Gu, Annie and Shah, Amit and Robichaux, Chad and Wong, An-Kwok Ian and Liu, Chengyu and Liu, Feifei and Rad, Ali Bahrami and Elola, Andoni and Seyedi, Salman and Li, Qiao and Sharma, Ashish and Clifford, Gari D. and Reyna, Matthew A},
+  title = {{Classification of 12-lead ECGs: the PhysioNet/Computing in Cardiology Challenge 2020}},
+  elocation-id = {2020.08.11.20172601},
+  year = {2020},
+  doi = {10.1101/2020.08.11.20172601},
+  publisher = {Cold Spring Harbor Laboratory Press},
+  abstract = {The subject of the PhysioNet/Computing in Cardiology Challenge 2020 was the identification of cardiac abnormalities in 12-lead electrocardiogram (ECG) recordings. A total of 66,405 recordings were sourced from hospital systems from four distinct countries and annotated with clinical diagnoses, including 43,101 annotated recordings that were posted publicly. For this Challenge, we asked participants to design working, open-source algorithms for identifying cardiac abnormalities in 12-lead ECG recordings. This Challenge provided several innovations. First, we sourced data from multiple institutions from around the world with different demographics, allowing us to assess the generalizability of the algorithms. Second, we required participants to submit both their trained models and the code for reproducing their trained models from the training data, which aids the generalizability and reproducibility of the algorithms. Third, we proposed a novel evaluation metric that considers different misclassification errors for different cardiac abnormalities, reflecting the clinical reality that some diagnoses have similar outcomes and varying risks. Over 200 teams submitted 850 algorithms (432 of which successfully ran) during the unofficial and official phases of the Challenge, representing a diversity of approaches from both academia and industry for identifying cardiac abnormalities. The official phase of the Challenge is ongoing.Competing Interest StatementThis research is supported by the Gordon and Betty Moore Foundation and AliveCor, Inc. under unrestricted gifts. Google also donated cloud compute credits for Challenge teams. GC has financial interest in Alivecor and Mindchild Medical. GC also holds a board position in Mindchild Medical. Neither of these entities influenced the design of the Challenge or provided data for the Challenge. AIW holds equity and management roles in Ataia Medical.Funding StatementThis research is supported by the National Institute of General Medical Sciences (NIGMS) and the National Institute of Biomedical Imaging and Bioengineering (NIBIB) under NIH grant numbers 2R01GM104987-09 and R01EB030362 respectively, the National Center for Advancing Translational Sciences of the National Institutes of Health under Award Number UL1TR002378, as well as the Gordon and Betty Moore Foundation and AliveCor, Inc. under unrestricted gifts. Google also donated cloud compute credits for Challenge teams. GC has financial interest in Alivecor and Mindchild Medical. GC also holds a board position in Mindchild Medical. Neither of these entities influenced the design of the Challenge or provided data for the Challenge. AIW holds equity and management roles in Ataia Medical and is supported by the NIGMS 2T32GM095442. The content of this manuscript is solely the responsibility of the authors and does not necessarily represent the official views of the above entities.Author DeclarationsI confirm all relevant ethical guidelines have been followed, and any necessary IRB and/or ethics committee approvals have been obtained.YesThe details of the IRB/oversight body that provided approval or exemption for the research described are given below:The Emory IRB Office provided approval for this research.All necessary patient/participant consent has been obtained and the appropriate institutional forms have been archived.YesI understand that all clinical trials and any other prospective interventional studies must be registered with an ICMJE-approved registry, such as ClinicalTrials.gov. I confirm that any such study reported in the manuscript has been registered and the trial registration ID is provided (note: if posting a prospective study registered retrospectively, please provide a statement in the trial ID field explaining why the study was not registered in advance).Yes I have followed all appropriate research reporting guidelines and uploaded the relevant EQUATOR Network research reporting checklist(s) and other pertinent material as supplementary files, if applicable.YesAll posted training datasets are available through the Challenge website at https://physionetchallenges.github.io/2020/.},
+  eprint = {https://www.medrxiv.org/content/early/2020/08/14/2020.08.11.20172601.full.pdf},
+  journal = {Physiological Measurement},
+  note = {\ In Press},
+}
+@inproceedings{chen_xgboost_2016,
+  author = {Chen, Tianqi and Guestrin, Carlos},
+  title = {{XGBoost}: A Scalable Tree Boosting System},
+  year = {2016},
+  isbn = {9781450342322},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  doi = {10.1145/2939672.2939785},
+  booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  pages = {785–794},
+  numpages = {10},
+  keywords = {large-scale machine learning},
+  location = {San Francisco, California, USA},
+  series = {KDD '16}
+}
+
+@inproceedings{goodwin_classification_2017,
+  title = {Classification of Atrial Fibrillation Using Multidisciplinary Features and Gradient Boosting},
+  doi = {10.22489/CinC.2017.361-352},
+  language = {en},
+  urldate = {2020-04-30},
+  issn = {2325-887X},
+  month = sep,
+  year = {2017},
+  author={S. D. {Goodfellow} and A. {Goodwin} and R. {Greer} and P. C. {Laussen} and M. {Mazwi} and D. {Eytan}},
+  booktitle={2017 Computing in Cardiology (CinC)}, 
+  volume={},
+  number={},
+  pages={1-4}
+}
+
+@misc{neurokit2,
+  doi = {10.5281/ZENODO.3597887},
+  author = {Makowski, Dominique and Pham, Tam and Lau, Zen J. and Brammer, Jan C. and Lespinasse, Fran\c{c}ois and Pham, Hung and Schölzel, Christopher and S H Chen, Annabel},
+  title = {{NeuroKit2}: A Python Toolbox for Neurophysiological Signal Processing}},
+  publisher = {Zenodo},
+  year = {2020},
+}
+
+@article{CHRIST201872,
+  title = {Time Series FeatuRe Extraction on basis of Scalable Hypothesis tests (tsfresh – A Python package)},
+  journal = "Neurocomputing",
+  volume = "307",
+  pages = "72 - 77",
+  year = "2018",
+  issn = "0925-2312",
+  doi = "https://doi.org/10.1016/j.neucom.2018.03.067",
+  author = "Maximilian Christ and Nils Braun and Julius Neuffer and Andreas W. Kempa-Liehr",
+  keywords = "Feature engineering, Time series, Feature extraction, Feature selection, Machine learning",
+  abstract = "Time series feature engineering is a time-consuming process because scientists and engineers have to consider the multifarious algorithms of signal processing and time series analysis for identifying and extracting meaningful features from time series. The Python package tsfresh (Time Series FeatuRe Extraction on basis of Scalable Hypothesis tests) accelerates this process by combining 63 time series characterization methods, which by default compute a total of 794 time series features, with feature selection on basis automatically configured hypothesis tests. By identifying statistically significant time series characteristics in an early stage of the data science process, tsfresh closes feedback loops with domain experts and fosters the development of domain specific features early on. The package implements standard APIs of time series and machine learning libraries (e.g. pandas and scikit-learn) and is designed for both exploratory analyses as well as straightforward integration into operational data science applications."
+}
+
+@article{SMITH201988,
+  title = "A deep neural network learning algorithm outperforms a conventional algorithm for emergency department electrocardiogram interpretation",
+  journal = "Journal of Electrocardiology",
+  volume = "52",
+  pages = "88 - 95",
+  year = "2019",
+  issn = "0022-0736",
+  doi = "https://doi.org/10.1016/j.jelectrocard.2018.11.013",
+  author = "Stephen W. Smith and Brooks Walsh and Ken Grauer and Kyuhyun Wang and Jeremy Rapin and Jia Li and William Fennell and Pierre Taboulet",
+  keywords = "Electrocardiography, Computer, Deep neural network, Artificial intelligence, Big data",
+}
+
+@article{MADIAS2018413,
+  title = "Computerized interpretation of electrocardiograms: Taking stock and implementing new knowledge",
+  journal = "Journal of Electrocardiology",
+  volume = "51",
+  number = "3",
+  pages = "413 - 415",
+  year = "2018",
+  issn = "0022-0736",
+  doi = "https://doi.org/10.1016/j.jelectrocard.2018.02.010",
+  author = "John E. Madias"
+}

@@ -7,10 +7,14 @@
 
 % environment for abstract.
 \begin{abstract}
-Your abstract here. 
-The abstract is not allowed to be more than 700 words and cannot include non-text content.
-It must also be double-spaced. 
-The rest of the document must be at least one-and-a-half spaced.
+The electrocardiogram (ECG) is the standard tool for detecting cardiac abnormalities, such as atrial fibrillation, irregular complexes, and heart blocks.
+However, the interpretation of this data is an unsolved problem with discrepancies among panels of cardiologists and automated analysis requiring additional human over-reading.
+This thesis explores the classification of 12-lead ECGs to a set of 27 diagnosis as defined in the \emph{PhysioNet/CinC 2020} Challenge.
+I show two approaches, starting with manual feature engineering and classification using shallow gradient boosted trees ensembles.
+Our second approach uses a deep learning approach by combining fixed and variable length autoencoders to learn the features, followed by a multi layer perceptron (MLP) classifier.
+I empirically evaluate our different approaches using a weighted classification scoring function using repeated random subsampling of the publicly available challenge dataset.
+This thesis concludes with future ways to approach the multi-channel signal classification problem that addresses some of the limitations discovered in the original approaches.
+
 \end{abstract}
 
 \end{document}

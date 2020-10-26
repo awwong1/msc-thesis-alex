@@ -11,4 +11,6 @@
 *.synctex.gz
 *.toc
 *.xml
+*.fls
+*.fdb_latexmk
 img/
