@@ -1,8 +1,28 @@
-@book{Knuth68:art_of_programming,
-  author    = {Donald E. Knuth},
-  title     = {{The Art of Computer Programming, Volume {I:} Fundamental Algorithms}},
-  year      = {1968},
-  publisher = {Addison-Wesley}
+@article{SMULYAN2019153,
+  title = "The Computerized ECG: Friend and Foe",
+  journal = "The American Journal of Medicine",
+  volume = "132",
+  number = "2",
+  pages = "153 - 160",
+  year = "2019",
+  issn = "0002-9343",
+  doi = "https://doi.org/10.1016/j.amjmed.2018.08.025",
+  url = "http://www.sciencedirect.com/science/article/pii/S0002934318308532",
+  author = "Harold Smulyan",
+  keywords = "Atrial fibrillation, Computer errors, Electrocardiography",
+  abstract = "Computerized interpretation of the electrocardiogram (ECG) began in the 1950s when conversion of its analog signal to digital form became available. Since then, automatic computer interpretations of the ECG have become routine, even at the point of care, by the addition of interpretive algorithms to portable ECG carts. Now, more than 100 million computerized ECG interpretations are recorded yearly in the United States. These interpretations have contributed to medical care by reducing physician reading time and accurately interpreting most normal ECGs. But errors do occur. The computer cannot be held responsible for misinterpretations due to recording errors, such as muscle artifacts or lead reversal. But, in many abnormal ECGs, the computer makes its own errors—sometimes critical—in its incorrect detection of arrhythmias, pacemakers, and myocardial infarctions. These errors require that all computerized statements be over-read by trained physicians who have the advantage of clinical context, unavailable to the computer. Together, the computer and over-readers now provide the most accurate ECG interpretations available."
+}
+
+@article{BREEN2019,
+  title = "ECG interpretation skill acquisition: A review of learning, teaching and assessment",
+  journal = "Journal of Electrocardiology",
+  year = "2019",
+  issn = "0022-0736",
+  doi = "https://doi.org/10.1016/j.jelectrocard.2019.03.010",
+  url = "http://www.sciencedirect.com/science/article/pii/S0022073618306411",
+  author = "C.J. Breen and G.P. Kelly and W.G. Kernohan",
+  keywords = "ECG, Pedagogy, Efficient learning, Patient safety",
+  abstract = "The recording of 12 lead electrocardiograms (ECG) is one of the most useful and commonly performed medical procedures. ECGs are used in diagnosis, risk-stratification management decision-making, and assessment in response to therapy. The correct interpretation of 12 lead ECG recordings is complex and clinically challenging with misinterpretation having the potential to result in poor outcomes or even patient fatality. Despite its widespread use, several studies have highlighted deficiencies in ECG interpretation skills among health professionals. The literature suggests that up to 33% of ECG interpretations have some error when compared to the expert reference and up to 11% resulted in inappropriate management. The pedagogy of ECG interpretation lacks universal establishment; time allocation, faculty training and teaching format vary considerably within the literature. This review of the literature reports how a lack of established ECG reporting methods may contribute to the variation in reported ECG interpretation competence across many healthcare professionals. The ubiquity of the ECG in clinical practice and an over reliance on computer assisted ECG interpretation are additionally explored as factors affecting acquisition and retention of this clinical skill."
 }
 
 @inproceedings{wong2020CINC-multilabel-ECG,
@@ -18,7 +38,6 @@
   pagerange = {1--4},
   pages = {1--4},
   rate = {41/300 or 13%},
-  role = {Co-Author},
   title = {Multilabel 12-Lead Electrocardiogram Classification Using Gradient Boosting Tree Ensemble},
   type = {inproceedings},
   url = {http://softwareprocess.ca/pubs/wong2020CINC-multilabel-ECG.pdf},
@@ -315,3 +334,19 @@
   doi={10.1109/TIM.2019.2910342}
 }
 
+
+@article{wong2021ICASSP-multilabel-ECG,
+  abstract = {The 12-lead electrocardiogram (ECG) measures the electrical activity of the heart for physicians to use in diagnosing cardiac disorders. This paper investigates the multi-label, multi-class classification of ECG records into one or more of 27 possible medical diagnoses. Our multi-step approach uses conventional physiological algorithms for segmentation of heartbeats from the baseline signals. We stack a heartbeat autoencoder over heartbeat windows to make embeddings, then we encode this sequence of embeddings to make an ECG embedding which we then classify on. We utilize the public dataset of 43,101 available ECG records provided by the PhysioNet/CinC 2020 challenge, performing repeated random subsampling and splitting the available records into 80\% training, 10\% validation, and 10\% test splits, 20 times. We attain a mean test split challenge score of 0.248 with an overall macro F1 score of 0.260 across the 27 labels.},
+  author = {Alexander William Wong and Amir Salimi and Abram Hindle and Sunil Vasu Kalmady and Padma Kaul},
+  authors = {Alexander William Wong, Amir Salimi, Abram Hindle, Sunil Vasu Kalmady, Padma Kaul},
+  booktitle = {2021 International Conference on Acoustics, Speech, and Signal Processing (ICASSP)},
+  code = {wong2021ICASSP-multilabel-ECG},
+  location = {Tornto, Ontario, Canada},
+  pagerange = {1--5},
+  pages = {1--5},
+  title = {Multilabel 12-Lead Electrocardiogram Classification Using Beat to Sequence Autoencoders},
+  type = {submitted},
+  venue = {2021 International Conference on Acoustics, Speech, and Signal Processing (ICASSP)},
+  year = {2021},
+  note = {Submitted to the International Conference of Acoustics, Speech, and Signal Processing (ICASSP) 2021.}
+}

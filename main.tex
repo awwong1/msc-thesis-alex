@@ -21,11 +21,11 @@
 \usepackage{mdwlist}                    % Enables 'note' environment
 \usepackage{xspace}                     % Conditional forward lookup for space character
 \usepackage[american]{babel}            % Culturally determined typographical & hyphenation patterns
+\usepackage{caption,subcaption}         % Subfigure support
+\usepackage{gensymb}                    % degree (°) symbol
 \usepackage[nonumberlist]{glossaries}   % Glossary support
 \usepackage{\main/uathesis}             % UAlberta thesis styles
 \usepackage{xmpincl}                    % Embedded extensible metadata
-% \usepackage{spconf,amsmath,graphicx}
-\usepackage{caption,subcaption}         % Subfigure support
 
 %%%%%%%%%%%%%%%%%%
 % Packages Setup %
@@ -162,8 +162,10 @@
 % See FGSR requirements for any additional requirements on the body
 
 \subfile{\main/tex/introduction.tex}
+\subfile{\main/tex/background.tex}
 \subfile{\main/tex/xgb_ensemble.tex}
 \subfile{\main/tex/dl_autoenc.tex}
+\subfile{\main/tex/joint_aenc_xgb.tex}
 \subfile{\main/tex/conclusion.tex}
 
 % Renaming bibliography: http://tex.stackexchange.com/questions/12597/
@@ -184,7 +186,6 @@
 % Standard `\appendix` macro will not put the word "appendix" before TOC entries.
 % See https://tex.stackexchange.com/questions/44858/
 \begin{appendices}
-% \subfile{\main/tex/background.tex}
 \end{appendices}
 
 \end{document}

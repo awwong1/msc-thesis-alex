@@ -11,6 +11,15 @@
 \label{chp:dl_autoenc}
 
 In this chapter, I propose an approach for the 12-lead \gls{ecg} classification problem using a series of autoencoders to learn a dense embedding representation underlying record.
+The work contained in this chapter is adapated from ``Multilabel 12-Lead Electrocardiogram Classification Using Beat to Sequence Autoencoders'' and has been submitted to the IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP) 2021.
+This work has manuscript revisions from Dr.\ Abram Hindle and Dr.\ Sunil Vasu Kalmady, as well as the contribution of Figure~\ref{fig:aenc_methodology} from Amir Salimi.
+
+% Takeaways
+\paragraph{What to take away from this chapter}
+\begin{itemize}
+    \item the beat to sequence autoencoder approach is statistically more sensitive than the XGBoost ensemble method in detecting \gls{irbbb}, \gls{lanfb}, \gls{pr}, and \gls{rad}.
+\end{itemize}
+
 
 % ==================================
 % Begin ICASSP-2021 Paper Submission
@@ -148,7 +157,7 @@ A full example of the entire signal processing and windowing procedure is provid
 We rely on the dimensionality reducing properties of autoencoders~\cite{hinton2006reducing} to encode our heartbeat windows into an embedding, then concatenate our embeddings to get a representation of the overall ECG.
 Our heartbeat autoencoder converts our $12\times 400$ heartbeat windows into embeddings of size $768$.
 
-\begin{table}[h]
+\begin{table}[ht]
     \caption{\label{tab:heartbeat_autoencoder} Heartbeat autoencoder neural network architecture.}
     \vspace{2 mm}
     \centerline{\begin{tabular}{llr} \hline
@@ -210,7 +219,7 @@ For records with fewer than 20 beats, empty positions are masked and do not cont
 %     (2): Dropout(p=0.1, inplace=False)
 %     (3): Linear(in_features=256, out_features=27, bias=True)
 %   )
-\begin{table}[h]
+\begin{table}[ht]
     \caption{\label{tab:sequence_autoencoder} Sequence autoencoder and classifier architecture.}
     \vspace{2 mm}
     \centerline{\begin{tabular}{ll@{}r} \hline
