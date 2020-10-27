@@ -12,6 +12,15 @@ The \gls{ecg}, when correctly interpreted, is the primary tool in our ongoing ef
 The \gls{ecg} records electrical activity corresponding to the heartbeat muscle contractions using non-invasive electrodes placed in direct contact with the skin.
 Although computerized interpretations of \gls{ecg}s are in widespread use, automated approaches have not yet matched the quality of an expert cardiologist reference, leading to poor patient outcomes or even fatality~\cite{BREEN2019}.
 
+\section{Thesis organization}
+
+This work is organized into the following chapters:
+Chapter~\ref{chp:background} describes the characteristics of an \gls{ecg}, the dataset of \gls{ecg} records used in our analysis and algorithm training, and the different classification labels that our algorithm predicts probabilities for.
+Chapter~\ref{chp:xgbensemble} contains an approach for the classification of \gls{ecg} records using manual feature extraction and a gradient boosted decision tree ensemble.
+Chapter~\ref{chp:dl_autoenc} contains a deep learning classification approach using stacked autoencoders to learn an embedding representation of heartbeats and the \gls{ecg} signal.
+Chapter~\ref{chp:aencxgb} fuses the autoencoder and decision tree ensemble into one hybrid model and showcases the results in comparison to the prior two methods.
+Finally, Chapter~\ref{chp:conclusion} proposes future research directions and concludes the thesis.
+
 % \section{Cross-Referencing}\label{sec:crossRef}
 
 % Cross-references between child documents are possible using the
