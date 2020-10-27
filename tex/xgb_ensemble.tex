@@ -5,15 +5,26 @@
 
 \begin{document}
 
-\chapter{Multilabel 12-Lead Electrocardiogram Classification Using Gradient Boosting Tree Ensemble}
+% \chapter{Multilabel 12-Lead Electrocardiogram Classification Using Gradient Boosting Tree Ensemble}
+\chapter{Gradient Boosting Tree Ensemble}
 \chaptermark{XGBEnsemble}
 \label{chp:xgbensemble}
 
-In this chapter, I propose an approach for the classification of 12-Lead ECGs using manual feature engineering and an ensemble of gradient boosted trees.
+In this chapter, I propose an approach for the classification of 12-Lead \gls{ecg}s using manual feature engineering and an ensemble of gradient boosted trees.
+The work contained in this chapter is part of the Computing in Cardiology 2020 PhySioNet Challenge~\cite{physionet_challenge_2020}, where teams propose algorithms for the multi-label, multi-class classification of 12-lead \gls{ecg} signals.
+The submitted work, ``Multilabel 12-Lead Electrocardiogram Classification Using Gradient Boosting Tree Ensemble'', published~\cite{wong2020CINC-multilabel-ECG} in Computing in Cardiology (CinC) 2020, has contributions from Dr.\ Abram Hindle and Dr.\ Sunil Vasu Kalmady with manuscript editing.
 
-% ==========================================
-% Begin CinC-2020 PhysioNet Challenge Paper.
-% ==========================================
+% Takeaways
+\paragraph{What to take away from this chapter}
+\begin{itemize}
+    \item variable length signals can be converted into tabular signal processing derived features and used as inputs to shallow classifiers
+    \item the provided dataset is an incomplete approximation of real-world \gls{ecg}s, as shown in the poor results from the official test set challenge score
+    \item additional work, including deriving multi-dimensional features using many leads simultaneously, may lead to better classification score and accuracy
+\end{itemize}
+
+% =========================================
+% Begin CinC-2020 PhysioNet Challenge Paper
+% =========================================
 
 \newcommand{\officialvalscore}{{0.476} }
 \newcommand{\officialtestscore}{{-0.080} }
@@ -52,13 +63,13 @@ Refer to Perez Alday \emph{et al.}~\cite{physionet_challenge_2020} for the descr
 \section{Methodology}
 
 Our approach is inspired by existing methods which use feature engineering and shallow learning classifiers~\cite{goodwin_classification_2017}.
-Figure~\ref{fig:methodology} shows an overview of our learning algorithm pipeline from first cleaning and preprocessing the ECG, to then extracting the full waveform, heartbeat template, and heart rate variability features, finally using these features as input to our binary classifiers.
+Figure~\ref{fig:xgb_methodology} shows an overview of our learning algorithm pipeline from first cleaning and preprocessing the ECG, to then extracting the full waveform, heartbeat template, and heart rate variability features, finally using these features as input to our binary classifiers.
 
 \begin{figure}[tbp]
   \centering
-  \includegraphics[width=7.9cm]{figure/xgb_methodology.pdf}
+  \includegraphics[width=11cm]{figure/xgb_methodology.pdf}
   \caption{Methodology overview. Feature engineering is performed concurrently for each lead then concatenated.}
-  \label{fig:methodology}
+  \label{fig:xgb_methodology}
 \end{figure}
 
 We rely on the \emph{NeuroKit2} (version \texttt{0.0.40}) neurophysiological signal processing library for ECG signal cleaning, PQRST annotation, signal quality calculation, and heart rate variability metrics~\cite{neurokit2}.
@@ -129,19 +140,19 @@ Our challenge submission's classification model only needs to train the phase tw
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=7.9cm]{figure/top_features_bar.png}
+  \includegraphics[width=7.9cm]{figure/xgb_top_features_bar.png}
   \caption{Count of lead and feature categories comprising the top 1,000 features. Age, but not sex, is important meta.}
-  \label{fig:top_features}
+  \label{fig:xgb_top_features}
 \end{figure}
 
-A categorical visualization of the top 1,000 features used in the challenge submission model, grouped by lead and feature type, is shown in Figure~\ref{fig:top_features}.
+A categorical visualization of the top 1,000 features used in the challenge submission model, grouped by lead and feature type, is shown in Figure~\ref{fig:xgb_top_features}.
 Most of the features are derived from leads \texttt{aVR} (159 features) and \texttt{V1} (150 features).
 The \texttt{aVL} lead is least represented with only 46 derived features used by the phase 2 classifier.
 The heartbeat template category containing 536 features is the most numerous feature type.
 There are 291 full waveform features and 172 heart rate variability features.
 The age meta feature parsed from the ECG record header is also used.
 
-We present our metrics from the 15\% validation splits of the dataset for phases one and two of our classification models in Figure~\ref{fig:classification_metrics_summary}.
+We present our metrics from the 15\% validation splits of the dataset for phases one and two of our classification models in Figure~\ref{fig:xgb_classification_metrics_summary}.
 Our phase two models have higher mean values for all classification metrics except for accuracy.
 Using the smaller set of features, our classification metric variances are more closely centered around the mean.
 % This emphasizes the importance of feature pruning for our classification methodology.
@@ -150,19 +161,19 @@ Additionally, we attain phase two mean values for AUROC of 0.891, AUPRC of 0.389
 
 \begin{figure}[hb]
   \centering
-  \includegraphics[width=7.9cm]{figure/classification_metrics_phase_1_2.png}
+  \includegraphics[width=7.9cm]{figure/xgb_classification_metrics_phase_1_2.png}
   \caption{Summary of classification metrics over 100 experiments on all labels. Annotations indicate mean value.}
-  \label{fig:classification_metrics_summary}
+  \label{fig:xgb_classification_metrics_summary}
 \end{figure}
 
 Our model's top three best classified labels are normal sinus rhythm (SNR, $\bar{\text{F}}_1$: 0.924), left bundle branch block (LBBB, $\bar{\text{F}}_1$: 0.840), and sinus tachycardia (STach, $\bar{\text{F}}_1$: 0.777).
-A summary of our phase two $\text{F}_1$ scores on the 100 validation splits for each label is shown in Figure~\ref{fig:f1_score}.
+A summary of our phase two $\text{F}_1$ scores on the 100 validation splits for each label is shown in Figure~\ref{fig:xgb_f1_score}.
 
 \begin{figure*}[ht]
   \centering
-  \includegraphics[width=\textwidth]{figure/label_f1s.png}
+  \includegraphics[width=\textwidth]{figure/xgb_label_f1s.png}
   \caption{Phase two label-wise validation set $\text{F}_1$ scores over 100 independent runs. Annotations indicate mean value.}
-  \label{fig:f1_score}
+  \label{fig:xgb_f1_score}
 \end{figure*}
 
 Furthermore, we run a Pearson correlation coefficient test between the label $\text{F}_1$ means and the label counts within our dataset.

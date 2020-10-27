@@ -24,6 +24,8 @@
 \usepackage[nonumberlist]{glossaries}   % Glossary support
 \usepackage{\main/uathesis}             % UAlberta thesis styles
 \usepackage{xmpincl}                    % Embedded extensible metadata
+% \usepackage{spconf,amsmath,graphicx}
+\usepackage{caption,subcaption}         % Subfigure support
 
 %%%%%%%%%%%%%%%%%%
 % Packages Setup %
@@ -119,7 +121,7 @@
 % guidelines (https://www.ualberta.ca/computing-science/graduate-studies/current-students/dissertation-guidelines)
 % The comparison document lists an optional dedication page, but no quote page.
 
-\subfile{\main/tex/dedication.tex}
+% \subfile{\main/tex/dedication.tex}
 \subfile{\main/tex/quote.tex}
 
 \subfile{\main/tex/acknowledgements.tex}
@@ -161,6 +163,7 @@
 
 \subfile{\main/tex/introduction.tex}
 \subfile{\main/tex/xgb_ensemble.tex}
+\subfile{\main/tex/dl_autoenc.tex}
 \subfile{\main/tex/conclusion.tex}
 
 % Renaming bibliography: http://tex.stackexchange.com/questions/12597/
@@ -171,8 +174,7 @@
                %            but you may choose different
                %            Don't use \singlespacing if your thesis
                %            is already in single spacing
-% \bibliography{\main/main.bib}
-\bibliography{main.bib}
+\bibliography{\main/main.bib}
 \bibliographystyle{plain}
 
 \doublespacing
@@ -182,7 +184,7 @@
 % Standard `\appendix` macro will not put the word "appendix" before TOC entries.
 % See https://tex.stackexchange.com/questions/44858/
 \begin{appendices}
-\subfile{\main/tex/background.tex}
+% \subfile{\main/tex/background.tex}
 \end{appendices}
 
 \end{document}
