@@ -13,8 +13,9 @@ In this chapter, I give a brief overview of the anatomy of a human heart.
 Next, I describe the characteristics of a standard 12-lead \gls{ecg} and the notable waves in a \gls{ecg} signal.
 I then give an overview of the \emph{PhysioNet/CinC 2020 Challenge} task/objective, provided dataset of \gls{ecg} records, and definitions for the diagnoses we are tasked to predict.
 
-\section{Heart Anatomy and Electrical Conduction System}
+\section{Cardiac Physiology}
 
+\subsection{Anatomy and Electrical Conduction System}
 \begin{figure}[ht]
     \centering
     \includegraphics[width=8cm]{figure/Diagram_of_the_human_heart.pdf}
@@ -43,9 +44,28 @@ The cycle repeats as the right atrium pumps the blood into the right ventricle t
 
 Figure~\ref{fig:heart_conduction_system} shows an overview of the primary structures relevant to the cardiac conduction cycle.
 Starting at rest, the sinoatrial node initiates an action potential which travels across the right and left atria.
-Once the action potential reaches the atrioventricular node, a ~100ms delay occurs to allow the blood to finish pumping by the atria before the impluse is sent to the atrioventricular bundle.
-Once the delay finishes, the impluse sweeps across the atrioventricular bundle, right and left bundle branches to the Purkinje fibers.
-The impulse ends at the contractile fibers of the ventricle, at which ventricular contraction begins.
+Once the action potential reaches the atrioventricular node, a ~100ms delay occurs to allow the atria to finish pumping blood before the impluse is sent to the atrioventricular bundle.
+Once the delay finishes, the impluse sweeps across the atrioventricular bundle, right and left bundle branches, and to the Purkinje fibers.
+Ventricular contraction occurs, then the impulse dissipates at the contractile fibers of the ventricle causing the ventricles to repolarize in preparation for the next heartbeat.
+
+\subsection{Electrocardiogram Tracing}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=8cm]{figure/PQRST_NormalSinusRhythm.pdf}
+    \caption[Normal sinus rhythm \gls{ecg} tracing with PQRST peaks annotated.]{Normal sinus rhythm \gls{ecg} tracing showing the PQRST peaks, the P wave, QRS complex, and T wave along with the PR and QT intervals, plus the PR and ST segments.
+    Image belonging to \texttt{public domain} attributed to Anthony Atkielski, source: \url{https://en.wikipedia.org/wiki/Electrocardiography\#/media/File:SinusRhythmLabels.svg}
+    }
+    \label{fig:pqrst_nsr}
+\end{figure}
+
+Within a typical \gls{ecg}, there are five peaks, labeled PQRST respectively, that define the major components of a heartbeat as shown in Figure~\ref{fig:pqrst_nsr}.
+The P wave represents the sinoatrial node initiating an impulse action potential and marks the start of a heartbeat.
+The PR segment, which starts after the P wave and ends before the QRS complex, represents the delay between the atrial contraction and the propagation of the signal through the atrioventricular bundle.
+The QRS complex is the notable large spike in the \gls{ecg}, which represents the electrical impluse traveling through the atrioventricular bundle and bundle branches to the Purkinje fibers.
+The ST segment, starting after the QRS complex and ending before the T wave begins, is the phase of the \gls{ecg} where the actual ventricle contraction occurs.
+After the ventricle contraction completes, the impulse dissipates and allows the ventricle muscles to relax and repolarize, manifesting as the \gls{ecg} T wave.
+A step by step diagram indicating the different \gls{ecg} tracing components and the corresponding cardiac diagram can be found in Figure~\ref{fig:pqrst_heart_conduction_system}
 
 \begin{figure}[ht]
     \centering
@@ -58,27 +78,31 @@ The impulse ends at the contractile fibers of the ventricle, at which ventricula
     5. The contractile fibers of the ventricles are stimulated by the impulse, causing the ventricles to contract and appears as the ST-segment in the \gls{ecg}.
     6. The impulse dissipates and the ventricular muscles relax, causing the \gls{ecg} T wave formation.
     Image licensed \texttt{CC BY 4.0} from Betts \emph{et al}~\cite{betts-anatomy-and-physiology} on the OpenStax platform, source: \url{https://openstax.org/books/anatomy-and-physiology/pages/19-2-cardiac-muscle-and-electrical-activity\#fig-ch20_02_08}}
+    \label{fig:pqrst_heart_conduction_system}
 \end{figure}
 
-\section{Electrocardiogram Tracing}
+\section{PhysioNet/CinC 2020 Challenge Overview}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=8cm]{figure/PQRST_NormalSinusRhythm.pdf}
-    \caption[Normal sinus rhythm \gls{ecg} tracing with PQRST peaks annotated.]{Normal sinus rhythm \gls{ecg} tracing showing the PQRST peaks, the P wave, QRS complex, and T wave along with the PR and QT intervals, plus the PR and ST segments.
-    Image belonging to \texttt{public domain} attributed to Anthony Atkielski, source: \url{https://en.wikipedia.org/wiki/Electrocardiography\#/media/File:SinusRhythmLabels.svg}
-    }
-    \label{fig:pqrst_nsr}
-\end{figure}
+This chapter summarizes the task of multi-label, multi-class classification of \gls{ecg}s as proposed by Perez Alday \emph{et al.}~\cite{physionet_challenge_2020} in the \emph{PhysioNet/CinC 2020 Challenge}.
 
-Within a typical \gls{ecg}, there are five major peaks which make up three major components of the wave as shown in Figure~\ref{fig:pqrst_nsr}.
-The P wave captures the depolarization of the atria and represents the contraction of the atria.
-The QRS complex captures the depolzarization of the ventricles and represents the contraction of the ventricles.
-The T wave captures the repolarization of the ventricles and represents the relaxation of the ventricles.
+\subsection{Public Dataset}
+The challenge provided a public collection of 43,101 labelled \gls{ecg} records for training.
+These public records were sourced from multiple locations, including:
 
+\begin{enumerate}
+    \item The China Physiological Signal Challenge (\textbf{CPSC}) 2018~\cite{liu_open_2018} corpus of data, containing 10,330 recordings.
+    \item The St. Petersburg Institute of Cardiological Technics (\textbf{INCART}) database of 12-lead arrhythmias~\cite{tihonenko2008st}, containing 74 recordings.
+    \item The Physikalisch Technische Bundesanstalt (PTB) contributed datasets \textbf{PTB} Diagnostic \gls{ecg} Database~\cite{NutzungderEKGSignaldatenbankCARDIODATderPTBberdasInternet} and the more recent \textbf{PTB-XL} database~\cite{wagner_ptb-xl_2020}, containing a combined total of 22,353 records
+    \item The Georgia 12-lead \gls{ecg} Challenge (\textbf{G12EC}) database, containing 10,344 records.
+\end{enumerate}
 
-\section{Predicted Diagnoses}
+A separate hold-out set of \gls{ecg} records is sourced from an undisclosed organization containing patients geographically distinct from the publicly available data.
+This hold-out set of data is used for the official challenge test phase only and is not available to researchers.
+In my analysis, I do not make any distinction between the different \gls{ecg} source locations and combine all of the records into a single repository.
 
+\subsection{Scoring Function}
+
+\subsection{Diagnosed Labels}
 \begin{description}
     \item[\gls{iavb}] TODO: Describe IAVB.
 \end{description}
