@@ -67,7 +67,7 @@ The ST segment, starting after the QRS complex and ending before the T wave begi
 After the ventricle contraction completes, the impulse dissipates and allows the ventricle muscles to relax and repolarize, manifesting as the \gls{ecg} T wave.
 A step by step diagram indicating the different \gls{ecg} tracing components and the corresponding cardiac diagram can be found in Figure~\ref{fig:pqrst_heart_conduction_system}
 
-\begin{figure}[ht]
+\begin{figure}[hb]
     \centering
     \includegraphics[width=13cm]{figure/pqrst_with_heart_conduction_system.jpeg}
     \caption[Cardiac conduction correlated to ECG tracing waves.]{Cardiac conduction correlated to ECG tracing waves.
@@ -99,8 +99,25 @@ These public records were sourced from multiple locations, including:
 A separate hold-out set of \gls{ecg} records is sourced from an undisclosed organization containing patients geographically distinct from the publicly available data.
 This hold-out set of data is used for the official challenge test phase only and is not available to researchers.
 In my analysis, I do not make any distinction between the different \gls{ecg} source locations and combine all of the records into a single repository.
+I also exclude two \gls{ecg} records (\texttt{Training\_2/Q0400}, \texttt{Training\_2/Q2961}) that show only a flat lines, or no activity on any leads.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=14cm]{figure/age_sex_hist.pdf}
+    \caption[Age and sex distribution of the PhysioNet/CinC 2020 public electrocardiogram dataset]{Age and sex distribution of the PhysioNet/CinC 2020 public electrocardiogram dataset.
+    Records with age $<0$ indicate that age is not provided for the given record. The only record that is missing the biological sex metadata is also missing the age metadata.}
+    \label{fig:age_sex_hist}
+\end{figure}
+
+Each \gls{ecg} record also contains additional metadata in the form of the patient age and biological sex.
+Of the 43,101 records, 187 records contain an undefined age.
+Of the remaining records, the mean patient age is 60.3.
+The \gls{ecg} records contained primarily male and female sex, with 46.9\% of the patients in the dataset as female, 53.1\% of the patients as male, and one record that did not have the sex metadata specified.
+A histogram showcasing the distribution of the age and gender in our dataset can be found in Figure~\ref{fig:age_sex_hist}
 
 \subsection{Scoring Function}
+
+
 
 \subsection{Diagnosed Labels}
 \begin{description}
