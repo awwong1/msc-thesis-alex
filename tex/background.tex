@@ -99,57 +99,95 @@ These public records were sourced from multiple locations, including:
 A separate hold-out set of \gls{ecg} records is sourced from an undisclosed organization containing patients geographically distinct from the publicly available data.
 This hold-out set of data is used for the official challenge test phase only and is not available to researchers.
 In my analysis, I do not make any distinction between the different \gls{ecg} source locations and combine all of the records into a single repository.
-I also exclude two \gls{ecg} records (\texttt{Training\_2/Q0400}, \texttt{Training\_2/Q2961}) that show only a flat lines, or no activity on any leads.
+Two \gls{ecg} records (\texttt{Training\_2/Q0400}, \texttt{Training\_2/Q2961} from the CPSC2018 tranche of signals) containing no activity on any leads are excluded from analysis.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=14cm]{figure/age_sex_hist.pdf}
-    \caption[Age and sex distribution of the PhysioNet/CinC 2020 public electrocardiogram dataset]{Age and sex distribution of the PhysioNet/CinC 2020 public electrocardiogram dataset.
+    \caption[Age and sex distribution of the PhysioNet/CinC 2020 public electrocardiogram dataset.]{Age and sex distribution of the PhysioNet/CinC 2020 public electrocardiogram dataset.
     Records with age $<0$ indicate that age is not provided for the given record. The only record that is missing the biological sex metadata is also missing the age metadata.}
     \label{fig:age_sex_hist}
 \end{figure}
 
 Each \gls{ecg} record also contains additional metadata in the form of the patient age and biological sex.
-Of the 43,101 records, 187 records contain an undefined age.
+There are 187 records that contain an undefined age.
 Of the remaining records, the mean patient age is 60.3.
 The \gls{ecg} records contained primarily male and female sex, with 46.9\% of the patients in the dataset as female, 53.1\% of the patients as male, and one record that did not have the sex metadata specified.
-A histogram showcasing the distribution of the age and gender in our dataset can be found in Figure~\ref{fig:age_sex_hist}
-
-\subsection{Scoring Function}
-
-
+A histogram showcasing the distribution of the age and sex in our dataset can be found in Figure~\ref{fig:age_sex_hist}.
 
 \subsection{Diagnosed Labels}
+
+\begin{table}[t]
+    \caption{\label{tab:labels_snomed_ct} Evaluated SNOMED CT codes with definition, count and percentage in dataset.}
+    \vspace{2 mm}
+    \centerline{\begin{tabular}{@{}ll@{}l@{}r@{}}
+    SNOMED & Abbr. & Diagnosis & Count (\%) \\ \hline
+    270492004 & IAVB & 1st degree av block & 2394 (5.6\%) \\
+    164889003 & AF & atrial fibrillation & 3475 (8.0\%) \\
+    164890007 & AFL & atrial flutter & 314 (0.7\%) \\
+    426627000 & Brady & bradycardia & 288 (0.7\%) \\
+    713427006 & CRBBB & complete right bundle branch block & 683 (1.6\%) \\
+    713426002 & IRBBB & incomplete right bundle branch block & 1611 (3.7\%) \\
+    445118002 & LAnFB & left anterior fascicular block & 1806 (4.2\%) \\
+    39732003 & LAD & left axis deviation & 6086 (14.1\%)  \\
+    164909002 & LBBB & left bundle branch block & 1041 (2.4\%) \\
+    251146004 & LQRSV & low QRS voltages & 556 (1.3\%) \\
+    698252002 & {{NSIVCB }} & nonspecific intraventricular conduction & 997 (2.3\%) \\
+    10370003 & PR & pacing rhythm & 299 (0.7\%) \\
+    284470004 & PAC & premature atrial contraction & 1729 (4.0\%) \\
+    427172004 & PVC & premature ventricular contractions & 188 (0.4\%) \\
+    164947007 & LPR & prolonged PR interval & 340 (0.7\%) \\
+    111975006 & LQT & prolonged QT interval & 1513 (3.5\%) \\
+    164917005 & QAb & Q wave abnormal & 1013 (2.4\%) \\
+    47665007 & RAD & right axis deviation & 427 (1.0\%) \\
+    59118001 & RBBB & right bundle branch block & 2402 (5.6\%) \\
+    427393009 & SA & sinus arrhythmia & 1240 (2.9\%) \\
+    426177001 & SB & sinus bradycardia & 2359 (5.5\%) \\
+    426783006 & SNR & sinus rhythm & 20846 (48.4\%)  \\
+    427084000 & STach & sinus tachycardia & 2402 (5.6\%) \\
+    63593006 & SVPB & supraventricular premature beats & 215 (0.5\%) \\
+    164934002 & TAb & T wave abnormal & 4673 (10.8\%)  \\
+    59931005 & TInv & T wave inversion & 1112 (2.6\%) \\
+    17338001 & VPB & ventricular premature beats & 365 (0.8\%) \\ \hline
+    \end{tabular}}
+\end{table}
+
+Each record in our available dataset is labelled with at least one numerical \gls{snomed} clinical term (CT).
+For the purpose of the challenge, a subset of 27 codes/labels have been selected for classification.
+All other codes are ignored in this study.
+Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, counts, and proportion within the dataset.
+
 \begin{description}
     \item[\gls{iavb}] TODO: Describe IAVB.
+    \item[\gls{af}]
+    \item[\gls{afl}]
+    \item[\gls{brady}]
+    \item[\gls{crbbb}]
+    \item[\gls{irbbb}]
+    \item[\gls{lanfb}]
+    \item[\gls{lad}]
+    \item[\gls{lbbb}]
+    \item[\gls{lqrsv}]
+    \item[\gls{nsivcb}]
+    \item[\gls{pr}]
+    \item[\gls{pac}]
+    \item[\gls{pvc}]
+    \item[\gls{lpr}]
+    \item[\gls{lqt}]
+    \item[\gls{qab}]
+    \item[\gls{rad}]
+    \item[\gls{rbbb}]
+    \item[\gls{sa}]
+    \item[\gls{sb}]
+    \item[\gls{snr}]
+    \item[\gls{stach}]
+    \item[\gls{svpb}]
+    \item[\gls{tab}]
+    \item[\gls{tinv}]
+    \item[\gls{vpb}]
 \end{description}
 
-\gls{af}
-\gls{afl}
-\gls{brady}
-\gls{crbbb}
-\gls{irbbb}
-\gls{lanfb}
-\gls{lad}
-\gls{lbbb}
-\gls{lqrsv}
-\gls{nsivcb}
-\gls{pr}
-\gls{pac}
-\gls{pvc}
-\gls{lpr}
-\gls{lqt}
-\gls{qab}
-\gls{rad}
-\gls{rbbb}
-\gls{sa}
-\gls{sb}
-\gls{snr}
-\gls{stach}
-\gls{svpb}
-\gls{tab}
-\gls{tinv}
-\gls{vpb}
+\subsection{Scoring Function}
 
 % We plot an equation in figure \ref{fig:plot}.
 

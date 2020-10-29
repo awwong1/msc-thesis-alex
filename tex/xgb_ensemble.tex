@@ -68,7 +68,7 @@ Figure~\ref{fig:xgb_methodology} shows an overview of our learning algorithm pip
 \begin{figure}[tbp]
   \centering
   \includegraphics[width=11cm]{figure/xgb_methodology.pdf}
-  \caption{Methodology overview. Feature engineering is performed concurrently for each lead then concatenated.}
+  \caption[Overview of manual feature engineering and gradient boosting decision tree classifier methodology.]{Methodology overview. Feature engineering is performed concurrently for each lead then concatenated.}
   \label{fig:xgb_methodology}
 \end{figure}
 
@@ -141,7 +141,7 @@ Our challenge submission's classification model only needs to train the phase tw
 \begin{figure}[ht]
   \centering
   \includegraphics[width=7.9cm]{figure/xgb_top_features_bar.png}
-  \caption{Count of lead and feature categories comprising the top 1,000 features. Age, but not sex, is important meta.}
+  \caption[Decision tree derived counts of important features by feature category.]{Count of lead and feature categories comprising the top 1,000 features. Age, but not sex, is important meta.}
   \label{fig:xgb_top_features}
 \end{figure}
 
@@ -162,7 +162,7 @@ Additionally, we attain phase two mean values for AUROC of 0.891, AUPRC of 0.389
 \begin{figure}[hb]
   \centering
   \includegraphics[width=7.9cm]{figure/xgb_classification_metrics_phase_1_2.png}
-  \caption{Summary of classification metrics over 100 experiments on all labels. Annotations indicate mean value.}
+  \caption[Manual feature engineering with gradient boosting decision tree classification metrics summary on validation set.]{Summary of classification metrics over 100 experiments on all labels. Annotations indicate mean value.}
   \label{fig:xgb_classification_metrics_summary}
 \end{figure}
 
@@ -172,7 +172,7 @@ A summary of our phase two $\text{F}_1$ scores on the 100 validation splits for 
 \begin{figure*}[ht]
   \centering
   \includegraphics[width=\textwidth]{figure/xgb_label_f1s.png}
-  \caption{Phase two label-wise validation set $\text{F}_1$ scores over 100 independent runs. Annotations indicate mean value.}
+  \caption[Manual feature engineering with gradient boosting decision tree label-wise $\text{F}_1$ scores on validation set.]{Phase two label-wise validation set $\text{F}_1$ scores over 100 independent runs. Annotations indicate mean value.}
   \label{fig:xgb_f1_score}
 \end{figure*}
 
