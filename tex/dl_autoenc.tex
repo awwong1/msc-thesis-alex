@@ -17,9 +17,9 @@ This work has manuscript revisions from Dr.\ Abram Hindle and Dr.\ Sunil Vasu Ka
 % Takeaways
 \paragraph{What to take away from this chapter}
 \begin{itemize}
-    \item our beat to sequence autoencoder approach is statistically more sensitive than the XGBoost ensemble method in detecting \gls{irbbb}, \gls{lanfb}, \gls{pr}, and \gls{rad}.
-    \item however, for overall \gls{ecg} classification metrics, the beat to sequence autoencoder is a less effective classifier than the prior XGBoost ensemble approach
-    \item future work, combining the benefits of the autoencoder embeddings and the shallow tree classifier may lead to a better overall classifier 
+    \item Our beat to sequence autoencoder approach is statistically more sensitive than the XGBoost ensemble method in detecting \gls{irbbb}, \gls{lanfb}, \gls{pr}, and \gls{rad}.
+    \item However, for overall \gls{ecg} classification metrics, the beat to sequence autoencoder is a less effective classifier than the prior XGBoost ensemble approach.
+    \item Future work, combining the benefits of the autoencoder embeddings and the shallow tree classifier may lead to a better overall classifier.
 \end{itemize}
 
 % ==================================
@@ -43,7 +43,7 @@ We attain a mean test split challenge score of 0.248 with an overall macro $\tex
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=12cm]{figure/aenc_methodology.pdf}
+    \includegraphics[width=14cm]{figure/aenc_methodology.pdf}
     \caption{Methodology overview. From (1) $\mathcal{L}$-sized ECG signal, we (2) extract $\mathcal{M}$ heartbeat windows prior to (3) heartbeat \& (4) sequence autoencoding. Finally we (5) pass our sequence embedding to the classifier to output our 27 predictions.}
     \label{fig:aenc_methodology}
 \end{figure}
