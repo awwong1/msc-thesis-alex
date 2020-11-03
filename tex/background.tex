@@ -97,40 +97,33 @@ See Figure~\ref{fig:12-lead-ecg-placement} for a guide to placing the 6 precordi
 The remaining four leads are extremity or limb electrodes: Right Arm (RA) should be placed anywhere between the right shoulder and right elbow; Right Leg (RL) should be placed below the right torso and above the right ankle; Left Arm (LA) should be placed between the left shoulder and left elbow; and Left Leg (LL) should be placed below the left torso and above the left ankle.
 
 When reading a 12-lead \gls{ecg}, the leads I, II, II, aVR, aVL, and aVF are derived from the limb leads.
-Equation~\ref{eq:wilson_central_terminal} shows a common virtual electrode, known as the Wilson's central terminal, defined by averaging three of the limb leads (RA, LA, LL) together.
-The unused limb lead RL does not show up in the \gls{ecg} readings and is considered a neutral grounding lead for minimizing artifacts.
-See Equation~\ref{eq:lead_I} for lead I, Equation~\ref{eq:lead_II} for lead II, and Equation~\ref{eq:lead_III} for lead III.
-The augmented limb leads aVR, aVL, and aVF are derived from the same three electrodes as leads I, II, and III but rely on Wilson's central terminal as their negative pole.
-See Equation~\ref{eq:lead_aVR} for lead aVR, Equation~\ref{eq:lead_aVL} for lead aVL, and Equation~\ref{eq:lead_aVF} for lead aVF.
-The remaining precordial leads V1 to V6 shown in the ECG are the directly measured signals from the electrodes.
-
 \begin{equation}
     V_W = \dfrac{1}{3}(RA + LA + LL) \label{eq:wilson_central_terminal}
 \end{equation}
-
+Equation~\ref{eq:wilson_central_terminal} shows a common virtual electrode, known as the Wilson's central terminal, defined by averaging three of the limb leads (RA, LA, LL) together.
 \begin{equation}
     I = LA - RA \label{eq:lead_I}
 \end{equation}
-
 \begin{equation}
     II = LL - RA \label{eq:lead_II}
 \end{equation}
-
 \begin{equation}
     III = LL - LA \label{eq:lead_III}
 \end{equation}
-
+The unused limb lead RL does not show up in the \gls{ecg} readings and is considered a neutral grounding lead for minimizing artifacts.
+See Equation~\ref{eq:lead_I} for lead I, Equation~\ref{eq:lead_II} for lead II, and Equation~\ref{eq:lead_III} for lead III.
 \begin{equation}
     aVR = \dfrac{3}{2}(RA - V_W) = RA - \dfrac{1}{2}(LA + LL) \label{eq:lead_aVR}
 \end{equation}
-
 \begin{equation}
     aVL = \dfrac{3}{2}(LA - V_W) = LA - \dfrac{1}{2}(RA + LL) \label{eq:lead_aVL}
 \end{equation}
-
 \begin{equation}
     aVF = \dfrac{3}{2}(LL - V_W) = LL - \dfrac{1}{2}(RA + LA) \label{eq:lead_aVF}
 \end{equation}
+The augmented limb leads aVR, aVL, and aVF are derived from the same three electrodes as leads I, II, and III but rely on Wilson's central terminal as their negative pole.
+See Equation~\ref{eq:lead_aVR} for lead aVR, Equation~\ref{eq:lead_aVL} for lead aVL, and Equation~\ref{eq:lead_aVF} for lead aVF.
+The remaining precordial leads V1 to V6 shown in the ECG are the directly measured signals from the electrodes.
 
 An \gls{ecg}'s cardiac axis refers to the average direction of the wave of ventricular depolarization measured from the reference point of lead I on a standard 12-lead \gls{ecg}~\cite{meek_introduction_2002}.
 One simple estimation of the cardiac axis is done by inspecting the magnitude of the R-peaks on leads I, II, and III.
@@ -150,6 +143,8 @@ Left axis deviation exists if lead I is positive while leads II and III are nega
 Alternatively, the Cabrera system or hexaxial reference system, can be used to logically derive the heart's electrical axis~\cite{lam_classical_2015}.
 By viewing the six frontal planes in the sequence aVL, I, aVR, II, aVF, and III, we check the maximal amplitude of the ECG vector (positive or negative) and use it to derive the cardiac electrical axis.
 Figure~\ref{fig:hexaxial_reference} shows the hexaxial reference system and the mapping to the six derived limb leads.
+A normal axis is a value between $-30\degree$ to $90\degree$, left axis deviation is between $-30\degree$ to $-90$, right axis deviation is between $90\degree$ to $180\degree$.
+Values that exceed the defined ranges are classified as extreme axis deviations.
 
 \section{PhysioNet/CinC 2020 Challenge Overview}
 
@@ -162,7 +157,7 @@ These public records were sourced from multiple locations, including:
 \begin{enumerate}
     \item The China Physiological Signal Challenge (\textbf{CPSC}) 2018~\cite{liu_open_2018} corpus of data, containing 10,330 recordings.
     \item The St. Petersburg Institute of Cardiological Technics (\textbf{INCART}) database of 12-lead arrhythmias~\cite{tihonenko2008st}, containing 74 recordings.
-    \item The Physikalisch Technische Bundesanstalt (PTB) contributed datasets \textbf{PTB} Diagnostic \gls{ecg} Database~\cite{NutzungderEKGSignaldatenbankCARDIODATderPTBberdasInternet} and the more recent \textbf{PTB-XL} database~\cite{wagner_ptb-xl_2020}, containing a combined total of 22,353 records
+    \item The Physikalisch Technische Bundesanstalt (PTB) contributed datasets \textbf{PTB} Diagnostic \gls{ecg} Database~\cite{NutzungderEKGSignaldatenbankCARDIODATderPTBberdasInternet} and the more recent \textbf{PTB-XL} database~\cite{wagner_ptb-xl_2020}, containing a combined total of 22,353 records.
     \item The Georgia 12-lead \gls{ecg} Challenge (\textbf{G12EC}) database, containing 10,344 records.
 \end{enumerate}
 
@@ -173,6 +168,7 @@ Two \gls{ecg} records (\texttt{Training\_2/Q0400}, \texttt{Training\_2/Q2961} fr
 
 \begin{figure}[ht]
     \centering
+    \textbf{Count of Patient Age by Sex}\par\medskip
     \includegraphics[width=14cm]{figure/age_sex_hist.pdf}
     \caption[Age and sex distribution of the PhysioNet/CinC 2020 public electrocardiogram dataset.]{Age and sex distribution of the PhysioNet/CinC 2020 public electrocardiogram dataset.
     Records with age $<0$ indicate that age is not provided for the given record. The only record that is missing the biological sex metadata is also missing the age metadata.}
@@ -228,71 +224,143 @@ All other codes are ignored in this study.
 Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, counts, and proportion within the dataset.
 
 \begin{description}
+
     \begin{figure}[ht]
         \centering
-        \includegraphics[width=14cm]{figure/IAVB/full_0_1951.pdf}
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/IAVB/full_0_1951.pdf}}
         \caption{Instance of \gls{ecg} record with 1st degree av block. Long PR interval greater than 200ms is observed.}
         \label{fig:full_IAVB}
     \end{figure}
     \item[\gls{iavb}] This is when there is an abnormally long delay between the electrical impulse from the atria, through the ventricular node, to the ventricles. On the \gls{ecg}, this is detected by the presence of a PR interval longer than 200ms~\cite{carroz_pseudo-pacemaker_2010} or by the existence of a notched (bimodal) P-wave in leads I, II, III, and aVF~\cite{bayes_de_luna_diagnosis_2017}. See Figure~\ref{fig:full_IAVB} for an example of an \gls{ecg} record containing this ailment.
+
     \begin{figure}[ht]
         \centering
-        \includegraphics[width=14cm]{figure/AF/full_0_3453.pdf}
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/AF/full_0_3453.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with atrial fibrillation. Irregular, fibrillatory p-waves found in all leads.}
         \label{fig:full_AF}
     \end{figure}
     \item[\gls{af}] The manifestation of \gls{af} may take on multiple forms, ranging from the absence of P waves, irregular heartbeat rhythm, or fibrillatory (rapid, fluttering) P-waves~\cite{podrid2001cardiac,afib-ecg}. Figure~\ref{fig:full_AF} shows an \gls{ecg} instance with this disorder.
+
     \begin{figure}[ht]
         \centering
-        \includegraphics[width=14cm]{figure/AFL/full_0_93.pdf}
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/AFL/full_0_93.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with atrial flutter. Rapid P waves exist.}
         \label{fig:full_AFL}
     \end{figure}
     \item[\gls{afl}] This disorder is indicated by the presence of atrial rhythms at a constant rate $\geq 100$ beats per minute~\cite{saoudi_classification_2001}. Figure~\ref{fig:full_AFL} shows an \gls{ecg} instance with rapid and well-formed P waves.
-    \begin{figure}
+
+    \begin{figure}[ht]
         \centering
-        \includegraphics[width=14cm]{figure/Brady/full_0_42568.pdf}
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/Brady/full_0_42568.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with bradycardia. Patient has a mean resting heart rate of 57 beats per minute.}
         \label{fig:full_Brady}
     \end{figure} 
     \item[\gls{brady}] A patient has bradycardia if their sinus rhythm is below the normal range of for the age of the patient. For adults, this is a resting heart rate below 60 beats per minute. An example of a patient with bradycardia is shown in Figure~\ref{fig:full_Brady}.
-    \begin{figure}
+
+    \begin{figure}[ht]
         \centering
-        \includegraphics[width=14cm]{figure/CRBBB/full_2_24132.pdf}
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/CRBBB/full_2_24132.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with complete right bundle branch block. QRS complex exceeds 120 ms (4 boxes) and contains an anterior skew on the right end of the QRS complex.}
         \label{fig:full_CRBBB}
     \end{figure} 
     \item[\gls{crbbb}] A complete right bundle branch block is when the QRS duration exceeds 120 ms and the terminal halves of the QRS are skewed rightward and anteriorly, indicating that the right ventricle is being depolarized after the left ventricle~\cite{ecg-utah-lesson}. An example \gls{ecg} record is shown in Figure~\ref{fig:full_CRBBB}.
-    \begin{figure}
+
+    \begin{figure}[ht]
         \centering
-        \includegraphics[width=14cm]{figure/IRBBB/full_28_18884.pdf}
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/IRBBB/full_28_18884.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with incomplete right bundle branch block. The QRS complex is within 100 to 120 ms (2.5-3 boxes) and contains an anterior skew on the right end of the QRS complex.}
         \label{fig:full_IRBBB}
     \end{figure} 
     \item[\gls{irbbb}] An incomplete right bundle branch block has the same terminal QRS features as \gls{crbbb} but has a QRS duration of 100 to 120 ms~\cite{ecg-utah-lesson}, as shown in the example record at Figure~\ref{fig:full_IRBBB}.
-    \begin{figure}
+
+    \begin{figure}[ht]
         \centering
-        \includegraphics[width=14cm]{figure/LAnFB/full_3_11709.pdf}
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LAnFB/full_3_11709.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with left anterior fascicular block. Lead I is positive while leads II and III are negative, indicating left axis deviation. Leads I and aVL show qR complexes, with rS complexes appearing in leads II, III, an aVF.}
         \label{fig:full_LAnFB}
     \end{figure} 
-    \item[\gls{lanfb}] This common intraventricular defect occurs when the anterior fascicle within the left bundle branch is blocked or otherwise unable to respond to action potential stimuli~\cite{ecg-utah-lesson}. The criteria includes: left axis deviation (within $-45\deg$ to $-90\deg$); small Q waves with large R waves (`qR complexes') in leads I and/or aVL; small R waves with deep S waves (`rS complexes') in leads II, III, and aVF; slightly prolonged QRS duration (80-110ms), usually a poor R progression in leads V1, V2, and V3 with deeper S waves in leads V5 and V6. See Figure~\ref{fig:full_LAnFB} for an example.
-    \begin{figure}
+    \item[\gls{lanfb}] This common intraventricular defect occurs when the anterior fascicle within the left bundle branch is blocked or otherwise unable to respond to action potential stimuli~\cite{ecg-utah-lesson}. The criteria includes: left axis deviation (within $-45\degree$ to $-90\degree$); small Q waves with large R waves (`qR complexes') in leads I and/or aVL; small R waves with deep S waves (`rS complexes') in leads II, III, and aVF; slightly prolonged QRS duration (80-110ms), usually a poor R progression in leads V1, V2, and V3 with deeper S waves in leads V5 and V6. See Figure~\ref{fig:full_LAnFB} for an example.
+
+    \begin{figure}[ht]
         \centering
-        \includegraphics[width=14cm]{figure/LAD/full_69_18482.pdf}
-        \caption{Instance of 12-lead \gls{ecg} with left axis deviation. Lead I is positive while leads II and III are negative.}
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LAD/full_69_18482.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with left axis deviation. Lead I is positive while leads II and III are negative, indicating left axis deviation using the simple leads I, II, III method. Using the hexaxial axis estimation approach, we see that leads aVL and III have the greatest QRS complex magnitude with aVL being positive and III being negative, giving an electrical axis between $-30\degree$ and $-60\degree$, confirming left axis deviation.}
         \label{fig:full_LAD}
     \end{figure}
+    \item[\gls{lad}] Diagnosed when the cardiac axis exists between $-30\degree$ and $-90\degree$. See Figure~\ref{fig:full_LAD} for an example \gls{ecg} record, interpreted using the lead I, II, III approach as well as the hexaxial reference system.
 
-    \item[\gls{lad}] Diagnosed when the cardiac axis exists between $-30\deg$ and $-180\deg$.
-    \item[\gls{lbbb}]
-    \item[\gls{lqrsv}]
-    \item[\gls{nsivcb}]
-    \item[\gls{pr}]
-    \item[\gls{pac}]
-    \item[\gls{pvc}]
-    \item[\gls{lpr}]
-    \item[\gls{lqt}]
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LBBB/full_10_3741.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with left bundle branch block. The QRS complexes exceed 100ms (2.5 boxes) and contain a posterior or leftward skew on the tail halves of the QRS complexes.}
+        \label{fig:full_LBBB}
+    \end{figure}
+    \item[\gls{lbbb}] A left bundle branch block is defined by a QRS complex exceeding 100ms with a posterior/leftward skew in the second half of the QRS complex~\cite{ecg-utah-lesson}. An example record is shown in Figure~\ref{fig:full_LBBB}. For the purposes of this challenge, no distinction is made between complete left bundle branch block ($> 120$ms) and incomplete left bundle branch block (between 100ms and 120ms).
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LQRSV/full_53_18474.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with low QRS voltages. All limb leads have QRS complex amplitudes of less than 0.5mV and all precordial leads have QRS complex amplitudes of less than 1.0mV.}
+        \label{fig:full_LQRSV}
+    \end{figure}
+    \item[\gls{lqrsv}] An \gls{ecg} record with low QRS voltages contains QRS complex amplitudes of $<$ 0.5mV in all limb derived leads (I, II, III, aVR, aVL, aVF) or contains QRS complex amplitudes of $<$ 1mV in all precordial leads (V1, V2, V3, V4, V5, V6)~\cite{madias_low_2008}. See Figure~\ref{fig:full_LQRSV} for an example.
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/NSIVCB/full_12_29680.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with nonspecific intraventricular conduction disorder. QRS complexes exceed 100ms (2.5 squares) but do not exhibit a posterior/anterior skew characteristic on the tail half of the QRS complexes.}
+        \label{fig:full_NSIVCB}
+    \end{figure}
+    \item[\gls{nsivcb}] An \gls{ecg} record with nonspecific intraventricular conduction blocks exhibits QRS durations over 100ms but do not contain a posterior/anterior skew characteristic on the second half of the QRS complex~\cite{ecg-utah-lesson}.
+    An example can be found in Figure~\ref{fig:full_NSIVCB}.
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/PR/full_0_20814.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with pacing rhythm. Characteristic vertical lines appearing at the P wave onset suggests atrial pacing with normal conduction to the ventricles.}
+        \label{fig:full_PR}
+    \end{figure}
+    \item[\gls{pr}] This diagnosis indicates the presence of a pacemaker. One common artifact is a vertical line appearing in the \gls{ecg} prior to the QRS complex~\cite{kirk_basic_2007}.
+    An example \gls{ecg} record can be found in Figure~\ref{fig:full_PR}.
+
+    \begin{figure}[ht]
+        \centering
+        % \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/PAC/full_95_4661.pdf}}
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/PAC/full_95_4661_emph.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with premature atrial contraction. Instances of P waves occurring within preceding beat T wave in lead II are emphasized with black squares.}
+        \label{fig:full_PAC}
+    \end{figure}
+    \item[\gls{pac}] These events may occur as single or repetitive events along the \gls{ecg} record and are characterized by a P wave occurring within the T wave of the preceding beat~\cite{ecg-utah-lesson}.
+    An example can be found in Figure~\ref{fig:full_PAC}.
+ 
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/PVC/full_4_1478.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with premature ventricular contraction. Premature ventricular contraction occurs at the 4.5 second mark.}
+        \label{fig:full_PVC}
+    \end{figure}
+    \item[\gls{pvc}] This diagnosis indicates that a ventricular contraction has occurred before the next expected sinoatrial node action potential~\cite{surawicz_borys_ahaaccfhrs_2009}. It may occur as singular or repetitive events along the \gls{ecg} record.
+    Refer to Figure~\ref{fig:full_PVC} for an example \gls{ecg} record containing this disorder.
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LPR/full_17_21546.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with prolonged PR interval. Patient record contains PR intervals exceeding 200ms (5 squares) but is also diagnosed as having normal sinus rhythm.}
+        \label{fig:full_LPR}
+    \end{figure}
+    \item[\gls{lpr}] This disorder indicates a delayed conduction through the atrioventricular node and is characterized by a PR interval exceeding 200ms~\cite{Kwok672}. This condition has overlap with \gls{iavb} but suggests reduced severity.
+    An example record can be found in Figure~\ref{fig:full_LPR}.
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LQT/full_37_19855.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with prolonged QT interval. Patient T waves end past the halfway point of the preceding and upcoming R peaks.}
+        \label{fig:full_LQT}
+    \end{figure}
+    \item[\gls{lqt}] This disorder indicates that the heart is inadequately recovering after each beat and can be quickly identified by the presence of T waves ending beyond the midway point of an RR interval~\cite{10.1001/jama.1986.03380210081029}.
+    See Figure~\ref{fig:full_LQT} for an example record with this disorder.
+
+    % force save pdf figures
     \item[\gls{qab}]
     \item[\gls{rad}]
     \item[\gls{rbbb}]
