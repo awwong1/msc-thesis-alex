@@ -360,7 +360,6 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \item[\gls{lqt}] This disorder indicates that the heart is inadequately recovering after each beat and can be quickly identified by the presence of T waves ending beyond the midway point of an RR interval~\cite{10.1001/jama.1986.03380210081029}.
     See Figure~\ref{fig:full_LQT} for an example record with this disorder.
 
-    % force save pdf figures
     \begin{figure}[ht]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/QAb/full_0_1740.pdf}}
@@ -452,14 +451,37 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
 
 \subsection{Scoring Function}
 
-% We plot an equation in figure \ref{fig:plot}.
+The \emph{PhysioNet/CinC 2020 Challenge}~\cite{physionet_challenge_2020} rewards partial credit for incorrect classification predictions using a weighted scoring function.
+The intention of this scoring function is to weigh predictions that result in similar outcomes or treatments as the ground truth labels more favorably.
+The similarity of two classes aim to minimize potential harm of applied treatment, as treatment response may be similar in both cases.
 
-% \begin{figure}
-%     \centering
-%     \includegraphics[keepaspectratio=true, width=0.9\textwidth]{\main/figure/plot}
-%     \caption[A supporting figure] {A graph of $y = \sin(x) + \sqrt{x}$}
-%     \label{fig:plot}
-%     % Put the label *after* the caption, but inside the float
-% \end{figure}
+We define a set of diagnoses $C={\{c_i\}}^m_{i=1}, \quad i = 1 \dots n$ for $m$ distinct labels in a corpus of $n$ recordings.
+We compute a confusion matrix $A=[a_{ij}]$ such that each cell contains the sum of all $n$ records that are classified as diagnosis $c_i$ and have the ground truth diagnosis of $c_j$, see Equation~\ref{eq:conf_matrix_cell} and Equation~\ref{eq:conf_matrix_cell_cond}.
+\begin{equation}
+    a_{ij} = \sum^n_{k=1}{a_{ijk}} \label{eq:conf_matrix_cell}
+\end{equation}
+Due to the multi-label nature of this task, a single \gls{ecg} record may have multiple diagnoses.
+The contribution of a single record is normalized by dividing over $|\{x_k \cup y_k \}|$, or the number of classes with a ground truth positive label or classifier output.
+\begin{equation}
+    a_{ijk} = \left\{\begin{array}{lr}
+        \dfrac{1}{|\{x_k \cup y_k \}|} & \text{if } c_i \in x_k \text{ and } c_j \in y_k \\
+        0 & \text{otherwise}
+    \end{array} \right. \label{eq:conf_matrix_cell_cond}
+\end{equation}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[trim={0.3cm 0.3cm 0.3cm 0.3cm},clip,width=0.8\textwidth]{figure/aenc_label_weights.pdf}
+    \caption{PhysioNet/CinC 2020 Challenge~\cite{physionet_challenge_2020} provided reward matrix $W$ for the diagnoses evaluated in the classification task.}
+    \label{fig:reward_matrix}
+\end{figure}
+A matrix of weights $W=[w_{ij}]$ is provided by the challenge organizers to specify the reward for a classifier output of class $c_i$ with a ground truth positive label of $c_j$.
+See Figure~\ref{fig:reward_matrix} for a visualization of the provided weights and relationship to the classification labels.
+
+\begin{equation}
+    s = \sum_{i=1}^m\sum_{j=1}^m w_{ij}a_{ij} \label{eq:scoring_function}
+\end{equation}
+The objective of the challenge is to maximize the scoring metric $s$ as defined in Equation~\ref{eq:scoring_function}.
+The challenge emphasizes that the reward matrix used $W$ is opinionated and should be tailored to the preferences of the researchers and institutions in future experiments~\cite{physionet_challenge_2020}.
 
 \end{document}
