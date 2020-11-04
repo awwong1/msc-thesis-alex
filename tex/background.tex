@@ -134,7 +134,7 @@ Left axis deviation exists if lead I is positive while leads II and III are nega
 \begin{figure}
     \centering
     \includegraphics[width=10cm]{figure/Hexaxial_reference_system.pdf}
-    \caption{Hexaxial (Cabrera) system for determining cardiac axis. Six frontal planes are viewed in the sequence aVL, I, aVR, II, aVF, and III. Within an ECG record, the lead with the maximum QRS peak amplitude change, positive or negative, is used as the estimate for the cardiac electrical axis.
+    \caption[Hexaxial (Cabrera) system for determining cardiac axis. Six frontal planes are viewed in the sequence aVL, I, aVR, II, aVF, and III.]{Hexaxial (Cabrera) system for determining cardiac axis. Six frontal planes are viewed in the sequence aVL, I, aVR, II, aVF, and III. Within an ECG record, the lead with the maximum QRS peak amplitude change, positive or negative, is used as the estimate for the cardiac electrical axis.
     Image belonging to \texttt{public domain} from Wikipedia users MoodyGroove and Mysid, source: \url{https://commons.wikimedia.org/w/index.php?curid=2635587}.
     }
     \label{fig:hexaxial_reference}
@@ -361,17 +361,93 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     See Figure~\ref{fig:full_LQT} for an example record with this disorder.
 
     % force save pdf figures
-    \item[\gls{qab}]
-    \item[\gls{rad}]
-    \item[\gls{rbbb}]
-    \item[\gls{sa}]
-    \item[\gls{sb}]
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/QAb/full_0_1740.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with abnormal Q wave. Patient Q waves exceed 40ms wave duration in leads I, III, aVR, aVL, V2, V3, V4, V5, V6 and have Q wave amplutides exceeding 25\% of the QRS complex amplitude in precordial leads V2-V6.}
+        \label{fig:full_QAb}
+    \end{figure}
+    \item[\gls{qab}]Pathologic Q waves indicate the presence of an old myocardial infarction and are diagnosed as having Q wave duration exceeding 40 ms or Q wave amplitude exceeding 25\% of the amplitude of the QRS complex~\cite{doi:10.1002/clc.4960200515}.
+    Figure~\ref{fig:full_QAb} showcases an example record containing abnormal Q wave.
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/RAD/full_0_10776.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with right axis deviation. A negative lead I with positive leads II and III suggest right axis deviation. Using the hexaxial system, leads II, III, and aVF all have the largest QRS amplitudes (each approximately 0.3mV), resulting in an cardiac axis estimate between $60\degree$ and $120\degree$. This overlaps with our right axis deviation criteria where the axis exists between $90\degree$ and $180\degree$.}
+        \label{fig:full_RAD}
+    \end{figure}
+    \item[\gls{rad}] This diagnosis indicates the cardiac axis existing between $90\degree$ and $180\degree$. See Figure~\ref{fig:full_RAD} for an example ECG record interpreted using the lead I, II, III approach as well as the hexaxial reference system.
+
+    \item[\gls{rbbb}] This diagnosis is identical to \gls{crbbb}.
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/SA/full_37_14861.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with sinus arrhythmia. Recorded heart rate decreases over time, or distance between R peaks increases over time.}
+        \label{fig:full_SA}
+    \end{figure}
+    \item[\gls{sa}] This diagnosis reflects a change in the beat-to-beat variation over time, resulting in an irregular heart rate~\cite{surawicz_borys_ahaaccfhrs_2009}.
+    This condition is typically not serious.
+    An example of an \gls{ecg} record with \gls{sa} can be found in Figure~\ref{fig:full_SA}.
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/SB/full_6_10548.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with sinus bradycardia. Upright P wave in lead II exists, with a mean heart rate of 59 beats per minute.}
+        \label{fig:full_SB}
+    \end{figure}
+    \item[\gls{sb}] This specific type of slow heartbeat is caused by the sinoatrial node firing less than 60 times per minute.
+    It is characterized by an upright P wave in lead II preceding every QRS complex and a heart rate of less than 60 beats per minute in adults.
+    An example record is shown in Figure~\ref{fig:full_SB}.
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/SNR/full_0_3452.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with normal sinus rhythm. No visible defects or abnormalities indicated.}
+        \label{fig:full_SNR}
+    \end{figure}
     \item[\gls{snr}] The normal, healthy case for an \gls{ecg} record must have an upright P wave in leads I and II, with a QRS complex following each P wave~\cite{meek_introduction_2002}. In an adult, the resting heart rate should be between 60-99 beats per minute.
-    \item[\gls{stach}]
-    \item[\gls{svpb}]
+    A reference \gls{ecg} can be found in Figure~\ref{fig:full_SNR}
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/STach/full_0_807.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with sinus tachycardia. The average heart rate is 101 beats per minute.}
+        \label{fig:full_STach}
+    \end{figure}
+    \item[\gls{stach}] This is when the resting heart rate exceeds 100 beats per minute in adults, or above the normal range relative to the patient age.
+    An example \gls{ecg} record is shown in Figure~\ref{fig:full_STach}
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/SVPB/full_0_14.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with supraventricular premature beats. Four instances of premature ventricular beats are observed in this record.}
+        \label{fig:full_SVPB}
+    \end{figure}
+    \item[\gls{svpb}] This occurs when the atrial contractions are triggered through invalid conduction such as an origin other than the sinoatrial node~\cite{GOLDBERGER2018130}.
+    See Figure~\ref{fig:full_SVPB} for a reference \gls{ecg} with this disorder.
+    For the PhysioNet challenge, this diagnosis is treated identically to \gls{pac}, despite different \gls{ecg} characteristics.
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/TAb/full_37_12821.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with abnormal T wave.}
+        \label{fig:full_TAb}
+    \end{figure}
     \item[\gls{tab}]
-    \item[\gls{tinv}]
-    \item[\gls{vpb}]
+    An abnormality in the T wave ranges from low T-wave amplitudes to complete inversion of the T wave. Normal T waves typically align with the QRS complex direction. They should be upright in leads I, II, V3-6, and inverted in lead aVR. Normal T waves are typically asymmetric, with a faster second half compared to the first half~\cite{ecg-utah-lesson}.
+    See Figure~\ref{fig:full_TAb} for a reference \gls{ecg} with abnormal T waves.
+
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/TInv/full_29_18766.pdf}}
+        \caption{Instance of 12-lead \gls{ecg} with T wave inversion. Leads with T waves of incorrect direction are observed in leads II, III, aVR (should be inverted), aVF, and V3-6.}
+        \label{fig:full_TInv}
+    \end{figure}
+    \item[\gls{tinv}] This condition is semantically a more specific form of \gls{tab}, but only evaluating the condition of T wave inversion.
+    Figure~\ref{fig:full_TInv} contains a reference \gls{ecg} with inverted T waves.
+
+    \item[\gls{vpb}] This diagnosis is identical to \gls{pvc}.
 \end{description}
 
 \subsection{Scoring Function}
