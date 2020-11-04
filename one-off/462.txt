@@ -1,0 +1,514 @@
+Arrhythmia Classification of 12-lead Electrocardiograms
+by Hybrid Scattering–LSTM Networks
+Philip A. Warrick1 , Vincent Lostanlen2 , Michael Eickenberg3 , Joakim Andén4 , Masun Nabhan
+Homsi5
+1
+
+PeriGen. Inc., Montreal, Canada
+New York University, New York, NY
+3
+Flatiron Institute, New York, NY
+4
+KTH Royal Institute of Technology
+5
+Helmholtz Centre for Environmental Research (UFZ), Leipzig, Germany
+2
+
+Abstract
+Electrocardiogram (ECG) analysis is the standard of
+care for the diagnosis of irregular heartbeat patterns,
+known as arrhythmias. This paper presents a deep learning system for the automatic detection and multilabel classification of arrhythmias in ECG recordings. Our system composes three differentiable operators: a scattering transform (ST), a depthwise separable convolutional
+network (DSC), and a bidirectional long short-term memory network (BiLSTM). The originality of our approach
+is that all three operators are implemented in Python.
+This is in contrast to previous publications, which precomputed ST coefficients in MATLAB. The implementation of ST on Python was made possible by using a new
+software library for scattering transform named Kymatio.
+This paper presents the first successful application of Kymatio to the analysis of biomedical signals. As part of the
+PhysioNet/Computing in Cardiology Challenge 2020, we
+trained our hybrid Scattering–LSTM model to classify 27
+cardiac arrhythmias from two databases of 12–lead ECGs:
+CPSC2018 and PTB-XL, comprising 32k recordings in total. Our team “BitScattered” achieved a Challenge metric
+of 0.536±0.012 over ten folds of cross-validation but this
+result may be over-optimistic since we were not able to
+rank and score on the hidden test set.
+
+1.
+
+Introduction
+
+The World Health Organization estimates that cardiovascular diseases (CVDs) caused 17.9 million deaths worlwide in 2016, and may reach 23.6 million in the year 2030.
+In this context, electrocardiography (ECG) plays a vital
+role in CVD prevention, diagnosis, and treatment. This
+is because each electrode in an ECG can reveal cardiac abnormalities, which are risk factors for CVDs.
+
+The main advantage of ECG is that its acquisition is inexpensive, painless, and non-invasive. However, the subsequent task of interpreting an electrocardiograph is tedious and time-consuming. To address this issue, the PhysioNet/Computing in Cardiology Challenge 2020 offers an
+evaluation benchmark for automatic detection and classification of cardiac abnormalities from 12–lead ECGs.
+Prior literature on ECG classification exhibits a methodological divide: signal processing versus machine learning. On one hand, digital signal processing methods include low-pass filters, fast Fourier Transform, and discrete
+wavelet transform. On the other hand, machine learning
+methods include random forests, support vector machines,
+convolutional neural networks and long short-term memory (LSTM) networks. Both families of methods have
+their limitations: while feature engineering lacks flexibility
+to represent fine-grain class boundaries, a purely learned
+pipeline may lead to uninterpretable overfitting.
+Our contribution to the Challenge aims to overcome the
+aforementioned methodological divide by combining insights from signal processing and machine learning. At a
+first stage, we extract time scattering transform (ST) coefficients for each ECG channel. Although this stage is
+not trainable, it offers numerical guarantees of stability to
+time warps. At a second stage, we train a depthwise separable convolution (DSC) neural network, followed by a
+bidirectional long short-term memory (BiLSTM) network.
+While the DSC combines scattering coefficients from multiple electrodes simultaneously, the BiLSTM can also capture longer-term trends in cardiac activity.
+Our system is inspired from a previous publication,
+which aimed at detecting and classifying sleep arousals
+from polysomnographic recordings (1). However, whereas
+the original publication resorted to a combination of programming languages (MATLAB for scattering and Python
+for machine learning), we implement all stages of compu-
+
+2.1.
+
+12-lead ECG
+
+scattering transform
+
+scattering transform
+
+...
+
+Scattering transform
+
+The scattering transform is a deep convolutional network whose filters are defined a priori instead of being
+learned from data. Specifically, every layer in the scattering network contains filters of the form:
+ψ j : t 7 −→ 2−j/Q ψ(2−j/Q t),
+
+...
+
+...
+
+depthwise convolution
+
+...
+pointwise convolution
+
+...
+
+...
+BiLSTM
+
+...
+multilabel classification of arrhythmias
+
+Figure 1.
+Overview of the proposed system. Top:
+channel-wise scattering transform of a 12-lead electrocardiogram (ECG). For simplicity, only two scattering transform blocks are shown. Arrow colors denote scattering
+paths. Middle: depthwise separable convolutional neural network (DSC), separated into a depthwise convolution
+layer and a pointwise convolution layer. For simplicity,
+only three scattering paths are shown and only two feature
+maps are shown. Bottom: bidirectional long short-term
+memory network (BiLSTM) followed by multilabel classification. Arrow styles denote output units. For simplicity,
+only three BiLSTM hidden units are shown, and only two
+arrhythmia classes are shown. See Section 2 for details.
+
+tation in Python. This is possible thanks to a new library
+for scattering transforms in Python, named Kymatio.1
+
+2.
+
+Methods
+
+Figure 1 summarizes the different technical components
+of our proposed system. This section explains the role of
+each component in isolation.
+
+1 Official
+
+website of Kymatio: https://www.kymat.io
+
+(1)
+
+where ψ is a wavelet, Q is a constant number of filters
+per octave, and the scale variable j is an integer ranging
+between 0 and J. Hereafter, we take the “mother wavelet”
+ψ to be a Morlet wavelet with a quality factor of Q = 1 and
+a center frequency of ξ = 200 Hz. The Morlet wavelet is a
+complex-valued function with a Gaussian envelope while
+being approximately analytic, i.e., with negligible Fourier
+coefficients outside of the half-line of positive frequencies
+(ω > 0) . Furthermore, we set the maximum wavelet scale
+to J = 11 after a process of trial and error.
+Let φT be a Gaussian filter of cutoff frequency equal to
+1/T . The outputs of the scattering transform at orders one
+and two respectively are
+S1 x(t, j1 ) = |x ∗ ψ j1 | ∗ φT (t)
+
+and
+
+S2 x(t, j1 , j2 ) = |x ∗ ψ j1 | ∗ ψ j2 ∗ φT (t),
+
+(2)
+
+where the vertical bars and the asterisk denote complex
+modulus and convolution product respectively.
+The earliest application of the scattering transform to
+cardiology is due to (2), in the context of fetal heart rate
+classification. We refer to (3) for a mathematical introduction and to (1) for a recent review of the state of the art.
+For every discretized value of time t, we concatenate
+first-order coefficients S1 x(t, j1 ) and second-order coefficients S1 x(t, j1 , j2 ) to produce a multidimensional time
+series Sx(t, p); where the multiindex p, known as scattering path, either denotes an singleton (j1 ) or a pair (j1 , j2 ).
+With J = 11, this results in 12 first-order and 63 secondorder paths for a total number of P = 75 paths.
+Hereafter, we set the time scale of Gaussian averaging
+to T = 250 ms. Note that T is not equal to 2J /ξ, as is customary. Rather, the filterbank {ψj }j covers the frequency
+range [2−J ξ; ξ] = [0.1 Hz; 200 Hz] whereas the scattering
+transform is discretized at a Nyquist rate of 2/T = 8 Hz.
+This rate is chosen to be higher than the heart rate of patients (1–4 Hz) while being considerably lower than the
+acquisition rate of ECG (500 Hz).
+We apply a pointwise compressive nonlinearity to the
+output of the ST, namely the inverse
+√ hyperbolic sine function: asinh : x 7→ log (x + x2 + 1). Previous literature has shown that such compressive nonlinearities can
+bring the empirical histogram of scattering transform magnitudes closer to Gaussian and improve classification accuracy (4). Figure 2 illustrates the scattering transform of an
+ECG channel sample, for the first two orders.
+
+Input
+
+output vector sequence y = (y1 , ..., yT ) by repeating the
+following equations from t = 1 to T :
+
+0.25
+0.20
+0.15
+0.10
+0.05
+0.00
+0.05
+0.10
+0
+
+0
+
+2
+
+4
+
+6
+
+8
+
+0.05
+
+First-order
+
+2
+
+0.03
+
+6
+
+0.02
+
+8
+
+0.01
+
+10
+
+0.00
+
+12
+
+Second-order
+
+0
+
+2
+
+4
+
+6
+
+8
+
+where W , b and H denote weights, bias vectors and hidden
+activation, repectively, implemented as follows:
+
+10
+
+10
+
+0.006
+
+20
+
+0.004
+
+30
+40
+
+0.002
+
+50
+
+0.000
+
+60
+0
+
+2
+
+4
+
+6
+
+8
+
+time (s)
+
+10
+
+Figure 2. Scattering transform results for A0004 channel
+1 ECG recording. From top to bottom: normalized input
+signal, 12 first-order ST paths, 63 second-order ST paths.
+
+2.2.
+
+Depthwise separable convolution
+
+A depthwise separable convolution (DSC) splits the
+computation into two operations: depthwise convolution
+applies a single convolutional filter per each ST input
+channel while the pointwise convolution linearly combines
+these transformed channels. Equations (3) and (4) describe
+the two steps mathematically.
+
+it = σ(Wxi xt + Whi ht−1 + Wci ct−1 + bi )
+ft = σ(Wxf xt + Whf ht−1 + Wcf ct−1 + bf )
+ct = ft ct−1 + it tanh(Wxc xt + Whc ht−1 + bc )
+ot = σ(Wxo xt + Who ht−1 + Wco ct + bo )
+ht = σ tanh(ct )
+
+X [p] =
+
+X
+
+S [e, p] F [p, e]
+
+(3)
+
+e
+
+"
+Y [n] = ρ B [n] +
+
+#
+X
+
+X [p] G [p, n]
+
+(4)
+
+p
+
+where E and P represent electrodes and paths, respectively. F and G refer to the filter maps, N number of paths,
+B is the bias and ρ represents the activation function. The
+total number of convolution coefficients including the bias
+weights is therefore P × E + (P + 1) × N . This is often a
+reduction in parameters compared to regular convolution.
+We used a DSC layer with N = P = 66 (chosen to be
+on the order of the number of paths) and the rectified linear
+activation function (ReLU).
+
+Long-short term memory (LSTM)
+
+An LSTM is a type of Recurrent Neural Network (RNN)
+specially designed to model temporal sequences. It preserves information from inputs that has already passed
+through it using the hidden state. An LSTM unit contains
+one or more self-connected memory cells and three gates
+for the input, output and forget units that provide continuous analogues of write, read and reset operations for the
+cells. Given a sequence x = (x1 , ..., xT ), an LSTM computes the hidden vector sequence h = (h1 , ..., hT ) and
+
+(6)
+
+where Wxo is the input-output gate matrix, Whi is the
+hidden-input gate matrix, i, f , o and c represent respectively the input gate, forget gate, output gate and cell activation vectors, and σ denotes the logistic sigmoid function.
+Bidirectional LSTMs (BiLSTM) process data in forward
+and reverse directions to capture both past and future contexts with two separate hidden layers, which are then fed
+forward to the same output layer. Our system composes
+two layers of BiLSTM, each containing 100 hidden units.
+
+2.4.
+
+2.3.
+
+(5)
+
+0.04
+
+4
+
+0
+
+ht = H(Wxh xt + Whh ht−1 + bh )
+yt = Why ht + bh
+
+10
+
+Prediction
+
+The sequence learning applies the BiLSTM output to a
+final dense layer with sigmoid activation to calculate the
+final predictions. The Adam optimizer algorithm was used
+to handle sparse gradients on noisy ECG data.
+The dense layer used binary cross-entropy loss during
+training to support multiple arrhythmia classes. Predictions were averaged over time and our decision rule chose
+any class that exceeded the probability threshold p = 0.5;
+otherwise the maximum probability class was chosen.
+
+2.5.
+
+Data
+
+The PhysioNet/CinC Challenge 2020 database includes
+43,101 annotated ECG recordings. The training data was
+obtained from four sources publicly, while the hidden testing data comes from three sources (5):
+• CPSC2018: the China Physiological Signal Challenge
+2018 (CPSC2018). This source includes two databases: a
+public training dataset (CPSC) and unused data (CPSC2).
+• St. Petersburg Institute of Cardiological Technics.
+• PTB and PTB-XL: the Physikalisch Technische Bundesanstalt (PTB) Database, Brunswick, Germany.
+• G12EC: The Georgia 12-lead ECG Challenge (G12EC)
+Database, Emory University, Atlanta, Georgia, USA.
+• Undisclosed: this is hidden test data that comes from an
+American institution.
+
+2.6.
+
+Implementation
+
+Keras with Tensorflow as backend was used for building the neural networks. We used a machine with 32 GB
+of system memory and two GPUs with 12 GB of memory each, using Tensorflow class MirroredStrategy
+to distribute the training amongst the two GPUs.
+We used the analog-to-digital gain (ADG) in the input
+headers to obtain physical (mV) units.
+Although the longest ECG recording in CPSC dataset
+was 60 s, to reduce computational requirements, we reduced the time span of the learning batches to 30 s. ST
+paths of sequences longer than this were truncated at 30 s.
+We collapsed the three pairs of equivalent classes, as described in (5), to obtain a total of 24 target classes for training. In addition, we applied a padding target for recordings
+of duration less than the batch size to remove their unused
+samples from participation in the loss function.
+Training data was randomly split into training (90%)
+and testing datasets (10%). 10% of the training dataset was
+used as a validation set, using 20 early stopping epochs. Final model selection was based on ten-fold cross-validation
+results with various configurations. We used the Challenge
+metric snormalized described in (5) to assess performance.
+We found that training converged in isolation for
+the CPSC, CPSC2 and PTB-XL datasets. The other
+datasets did not converge and so we used the composite
+dataset CPSC, CPSC2 and PTB-XL in subsequent crossvalidation. Therefore, our experiments used 32,167 of the
+available 43,101 ECG recordings, or 75%. Due to time
+limitations, we were not able to submit a working submission using the docker environment and therefore we could
+not report results on the hidden test set.
+
+3.
+
+Results
+
+The results for our final model are shown in Table 1.
+Training stretched the limits of our machine configuration
+with per-fold training times of approximately 18 hours.
+
+4.
+
+Discussion
+
+Our approach achieved experimental success without
+need for feature engineering and with few parameters to
+select. Nevertheless, future research is needed to perform a
+wider search of key hyperparameters, especially the maximum ST scale, the downsampling factor, the number of
+DSC filters, and the number of LSTM units and layers.
+We note that our approach did not generalize to all
+datasets. In particular, using ADG may not have been reliable for the large Georgia dataset, as was discussed on the
+Challenge discussion forum. In addition, one of the most
+frequent classes, namely sinus rhythm, has a poor classification rate: this fact merits further investigation.
+
+Fold
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+µ±σ
+
+Training
+0.600
+0.579
+0.580
+0.617
+0.585
+0.648
+0.601
+0.602
+0.577
+0.572
+0.569±0.014
+
+Validation
+0.548
+0.517
+0.530
+0.570
+0.530
+0.542
+0.561
+0.542
+0.525
+0.534
+0.540±0.016
+
+Testing
+0.541
+0.533
+0.527
+0.552
+0.543
+0.545
+0.528
+0.549
+0.512
+0.527
+0.536±0.012
+
+Table 1. snormalized metric for each partition per fold; mean
+µ and standard deviation σ over all folds.
+In future work we wish to complete debugging of the
+docker submission container.
+
+Acknowledgments
+The authors would like to acknowledge the computational facilities provided by PeriGen Inc. for this work.
+
+References
+[1] Warrick PA, Lostanlen V, Homsi MN.
+Hybrid
+scattering-LSTM networks for automated detection of
+sleep arousals. Physiological Measurement July 2019;
+40(7):074001.
+[2] Chudáček V, Andén J, Mallat S, Abry P, Doret M.
+Scattering transform for intrapartum fetal heart rate
+variability fractal analysis: A case-control study.
+IEEE Transactions on Biomedical Engineering 2014;
+61(4):1100–1108.
+[3] Mallat S. Understanding deep convolutional networks. Philosophical Transactions of the Royal Society A Mathematical Physical and Engineering Sciences 2016;374(2065):20150203.
+[4] Lostanlen V, Lafay G, Andén J, Lagrange M.
+Relevance-based quantization of scattering features
+for unsupervised mining of environmental audio.
+EURASIP Journal on Audio Speech and Music Processing 2018;2018(1):15.
+[5] Perez Alday EA, Gu A, Shah A, Robichaux C, Wong
+AKI, Liu C, Liu F, Rad BA, Elola A, Seyedi S, Li Q,
+Sharma A, Clifford GD, Reyna MA. Classification
+of 12-lead ECGs: the PhysioNet/Computing in Cardiology Challenge 2020. Physiological Measurement
+2020;under review.
+
+Address for correspondence:
+philip.warrick@perigen.com
+
+

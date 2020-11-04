@@ -7,18 +7,37 @@
 
 \chapter{Introduction}
 
-Heart and cardiovascular diseases are the global leading cause of death~\cite{doi:10.1161/CIR.0000000000000757}.
-The \gls{ecg}, when correctly interpreted, is the primary tool in our ongoing efforts to detect cardiac abnormalities and screen vulnerable members of our society for heart related issues~\cite{SMULYAN2019153}.
-The \gls{ecg} records electrical activity corresponding to the heartbeat muscle contractions using non-invasive electrodes placed in direct contact with the skin.
+Heart and cardiovascular diseases are the global leading cause of death, with 80\% of cardiovascular disease related deaths due to heart attacks and strokes~\cite{doi:10.1161/CIR.0000000000000757}.
+The \acrfull{ecg}, when correctly interpreted, is the primary tool in our ongoing efforts to detect cardiac abnormalities and screen vulnerable members of our society for heart related issues~\cite{SMULYAN2019153}.
+An \gls{ecg} works by recording electrical activity corresponding to the heartbeat muscle contractions using non-invasive electrodes placed on the surface of the skin~\cite{bonow2011braunwald}.
 Although computerized interpretations of \gls{ecg}s are in widespread use, automated approaches have not yet matched the quality of an expert cardiologist reference, leading to poor patient outcomes or even fatality~\cite{BREEN2019}.
 
-\section{Thesis organization}
+Multiple configurations of \gls{ecg} machines exist ranging from consumer portable \gls{ecg} devices such as the single lead AliveCor KardiaMobile and six lead KardiaMobile 6L variant~\cite{alivecor-website}, the single lead Apple Watch~\cite{apple-watch} and the three lead QardioCore devices~\cite{quardiocore-website}, to the cardiologist focused devices built by General~Electric~\cite{generalelectric-website} and Koninklijke~Philips~\cite{koninklijkephilips-website}.
+The focus of this research applies to the 12-lead \gls{ecg}, as it is the standard hospital setting device used by cardiologists for evaluating heart disorders~\cite{kligfield_paul_recommendations_2007}.
+
+In this thesis, I discuss approaches for the multi-label, multi-class classification of \gls{ecg} records using a combination of deep learning and traditional machine learning methods.
+
+\section{Contributions}
+
+My contributions to this thesis include:
+\begin{itemize}
+    \item I defined a methodology and engineered the experiment for the classification of 12-lead \gls{ecg}s using manual feature extraction techniques and an ensemble of gradient boosting trees and publish a submission to the \emph{PhysioNet/CinC 2020 Challenge}~\cite{physionet_challenge_2020}.
+    This attempt had an official phase challenge validation score of $0.476$ and test score of $-0.080$, ranking our attempt at 36 of 41 successful entries (Chapter~\ref{chp:xgbensemble}).
+    \item I developed a deep learning approach using autoencoders to generate representations of the \gls{ecg} heart beat and sequence of heart beat embeddings for the classification of 12-lead \gls{ecg}s (Chapter~\ref{chp:dl_autoenc}).
+    Because the official test set records are unavailable to the public, I utilize a monte carlo repeated random subsampling approach, running 20 experiments where the publicly available data is split into 80\% training, 10\% validation, and 10\% testing sets.
+    Our beat to sequence autoencoder classifiers attain an average test split challenge score of $0.248$, with worse overall classification performance compared to the shallow machine learning approach, but slightly improved label-wise specificity on \acrlong{irbbb}, \acrlong{lanfb}, \acrlong{pr}, and \acrlong{rad}.
+    \item I created a hybrid shallow/deep machine learning approach for 12-lead \gls{ecg} classification by fusing together the manually engineered features with the autoencoder sequence embedding representation of the record.
+    I fix the shortcomings of the prior challenge submission attempt, opting for feature selection for each diagnosis classifier rather than overall importances of all labels.
+    TODO: results, findings
+\end{itemize}
+
+\section{Thesis Organization}
 
 This work is organized into the following chapters:
 Chapter~\ref{chp:background} describes the characteristics of an \gls{ecg}, the dataset of \gls{ecg} records used in our analysis and algorithm training, and the different classification labels that our algorithm predicts probabilities for.
 Chapter~\ref{chp:xgbensemble} contains an approach for the classification of \gls{ecg} records using manual feature extraction and a gradient boosted decision tree ensemble.
 Chapter~\ref{chp:dl_autoenc} contains a deep learning classification approach using stacked autoencoders to learn an embedding representation of heartbeats and the \gls{ecg} signal.
-Chapter~\ref{chp:aencxgb} fuses the autoencoder and decision tree ensemble into one hybrid model and showcases the results in comparison to the prior two methods.
+Chapter~\ref{chp:aencxgb} fuses the autoencoder and decision tree ensemble into one hybrid model and showcases the results in comparison to the prior two methods. Additional improvements are made to address shortcomings, notably in the feature selection process for the label-wise classifiers.
 Finally, Chapter~\ref{chp:conclusion} proposes future research directions and concludes the thesis.
 
 % \section{Cross-Referencing}\label{sec:crossRef}

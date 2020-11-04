@@ -1,0 +1,404 @@
+ECG Arrhythmia Classification Using Non-Linear Features and Convolutional
+Neural Networks
+Sebastián Cajas1, Pedro Astaiza1, David Santiago Garcia-Chicangana1, Camilo Segura1, Diego M
+Lopéz1
+1
+
+Faculty of Electronics and Telecommunications Engineering, University of Cauca, Popayan,
+Colombia
+Abstract
+
+Heart arrhythmia classification algorithms are an
+important tool for continuous monitoring of patients at
+risk. By analyzing 12 ECG-lead signals, these algorithms
+can help us to diagnose different cardiac diseases.
+Thus, our team, CardioLux proposes a novel approach
+to denoise ECG signals and classify the nine cardiac
+arrhythmias using Convolutional Neural Networks (CNN)
+trained with more than 6700 ECG recordings as defined in
+the Physionet Challenge 2020.
+First, a noise removal process is initially applied with
+Savitzky-Golay smoothing filters. Secondly, we extracted
+300 features, clustered in time, frequency, and timefrequency groups, including linear and non-linear
+characteristics. Thirdly, 27 features were carefully
+selected to train our model using our feature-selection
+procedure. Finally, we implemented CNN to reduce noiseaware signals and bias during our training model.
+The proposed methodology developed so far was tested
+with 10-fold cross-validation on the training set and
+yielded a challenge score of 0.22. Overall, the feature
+extraction and selection stage can help improve the
+performance of the heart arrhythmia training model by
+selecting the best characteristics. Our model keeps a high
+level of interpretability, demonstrating a high range of
+possibilities that can be configured using CNN.
+
+ECG data analysis can help to detect different arrhythmias.
+Heart arrhythmia classification algorithms are an essential
+tool for continuous monitoring and diagnosis of patients at
+risk to prevent future cardiac diseases. Therefore, early
+detection is necessary for its correct management.
+These algorithms can help us to assess and diagnose
+cardiac diseases by analyzing 12 ECG-lead signals. Early
+detection is essential for correct management and
+treatment. Motion artifacts such as those of different
+intensity of movements can contaminate the signals,
+leading to a wrong diagnosis [3].
+Thus, our team called CardioLux proposes a novel
+approach to denoise ECG signals and classify the nine
+cardiac arrhythmias defined in the Physionet Challenge
+2020 [4]. First, a noise removal process was initially
+applied to the raw dataset using the Symlet wavelets family
+and Savitzky-Golay smoothing filters. Secondly, we
+extracted 300 features, clustered in time, frequency, and
+statistical measurement groups, including linear and nonlinear characteristics, to obtain hidden information that
+models specific heart arrhythmia. Thirdly, 27 features were
+carefully selected to train our model using our featureselection procedure. Finally, we implemented a
+Convolutional Neural Network (CNN). The dataset
+provided contained 6877 ECG recordings used for the
+creation of training models.
+
+2.
+1.
+
+Introduction
+
+ECG is a standard non-invasive measurement that can
+reflect the physiology activities of the hearth [1]. Also, it
+is an indispensable tool for the diagnosis and prompt
+initiation of therapy in patients with heart diseases [2].
+
+Methodology
+
+The methodology proposed is shown in Figure 1. This
+methodology is composed of data pre-processing, filtering,
+features extraction and selection and training of neural
+network models to classify data into the nine categories
+defined.
+
+Figure 1. Model pipeline to classify 9 arrhythmia types on ECG signals.
+
+2.1.
+
+Pre-processing
+
+In this stage, the data is prepared before the feature
+extraction process. Firstly, data analysis was performed to
+verify the quantity and quality of the dataset. Fields such
+as “sex” were changed from characters to numbers, and the
+ones with missing values were filled using the mean value
+of the field. Secondly, a spectral analysis was performed
+using wavelet decomposition with Daubechies family
+wavelets and Symlet family wavelets, which determined
+that there was high and low-noise frequency on the bands:
+[5 - 60] hz, [75-90] hz, [160-170] hz frequencies of the
+signal.
+It should be highlighted that the wavelet analysis also
+involved a thresholding method, which helped us
+determine the high and low-frequency components of the
+noise in the frequency domain, showing that the ECG
+signal concentrates its information widely on the 1-10 Hz
+frequency band. However, we could even consider that the
+real concentration of the information is between 1-4 Hz (a
+very narrow band). This could be a problem, since the
+information signal is being overlapped with the noise
+frequency component inside this interval, making difficult
+the noise extraction. The main consequence over the signal
+of these so mentioned artefacts is the baseline drift,
+introduced principally because of the friction of the
+electrodes with the skin, the movement created by the
+patient normal activities and environmental variables, such
+as the temperature, which might change the normal
+electrical activity of the electrode's materials. The
+movement of the extremities causes this low-frequency
+noise. Another effect of these artefacts is the highfrequency noise, that can be witnessed as very slight and
+frequent peaks, sometimes imperceptible, which follow the
+curve of the signal.
+
+specific arrhythmias. Firstly, wavelets functions were used
+for denoising the signal, filtering out high frequency
+components of noise. On the best results, there is a
+coincidence over the wavelet decomposition method with
+Mallat's algorithm, using Symlet family in the majority of
+the cases. In two cases were obtained the best results using
+Daubechies family wavelets, which showed good overall
+results in the studies. However, linear filters yielded a
+better response, therefore, we decided to take this approach
+for denoising our signal more accurately.
+The Savitzky-Golay smoothing filter is a type of digital
+filtering technique based on convolution, a process that fits
+successive segments of adjacent data with an adjustable
+degree polynomial regression, using the linear least
+squares criteria for fitting points [5].
+The main advantage of this kind of filter is the
+preservation of the main characteristics of the original
+distribution of the signal, such as local maxima and
+minima. For this reason, and in our case, it can accurately
+reduce the level of noise without biasing the morphology
+of the ECG signal. It also discriminates high-frequency
+noise since it keeps low-frequency features such as
+baseline drift, but removes some others like highfrequency peaks, smoothing the signal. Thus, in order to
+reduce the baseline drift noise, which enables us to focus
+on the analysis of the fluctuations in the data about the
+trend, we created a detrend method for its exclusion, since
+it’s a type of noise that could bias the backpropagation
+process during the model training: This method finds the
+trend of the original signal, using the number of desired
+breakpoints over the length of , making a similar process
+as method A. Then it links them using linear functions and
+returns a signal containing an estimate of the baseline drift
+over the entire length of the signal.
+
+2.3.
+2.2.
+
+Filtering
+
+This stage was focused on finding the best denoiser to
+obtain better results over accuracy in the detection of 9
+
+Feature Extraction
+
+The result of this process found 300 features that were
+categorized into the following:
+• Time features. Included the QRS intervals, RR
+intervals, energy, self-correlation, and centroid.
+
+•
+
+•
+
+Statistical measurements. Kurtosis and skewness
+were used to represent the variations to the normal
+distribution of the signals. Other measures were
+standard deviation, mean, median, and variance.
+Frequency features. Included the Power Spectral
+Density (PSD) and the spectral centroid. PSD
+describes the variation of power into different
+frequencies. If 𝑋(𝑓) is Fourier Transform of 𝑥(𝑡)
+signal, then [6]:
+𝑆𝑥𝑥 (𝑓) = ℱ {𝑅𝑥𝑥 (𝜏)}
+
+(1)
+
+Where 𝑅𝑥𝑥 is autocorrelation function of x(t).
+The spectral centroid [7] provides the gravity
+center for the spectrum by considering the
+spectrum as a probability distribution. The
+spectral centroid is:
+𝐶𝑒 =
+
+•
+
+∑ 𝑓𝑘 𝑠𝑘
+∑ 𝑠𝑘
+
+(2)
+
+Where 𝑓𝑘 is the frequency in k and 𝑠𝑘 is the
+spectral value in k.
+Non-linear features, such as Shannon entropy and
+Spectral Entropy (SE) are considered. Firstly, the
+Shannon entropy is based on the information
+theory and used to evaluate the distribution
+complexity of heartbeat signal samples [8].
+While, and Spectral Entropy is a generalization of
+information entropy and has been proposed to
+measure the distribution of frequencies [9]. If
+𝑥(𝑖) is a signal and 𝑋(𝑚) is the Fourier
+Transform of 𝑥(𝑖), the probability distribution is:
+𝑃 (𝑚 ) =
+
+𝑆 (𝑚 )
+∑𝑖 𝑆(𝑖 )
+
+3.
+
+Neural Networks
+
+Initially, the combination between a Recurrent Neural
+Networks and Long Short-Term Memory Recurrent
+Neural Networks was proposed to classify the different
+arrhythmias classes. However, in light of the results
+obtained, the use of convolutional neural networks (CNN)
+was prioritized because they showed better performance.
+Our CNN is composed of a one-dimensional
+convolutional neural network (1D-CNN), which uses four
+output filters, a kernel size of four for the convolutional
+window, one size-stride for the window shifting, input
+shape determined by the 27-sequence data and a ReLU
+activation function is adopted for the activation.
+The use of various denoising techniques was executed
+over different neural network architectures, where the
+focus falls in tachycardias and bradycardias. For example,
+we consider using Daubechies family with thresholding
+method which in our case removes the high-frequency
+noise components by thresholding only the wavelet
+coefficient of the detail sub-bands, however, this approach
+is taken as future work to investigate in detail its possible
+results after applying our classification method. The new
+research path could be, either by using more levels of
+decomposition, or by also discriminating between the
+approximation levels, or by using wavelet packages
+instead of the decomposition that is done only towards the
+approximation component.
+
+4.
+
+Evaluation
+
+(3)
+
+Where 𝑆(𝑚) = |𝑋(𝑓)|2 is the PSD.
+The SE 𝑯 follow as [10]:
+𝑁
+
+𝐻 = − ∑ 𝑃(𝑚) log 2 𝑃(𝑚)
+
+Analysis (PCA) was used to extract the features used in the
+classification. From the 300 features, 27 were useful for the
+classification algorithm.
+Features selected were normalized for fitting the model
+using the Keras normalization module.
+
+(4)
+
+𝑚=1
+
+SE is used in [11] as a measure of disorder applied
+to the power spectrum of periods of time series
+for detecting Atrial Fibrillation, were used in the
+most studies analyzed due these provide a better
+sensibility and accuracy in the result.
+To improve the algorithm’s efficiency, the PCA
+selection performs a dimensionality reduction by choosing
+enough eigenvectors to account for some variance in the
+original feature data. The process Principal Component
+
+We performed K-fold cross-validation with K=10 in the
+training data to obtain the challenge score. For this process,
+we devised the following process.
+The challenge provides all the patient data in separate
+files. One file contains all 12-lead ECG records per patient.
+Also, driver, training, and scoring functions are defined to
+provide a single challenge score. The driver function has
+input and output folders with M files; and the scoring
+function takes the M outputs and calculates accuracy,
+precision, F-measure and the Challenge Score.
+Our algorithm creates K-folders with an equal number
+of files from the patients data, distributed randomly. Each
+i fold from the K folders is chosen as a test subset and the
+remaining K-1 folders as training subsets. Output
+predictions are saved per i fold, and therefore used into the
+scoring function to calculate the challenge score. K scores
+are obtained. Finally, the average challenge score is
+obtained from the K-fold scores.
+
+5.
+
+Discussions and conclusions
+
+In this paper, we proposed a methodology that allows
+identifying the nine arrhythmia classes from 12-lead ECG
+signals. The filtering process encompasses a wide variety
+of denoising techniques with different families of wavelets
+and smoothing filters. We aimed at performing a
+comparative analysis that would allow us to find a
+denoiser-classifier
+combination
+which
+produces
+satisfactory results and an improvement over accuracy in
+the detection of 9 specific arrhythmias. Results throw a
+coincidence over the Savitzky-Golay smoothing filter and
+a baseline detrended filter as the best method for cleaning
+the signal. Then, we focused on implementing a
+Convolutional Neural Network (CNN), in order to classify
+the nine arrhythmias, which was trained using more than
+6800 ECG recordings, reaching a challenge score of 0.22
+during the K-Fold cross-validation on the training data.
+Other neural networks were developed as well, including
+RNN, and LSTM and hybrid architectures that involved a
+mixture of both and with CNN.
+Better denoising methods can be applied to highlight
+specific relevant sections over the ECG morphology,
+which could be helpful to zoom in certain arrhythmia
+features. In order to obtain better results, we also tested the
+moving average filter over the entire training set. However,
+since it is a regular low-pass filter due to its slow roll-off
+and poor stopband attenuation, we also implemented a
+Butterworth filter to suppress the high frequencies over the
+interval [160-170] HZ. Similarly, different denoising
+techniques with family wavelets with higher
+decomposition levels can be applied to obtain similar or
+better results, as obtained by Savitzky-Golay Smoothing
+filter.
+Another esencial fact to consider is that the sole use of
+ECG signals can perform well into a classification
+problem, but the results are reinforced when other types of
+complementary signals such as additional signals are used,
+such as PPG or ABP.
+Future work involves the enhancement of our CNN
+architecture by incorporating a windowing segmentation
+method with the Hanning window to perform the feature
+extraction process using R peaks from the signal. Using
+this approach might yield better for the classification of
+different types of arrhythmia. However, due to lack of
+computational resources and lack of time, these results
+could not be presented for the challenge testing score, but
+optimistic results could be expected since more featurewise information could incrementally feed our model.
+
+References
+[1] A. K. Dohare, V. Kumar, and R. Kumar, “Detection Of
+Myocardial Infarction In 12 Lead ECG Using Support
+Vector Machine,” Appl. Soft Comput. J., vol. 64, pp. 138147, Mar. 2018.
+
+[2] R. Krishna, M. Dutta, R. Kumar, and N. Chandigarh, “ECG
+Arrhythmia Classification Using Artificial Neural
+Networks,” Proceedings of 2nd International Computing and
+Communication, Conference on Networking. Springer, vol
+46, pp. 645-652, 2018.
+[3] S. W. Yoon, S. D. Min, Y. H. Yun, S. Lee, M. Lee, "Adaptive
+motion artifacts reduction using 3-axis accelerometer in etextile ECG measurement system." J. Med. Syst. vol. 32, no.
+2, pp. 101-106, Apr. 2008.
+[4] Perez Alday EA, Gu A, Shah A, Robichaux C, Wong AKI,
+Liu C, Liu F, Rad BA, Elola A, Seyedi S, Li Q, Sharma A,
+Clifford GD, Reyna MA. Classification of 12-lead ECGs:
+the PhysioNet/Computing in Cardiology Challenge 2020.
+Physiol. Meas. 2020 (Under Review)
+[5] A. Savitzky and M. Golay, "Smoothing and Differentiation of
+Data by Simplified Least Squares Procedures.", Analytical
+Chemistry, vol. 36, no. 8, pp. 1627-1639, 1964. Available:
+https://pubs.acs.org/doi/abs/10.1021/ac60214a047.
+[Accessed 21 March 2019].
+[6] Roy M. Howard, "The Power Spectral Density," in
+Principles of Random Signal Analysis and Low Noise
+Design: The Power Spectral Density and its Applications,
+IEEE, 2002, pp.59-91, doi: 10.1002/0471439207.ch3.
+[7] G. Peeters, “A large set of audio features for sound
+description (similarity and classification) in the CUIDADO
+project,” Proj. Rep. CUIDADO IST, no. 0, pp. 1–25, Apr.
+2004.
+[8] A. Porta et al., “Entropy, entropy rate, and pattern
+classification as tools to typify complexity in short heart
+period variability series,” IEEE Trans. Biomed. Eng., vol.
+48, no. 11, pp. 1282–1291, Nov. 2001.
+[9] Pan, Y. N., J. Chen, and X. L. Li. "Spectral Entropy: A
+Complementary Index for Rolling Element Bearing
+Performance Degradation Assessment." Proceedings of the
+Institution of Mechanical Engineers, Part C: Journal of
+Mechanical Engineering Science. Vol. 223, Issue 5, 2009,
+pp. 1223–1231.
+[10] Shen, J., J. Hung, and L. Lee. "Robust Entropy-Based
+Endpoint Detection for Speech Recognition in Noisy
+Environments." ICSLP. Vol. 98, November 1998.
+[11] P. P. A. Staniczenko, C. F. Lee, and N. S. Jones, “Rapidly
+detecting disorder in rhythmic biological signals: A spectral
+entropy measure to identify cardiac arrhythmias,” Phys. Rev.
+E - Stat. Nonlinear, Soft Matter Phys., vol. 79, no. 1, Jan.
+2009, Art. no. 011915.
+Address for correspondence:
+Camilo Segura.
+Popayán, Colombia, Carrera 3 no. 21CN04, 190002.
+camilosegura@unicauca.edu.co
+
+

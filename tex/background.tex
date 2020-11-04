@@ -484,4 +484,40 @@ See Figure~\ref{fig:reward_matrix} for a visualization of the provided weights a
 The objective of the challenge is to maximize the scoring metric $s$ as defined in Equation~\ref{eq:scoring_function}.
 The challenge emphasizes that the reward matrix used $W$ is opinionated and should be tailored to the preferences of the researchers and institutions in future experiments~\cite{physionet_challenge_2020}.
 
+\section{Related Work}
+I summarize the \emph{PhysioNet/CinC 2020 Challenge}~\cite{physionet_challenge_2020} successful entrants, emphasizing noteworthy approaches and categorizing the general distribution of the competition strategies.
+All of the ranked challenge participants have publicly available papers~\footnote{PhysioNet 2020 successful entrants and papers: \url{https://github.com/physionetchallenges/physionetchallenges.github.io/tree/master/2020/papers}}.
+There are also publications that do not have a official phase challenge entry, due to various failures in the remote evaluation and training of the submitted entry.
+All in all, there are 41 successful submissions and 62 publications addressing the 12-lead \gls{ecg} classification challenge.
+
+The top ranked entry proposed by Natarajan \emph{et al} combined handcrafted \gls{ecg} features with a deep learning convolutional and transformer neural network model for learned discriminative feature representations~\cite{natarajan2020CINC-multilabel-ECG}.
+They initially generated over 300 \gls{ecg} features extracted from lead II, but pruned to 20 derived features using a random forest classifier.
+The remaining leads were not used in tabular feature engineering, but were applied to training the transformer neural network.
+They achieved a final official phase validation score of $0.587$ with a test score of $0.533$.
+Impressively, despite this approach using deep learning techniques and winning the competition, no external datasets were used to pretrain or otherwise enhance the model.
+
+The second ranked entry submitted by Zhao \emph{et al} used an adapted ResNet for the classification of \gls{ecg}s and attained a official phase validation score of $0.672$ and test score of $0.520$~\cite{zhao2020CINC-multilabel-ECG}.
+The age and sex meta features were encoded into their final classification layer using one-hot encoding, relying otherwise on learned features from their deep convolutional network.
+Additionally, their model was trained on additional data not provided by the official challenge sources.
+The third ranked entry proposed by Zhu \emph{et al} also used an adapted ResNet with squeeze-and-excitation blocks and scored a challenge validation score of $0.682$ with a test score of $0.514$~\cite{zhu2020CINC-multilabel-ECG}.
+No metadata was used in their classifier, relying only on signal morphology to generate their predictions.
+
+Of all 62 accepted papers, the overwhelming majority of approaches used deep learning as part of their model.
+Convolutions were used in 54 (87.1\%) of all challenge papers.
+Recurrent neural networks were used in 32 (51.6\%) of the papers, with 17 (27.4\%) of the papers using the long short term memory (LSTM) network variant.
+Three (4.8\%) papers used the transformer neural network architecture.
+Only 7 (11.3\%) papers opted not to use deep learning at all, relying on manual feature extraction and traditional machine learning approaches like decision trees and support vector machines (our challenge submission being one of these 7 papers).
+
+% \begin{table}
+%     \caption{\label{tab:submission_summary} A count summary of the 62 methodological approaches of the \emph{PhysioNet/CinC 2020 Challenge} submitted papers. The methodology defined in a paper may utilize multiple techniques.}
+%     \vspace{2 mm}
+%     \centerline{\begin{tabular}{@{}ll@{}l@{}r@{}}
+%         Count & 
+%     \end{tabular}}
+% \end{table}
+
+% An analysis of all the publicly available papers is shown in Table~\ref{tab:submission_summary}.
+
+% Due to the rise in popularity of deep learning approaches and the availability of 12-lead \gls{ecg} datasets, deep convolutional neural networks have become the most common model for \gls{ecg} analysis~\cite{ribeiro2020, BALOGLU201923, 8846016, CHEN2020100886, SMITH201988}.
+
 \end{document}

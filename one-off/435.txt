@@ -1,0 +1,529 @@
+ECG Morphological Decomposition for Automatic Rhythm Identification
+Guadalupe García-Isla1, Rita Laureanti1, Valentina D. Corino1, Luca T. Mainardi1
+1
+
+Department of Electronics, Information and Bioengineering, Politecnico di Milano, Milan, Italy
+Abstract
+
+Manual rhythm classification in 12-lead ECGs is timeconsuming and operator-biased. We present an automatic
+ECG classifier using CinC’s 2020 challenge dataset. In the
+first phase of the Challenge, 9 categories were targeted
+with an ensemble of 4 classifiers. In the second phase, 7
+classifiers were implemented to detect 24 cardiac
+electrophysiological disorders. Five classifiers identified
+abnormalities in different specific regions of the heart’s
+conducting system. Two classifiers were dedicated to
+detect premature atrial and ventricular contractions.
+The methodology is based on the creation of rhythmspecific intra and inter-patient templates. Firstly, signals
+were divided into 6 regions of interests. Secondly, for each
+region, intra-patient models and inter-patient rhythmspecific models were computed. The distances from each
+intra-patient model to each rhythm-specific inter-patient
+model as well as heart rate variability features and Global
+Electric Heterogeneity features were introduced into the
+classifiers.
+After a 10-fold cross-validation, for the provided
+training data in the first phase an accuracy of 94.4%±0.4,
+and a Challenge metric of 0.644±0.031 were obtained,
+whereas in the second phase an accuracy and Challenge
+metric of 15.0 ± 1.0 % and 0.030 ± 0.009 were obtained.
+
+1.
+
+Introduction
+
+Cardiovascular diseases (CVDs) are the first cause of
+mortality and morbidity worldwide [1]. The standard 12lead electrocardiogram (ECG) is an essential tool in
+clinical practice to diagnose CVDs and to have an initial
+assessment of a patient’s health condition [2]. Typically,
+manual interpretation of ECGs by expert clinicians is
+needed. This requires skilled personnel with high degree of
+specialization and in some cases inter-operators
+discrepancies are present. An automatic algorithm for
+detection of cardiac abnormalities and classification of
+ECG recordings could aid clinical practice, providing
+clinicians with an objective tool to make an early and
+accurate diagnosis of CVDs [3]. The aim of this work is to
+put together machine learning techniques and
+physiological know-how to build and validate such model,
+
+using the 6 annotated datasets available for the 2020
+Computing in Cardiology Challenge [4] (team name:
+Germinating).
+
+2.
+
+Material and Methods
+
+2.1.
+
+Data
+
+Six databases were provided: China Physiological
+Signal Challenge in 2018 (CPSC2018), St Petersburg
+INCART 12-lead Arrhythmia Database, the PTB
+Diagnostic
+ECG
+Database,
+the
+PTB-XL
+electrocardiography Database and the Georgia 12-Lead
+ECG Challenge Database. In total, 43,101 labeled 12-lead
+ECGs with 111 different cardiac abnormalities labelled
+following the SNOMED-CT coding system. Only 24
+disorders were targeted: 1st degree AV block (IAVB),
+atrial fibrillation (AF), atrial flutter (AFL), bradycardia
+(Brady), incomplete right bundle branch block (IRBBB),
+left anterior fascicular block (LAnFB), left axis deviation
+(LAD), left bundle branch block (LFBBB), low QRS
+voltages
+(LQRSV),
+nonspecific
+intraventricular
+conduction disorder (NSIVCB), pacing rhythm (PR),
+premature atrial complex (PAC), premature ventricular
+complex (PVC), prolonged PR interval (LPR), prolonged
+QT interval (LQT), Q-wave abnormal (QAb), right axis
+deviation (RAD), sinus arrhythmia (SA), sinus bradycardia
+(SB), normal sinus rhythm (NSR), sinus tachycardia
+(STach), T-wave abnormal (TAb) and T-wave inversion
+(TInv), the rest were considered “Unscored” and ignored.
+For the first phase, also ST elevation (STE) and depression
+(STD) were considered.
+
+2.1.
+
+ECG preprocessing
+
+Two median filters were applied to obtain the baseline
+of each ECG signal that was then subtracted to the original
+ECG to obtain a baseline corrected signal. Power line and
+high-frequency noise were removed with a finite impulse
+response low-pass filter with equal ripple in the pass and
+stop bands. The 3-dB point of the filter was 35 Hz. R peaks
+were detected using Pan Tompkins’ algorithm [5]. To
+minimize misdetections, R peaks were detected on 5 leads
+with positive QRS (I, II, III, aVF, V4, V5, V6). An impulse
+
+train signal was built based on the R peaks detected for
+each lead; a Gaussian filter was applied to smooth the R
+series, then signals were aligned through a crosscorrelation procedure, using V5 as reference and finally the
+median signal among the 5 series was computed. On the
+obtained signal, the Pan Tomkins algorithm was applied to
+obtain the R peaks used on the rest of the analysis.
+
+2.2.
+
+Heart rate variability features
+
+Global Electric Heterogeneity (GEH) features were
+computed using the three open source toolboxes provided
+by the challenge: HRV toolbox [8], ECGkit [9] and GEH
+parameter extraction [10], [11] and origin point [12]. These
+features included: azimuth, elevation, and magnitude of
+spatial peak QRS, T and spatial ventricular gradient (SVG)
+vectors, azimuth and elevation of QRS, T vectors and
+Wilson’s area SVG, scalar value of the SVG, and peak and
+are of the spatial QRS-T angle [10], [11].
+
+The mean and standard deviation of the RR intervals
+was computed, along with the standard deviation of the
+difference of consecutive RR intervals, the percentage of
+successive interval differences greater than 50 ms (pNN50)
+and the root mean square of successive differences
+(RMMSD).
+
+2.3.
+
+Intra and inter-patient models
+
+Inter-patient models that gathered the median behaviour
+of each electrohpysiological disorder in the ECG were
+built for different signal segments of clinical significance.
+These models were used to measure the distance of each
+patient to the ECG pattern typical of each
+electrophysiological disorder.
+Firstly, ECG windows of interest were selected based
+on the expected occurrence of different electrical events
+(all values referred to the location of R peak): P-wave
+(from -300 ms to -40 ms) [6], QRS-complex (-70 ms to +60
+ms), PQ-ST (PT-segment with the removal of the QRSsegment, from -150 ms to +250 ms, removing the segment
+from -55 ms to + 55 ms), T-wave (from +100 ms to +350
+ms) [7], PR (from -288 ms to the R peak), RT (from the R
+peak to +258 ms).
+Secondly, intra-patient templates were computed for
+each of the above-mentioned segments. For each lead, all
+windows were aligned and the median waveform,
+representative of the analyzed subject, was calculated. The
+mean standard deviation of all windows was stored as a
+feature. Thirdly, the maximum cross-correlation index was
+computed between each individual region of interest and
+the median intra-patient template. Fourthly, for each
+rhythm, the templates of the correspondent subjects of the
+training set were aligned and the median rhythm template
+was obtained. Finally, the maximum cross-correlation
+between each intra-patient templates and each of the interpatient models with the corresponding lags were stored as
+features. In Figure 1, an example is visible for the RT
+segment for NSR, RBBB and LBBB. On the left panels, all
+RT segments in the recording of a subject are depicted with
+the obtained intra-patient template in red. On the right, the
+median intra-patient templates of all the subjects are
+plotted with the resulting inter-patient template in red.
+
+2.4.
+
+GEH features
+
+Figure 1. Intra and inter-patient templates for the RT segment
+of the rhythms Normal, RBBB and LBBB. All the segments of a
+recording are overlapped in the intra-patient plots, whereas in
+the inter-patients plots, the median segments of all the subjects
+with the respective condition are depicted. The median segments
+are in red.
+
+2.5.
+
+Classifier ensemble
+
+The classification strategy adopted was to create an
+ensemble of classifiers, each of them focused on a specific
+region of the cardiac conductive system. A distinction was
+made between sporadic conditions as PAC and PVC, and
+stable conditions, all the other pathologies. As most signals
+ranged from 6 s to 60 s, all arrhythmias were considered
+present on the whole signal.
+During phase 1, the detection of permanent conditions
+was distributed into different classifiers depending on the
+ECG region where the electrophysiological disorders were
+manifested (Table 1). This yielded one classifier (C1)
+including the cross-correlation values between interpatient and intra-patient of the P-wave and PR interval, and
+another one (C2) including the QRS complex, RT segment
+and T-wave information. Both classifiers included GEH
+and HRV features, as well as age and sex.
+Given the increase in the amount of rhythms included
+in phase 2, the detection of permanent conditions was
+
+distributed differently, according to the cardiac region of
+occurrence:
+• C1: Atrial tissue
+• Purkinje system
+o C2: Sinoatrial node
+o C3: Atrioventricular (AV) node
+o C4: Bundle branches
+• C5: Ventricular tissue
+Cross-correlation values between inter-patient and
+intra-patient models were included as: P-wave and PR
+segments for C1 and C3, all segments for C2, and QRS
+complex, PQ-ST segment, T wave, and RT segment for C4
+and C5. HRV and GEH features as well as age and sex
+were included in all classifiers.
+For each of the sporadic conditions (PAC and PVC) an
+individual classifier was designed in both phases, which
+led to a total of 4 classifiers in phase 1 and 7 in phase 2. C6
+and C7 included all the HRV features and the crosscorrelation values between the intra-patient template and
+the 3 beats with the shortest preceding RR interval for the
+QSR and P-wave segments. Signals classified as AF or
+AFL were not taken into consideration for possible PAC or
+PVC.
+In phase 1, C1 and C2 were support vector machines.
+PAC and PVC classifiers used bagged trees. For the second
+phase, in which 24 categories were included, all classifiers
+used boosted trees. All classifiers were implemented in
+Matlab 2020a and trained using a 10-fold cross-validation.
+
+3.
+
+Results
+
+The results obtained after the 10-fold cross-validation
+of the provided datasets for phase 1 and 2 of the challenge
+are gathered in Tables 1 and 2, respectively. Sensitivity and
+specificity values are displayed along with the number of
+signals present in the dataset for each rhythm of study. In
+addition, the sub-indexes C1, C2, …, C7 in the Rhythms
+column indicate the classifier in which the rhythm was
+included. In both phases specificity (Sp.) values were
+higher than sensitivity (Se.) ones. Results in phase 1 were
+superior than those in phase 2. Categories not detected by
+the classifier in phase 2 have been excluded from Table 2.
+Table 3 gathers the overall results obtained for the
+classifier ensembles of phases 1 and 2 after a 10-fold crossvalidation on the databases provided. The Challenge
+
+Metric (CM) used to evaluate the classifiers varied from
+phase 1 to phase 2. While in phase 1 it corresponded to the
+geometrical mean between Fβ measure and Gβ measure, on
+phase 2 a new scoring system was used to reflect the value
+of the algorithm in a clinical setting: it awarded full credit
+to correct diagnoses and partial credit to misdiagnoses with
+similar risks or outcomes similar to those of the actual
+diagnosis.
+Table 1. Classification results on the test set after 10-fold
+cross-validation on the CPSC dataset labelled according to
+the first phase of the challenge.
+Rhythms
+AFC1
+IAVB C1
+LBBB C2
+NSR
+PAC C3
+PVC C4
+RBBB C2
+STD C2
+STE C2
+
+Subjects
+1221
+722
+236
+918
+616
+700
+1857
+869
+220
+
+Se(%)
+94.6±0.02
+88.1±0.05
+85.6±0.08
+78.8±0.04
+84.5±0.06
+87.8±0.02
+89.5±0.02
+69.6±0.05
+37.2±0.09
+
+Sp(%)
+95.9±0.01
+97.1±0.01
+98.5±0.00
+93.7±0.01
+90.3±0.01
+93.5±0.01
+96.5±0.01
+96.8±0.01
+99.3±0.00
+
+Table 2. Classification results on the test set after 10-fold
+cross-validation on all the datasets labelled according to
+the second phase of the challenge.
+Rhythms
+AFC1
+AFL C1
+IAVB C3
+IRBBB C4
+LAD C4
+LAnFB C4
+LBBB C4
+LQT C5
+PAC C6
+PVC C7
+RBBB C4
+SB C2
+NSR C2
+STach C2
+TAb C5
+
+Subjects
+3475
+314
+2394
+1611
+6086
+1806
+1041
+1513
+1944
+1253
+3085
+2359
+20846
+2402
+4673
+
+Se(%)
+94.55±1.19
+16.33±6.77
+92.32±1.82
+5.78±2.43
+56.52±5.13
+56.29±14.67
+31.38±3.64
+8.91±2.98
+65.88±4.20
+50.22±7.17
+89.53±2.39
+43.20±2.69
+90.48±0.61
+86.78±2.91
+56.57±7.34
+
+Sp(%)
+93.97±0.56
+99.70±0.10
+81.08±1.76
+99.77±0.14
+86.84±0.83
+97.60±0.58
+99.71±0.09
+99.08±0.54
+91.61±0.84
+85.36±1.45
+95.70±0.52
+98.95±0.20
+70.38±1.55
+99.25±0.20
+78.75±4.07
+
+Table 3. Classification results on phase 1 and 2 for 10-fold cross-validation of the provided datasets.
+Ph.
+AUROC
+AUPRC
+Accuracy
+F
+Fbeta
+Gbeta
+CM
+1st
+0.099±0.009 0.019±0.002 0.944±0.004 0.727±0.019 0.763±0.019 0.525±0.025 0.644±0.031
+2nd
+0.541±0.002 0.083±0.001 0.148±0.009 0.116±0.004 0.144±0.004 0.062±0.002 0.030±0.009
+Ph=phase; AUROC=area under the receiver operating curve; AUPRC=area under the precision-recall curve.
+
+4.
+
+Discussion
+
+The aim of this work was to propose an automatic
+algorithm capable of identifying different cardiovascular
+diseases using 6 different databases with 43,101 labeled
+recordings made available by the PhysioNet/Computing in
+Cardiology Challenge 2020 [4]. Several attempts have
+been already described in literature [3], [13], [14], [15].
+Currently, the role of clinicians is still fundamental for the
+final diagnosis, but a support role from computers could
+provide a useful tool to aid them for early and correct
+diagnosis of cardiac abnormalities.
+The presented method intended to follow a
+physiologically consistent approach. An ensemble of
+classifiers was built focusing each of them on specific
+cardiac regions. The electrophysiological disorders of
+study were distributed into each of the classifiers
+depending or their region of incidence. ECG signals were
+divided into regions of interest and a comparison was
+performed between intra-patient models and inter-patient
+rhythm-specific models. In phase 1 the methodology
+succeeded in detecting all disorders with specificity higher
+than 90% and sensitivity higher than 84%, except for STE
+and STD. These results are in line with those already
+present in literature [15], although as different databases
+are used, a comparison is not trivial. These results suggest
+that intra-patient and inter-patient models manage to
+capture electrophysiological disturbances of different
+nature and areas of the cardiac tissue.
+However, results obtained in phase 2 show that the
+metrics used are not enough if a larger number of
+conditions with often similar expression in the ECG are
+targeted, as IRBBB and RBBB, IAVB and LPR, LAnFB
+and LBBB, among others. In each classifier (C1, C2, …,
+C7) at least a cardiac abnormality was detected with good
+results i.e. AF in C1, STach in C2, IAVB in C3, RBBB in
+C4. However, the models built and/or the metric obtained
+seemed to be unable to distinguish among such an amount
+of rhythms exhibiting similar morphologies.
+
+5.
+
+References
+[1]
+[2]
+[3]
+[4]
+[5]
+[6]
+
+[7]
+
+[8]
+[9]
+[10]
+
+[11]
+[12]
+
+[13]
+
+Conclusion
+
+We obtained promising results for the detection of a
+limited number of electrophysiological abnormalities in
+short signals. Further development is needed for its
+application to a high number of disorders, possibly through
+the implementation of convolutional neural network.
+
+Acknowledgments
+This project is framed inside MY-ATRIA consortium.
+MY-ATRIA project has received funding from the
+European Union’s Horizon 2020 research and innovation
+program under the Marie Skłodowska-Curie grant
+agreement No.766082.
+
+[14]
+[15]
+
+M. F. Piepoli et al., “2016 European Guidelines on
+cardiovascular disease prevention in clinical practice,”
+Eur. Heart J., vol. 37, no. 29, pp. 2315–2381, 2016.
+N. Peters, M. A. Gatzoulis, and R. Vecht, ECG
+Diagnosis in Clinical Practice, Second. Springer, 2009.
+H. Smulyan, “The Computerized ECG: Friend and Foe,”
+Am. J. Med., vol. 132, pp. 153–160, 2019.
+E. A. Perez Alday et al., “Classification of 12-lead
+ECGs: the PhysioNet/Computing in Cardiology
+Challenge 2020,” Physiol. Meas., 2020.
+J. Pan and W. J. Tompkins, “A Real-Time QRS
+Detection Algorithm,” IEEE Trans. Biomed. Eng., vol.
+BME-32, no. 3, pp. 230–236, 1985.
+F. Censi et al., “P-Wave Morphology Assessment by a
+Gaussian Functions-Based Model in Atrial Fibrillation
+Patients,” IEEE Trans. Biomed. Eng., vol. 54, no. 4, pp.
+663–672, 2007.
+G. Goovaerts, C. Varon, B. Vandenberk, R. Willems,
+and S. Van Huffel, “Tensor-based detection of T wave
+alternans in multilead ECG signals,” in Computing in
+Cardiology, 2014.
+A. N. Vest et al., “An open source benchmarked toolbox
+for cardiovascular waveform and interval analysis,”
+Physiol. Meas., vol. 39, no. 10, p. 105004, 2018.
+A. J. Demski and M. Llamedo Soria, “ecg-kit a Matlab
+Toolbox for Cardiovascular Signal Processing,” J. Open
+Res. Softw., vol. 4, no. 1, p. e8, 2016.
+J. W. Waks et al., “Global Electric Heterogeneity Risk
+Score for Prediction of Sudden Cardiac Death in the
+General Population: The Atherosclerosis Risk in
+Communities (ARIC) and Cardiovascular Health (CHS)
+Studies,” Circulation, vol. 133, pp. 2222–2234, 2016.
+J. A. Thomas et al., “Vectorcardiogram in athletes: The
+Sun Valley Ski Study,” Ann. Noninvasive
+Electrocardiol., p. e12614, 2018.
+E. A. Perez-Alday et al., “Importance of the heart vector
+origin point definition for an ECG analysis: The
+Atherosclerosis Risk in Communities (ARIC) study,”
+Comput. Biol. Med., vol. 104, pp. 127–138, 2019.
+M. Alfaras, M. C. Soriano, and S. Ortín, “A fast machine
+learning model for ECG-based heartbeat classification
+and arrhythmia detection,” Front. Phys., vol. 7, p. 103,
+2019.
+J. Schläpfer and H. J. Wellens, “Computer-Interpreted
+Electrocardiograms: Benefits and Limitations,” J. Am.
+Coll. Cardiol., vol. 70, no. 9, pp. 1183–1192, 2017.
+X. Zhang et al., “Automated detection of cardiovascular
+disease by electrocardiogram signal analysis: A deep
+learning system,” Cardiovasc. Diagn. Ther., vol. 10, no.
+2, pp. 227–235, 2020.
+
+Address for correspondence:
+Guadalupe Garcia Isla
+Via Camillo Golgi, 39, 20133 Milano, Italy
+guadalupe.garcia@polimi.it
+
+

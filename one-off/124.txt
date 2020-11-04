@@ -1,0 +1,431 @@
+12-lead ECG Arrythmia Classification Using Convolutional Neural Network for
+Mutually Non-Exclusive Classes
+Mateusz Soliński1, Michał Łepek1, Antonina Pater1, Katarzyna Muter2, Przemysław Wiszniewski3
+Dorota Kokosińska1, Judyta Salamon1, Zuzanna Puzio1
+1
+
+2
+
+Faculty of Physics, Warsaw University of Technology
+Faculty of Electronics and Information Technology, Warsaw University of Technology
+3
+Faculty of Electrical Engineering, Warsaw University of Technology
+
+Abstract
+The growing demand for diagnosing of cardiovascular
+diseases leads to the development of new solutions for
+automatic classification of recorded ECG signals.
+Creating a robust and fast algorithm for automatic
+classification of ECG signal is crucial to improve the
+quality of healthcare, especially in countries where a lack
+of experienced specialists is an issue or the healthcare
+system
+is
+overloaded.
+The
+aim
+of
+the
+PhysioNet/Computing in Cardiology Challenge 2020 is to
+create an algorithm for classification of 12-lead ECGs
+based on ECG signals from multiple databases across the
+world. The shared training set consisted of 43,101 ECG
+recordings lasting from 5 to 1800 seconds. We (BioS
+Team) proposed the machine learning algorithm based on
+convolutional neural networks. The ECG signals were
+pre-processed using moving median filters to remove
+high-frequency noise and baseline wandering. We
+developed simply convolutional neural network consisting
+of four main convolutional blocks and one fully connected
+layer. We achieved a challenge validation score of 0.349,
+and full test score of 0.279, placing us 14 out of 41 in the
+official ranking.
+
+1.
+
+Introduction
+
+Cardiovascular diseases (CVDs) are the leading cause
+of death worldwide, killing about 17.9 million lives each
+year (WHO, 2016). A Standard tool for diagnosing of
+many CVDs is 12-lead electrocardiogram (ECG). In a
+traditional way, 12-ECG records are interpreted by
+cardiologists manually based on diagnosis criteria and
+personal experience. However, manual interpretation of
+the recordings is time-consuming and requires high
+degree of skills. The growing demand for diagnostic
+testing is leading to the development of new solutions for
+automatic classification of recorded signals.
+Since late 1950s, the performance of automatic
+algorithm for ECG interpretation were grown with
+
+computational capacity of the computers and developing
+new methods of analysis, preprocessing and classification
+[1]. Many algorithms are based on three processes:
+feature extraction, feature selection, and classification [2].
+The alternative way is to use the machine learning
+methods, e.g.: convolutional neural networks (CNN),
+which do not need prior defined features and take to the
+input the raw (or preprocessed) signal [3].
+Development of automatic ECG classifier was the aim
+of PhysioNet/Computing in Cardiology Challenge 2020
+[4]. Participants had to deal with the problem of creating
+an algorithm that recognizes 27 classes using multiple
+databases from across the world.
+In this article we present an algorithm for multilabel
+classification using machine learning method based on
+the (CNN). We described the details of the algorithm,
+necessary for reproducing, and showed its limitations and
+suggestions for its improvement.
+
+2.
+
+Data
+
+The data, shared for the training, came from 4
+sources: CPSC – database from the China Physiological
+Signal Challenge 2018 (CPSC2018) [5], INCART public dataset from the St. Petersburg Institute of
+Cardio-logical Technics (Russia) [6,7], PTB
+and
+PTB-XL - Physikalisch
+Technische
+Bundesanstalt
+(PTB) Database, Brunswick, German [8,9] and G12EC Georgia 12-leadECG Challenge (G12EC) Database,
+Emory University, Atlanta, Georgia, USA. Total
+number of recordings from these databases was 43,101.
+Each recording contains, apart from ECG signals,
+information about age, sex and diagnoses. From total
+number of 111 diagnoses, only 27 were considered by the
+scoring system (all classes are listed in [4]). The
+recordings differ in regard to the duration (5-1800 s,
+mean: 15.8±75.9 s) and sample frequency (257-1000 Hz).
+
+3.
+
+Methods
+
+3.2.
+
+3.1.
+
+Preprocessing
+
+The architecture of our model is shown in Figure 2.
+We used two-dimensional convolutional neural network
+for pre-processed 12-lead ECG signal. The architecture
+consisted of four convolutional blocks followed by a fully
+connected layer. In each convolutional block there was
+double two-dimensional convolution operations followed
+by ReLU activation functions, max-pooling layer and
+dropout layer (10% of dropout), except for the last block
+where max-pooling was not used because maximum level
+of compression of the data was achieved. In all four
+blocks 8, 16, 32, 64 convolution filters were used,
+respectively. The size of convolution kernels in all
+convolutional layers was set to 3x3. We used the “same”
+size of the zero padding in convolutional layers so that
+the layer output has the same size as the input. The maxpooling with size 2x2 and stride of 2 was used to reduce
+the dimension of each convolutional block output.
+The number of neurons in fully connected layer was
+equal to the number of classes (27). The sigmoid
+activation (instead of softmax) was applied to all output
+values from last fully connected layer. The signal was
+classified as the categories whose sigmoid output value
+exceeded 0.35.
+We chose L2 regularization as a regularization
+technique in addition to dropout. We set L2 regularization
+factor to 0.06.
+We trained out network for 30 epochs with mini-batch
+size equal 1024. The training data set was randomly split
+into 80% training and 20% validation. Classification was
+carried out using categorical-cross-entropy loss function
+and ADAM optimizer with the following parameters:
+learning rate = 0.001, epsilon = 0.001, beta1 = 0.9,
+beta2 = 0.9.
+Network architecture and hyperparameters were finetuned manually through a limited trial and error process.
+We have not tried to test many other potentially good
+models, neither with similar nor very different
+architecture. All hyperparameter values for the proposed
+network are summarized in Table 1.
+The model was developed and implemented in
+MATLAB 2020a environment. To train our network we
+used so-called Custom Training Loop to implement
+mutually non-exclusive classification (more than one
+class can occur in a single ECG recording, e.g., sinus
+rhythm and single premature ventricular contraction,
+PVC).
+
+Initially all signals are resampled to 100 Hz and cut at
+10 s (if any signal was shorter it is copied enough times to
+fill in 10 seconds). Next, the processing is done in two
+steps:
+• each channel the signals are smoothened using
+moving median filter with window of 5 samples.
+• signals are detrended by subtracting a moving mean
+with window size of 50 samples.
+Next, input to the CNN network as 2D matrix was
+prepared. The subsequent ECG leads were placed in the
+rows of this matrix. Graphical representation of the input
+matrix was presented in Figure 1.
+
+Figure 1. Example of the 10-secods ECG signal from the
+Lead 1 (upper) and single data input to the CNN network
+consisted of the 12 ECG leads merged in one 2D matrix.
+
+CNN algorithm
+
+3 same 2
+
+12x(8x3+1)=300
+
+3
+
+8
+
+3 same 2
+
+12x(8x3+1)=300
+
+4 (reLu)
+5 (max
+pooling)
+6 (dropout)
+
+1
+
+2 same 1
+
+12x(1x2+1)=36
+
+Parameters
+
+Kernel size
+
+8
+
+Stride
+
+Kernel
+
+1
+
+Padding
+
+CNN layer
+
+Block
+
+Table 1. Numbers and sizes of hyperparameters and
+other parameters of the model.
+
+2 (reLu)
+1
+
+Figure 2. Architecture of the classification model. The
+model consisted of 4 blocks. Each block contains two
+convolution and ReLU layers, one max pooling and one
+dropout (10% of dropout) layer. The exception is the 4 th
+block where the max pooling layer is not present.
+
+7
+9
+
+Results
+
+Our approach achieved a challenge validation score of
+0.349, and full test score of 0.279, placing us 14 out of 41
+in the official ranking of the Challenge.
+
+5.
+
+16 3 same 2 12x(16x3+1)=588
+
+10 (reLu)
+11 (max
+1
+pooling)
+12 (dropout)
+13
+
+2 same 1
+
+12x(1x2+1)=36
+1
+
+32 3 same 2 12x(32x3+1)=1164
+
+14 (reLu)
+
+Discussion
+
+The method used in this work can be regarded as a
+relatively simply convolutional neural network with a
+superficial preprocessing as the network consisted of 4
+main convolutional blocks and 1 fully connected layer
+only. Similar networks has been used for a wide variety
+of problems before and, here, for ECG arrythmias, it has
+shown moderate performance of 0.349 (the challenge
+metric) on the hidden test set. The challenge score
+obtained from this set is smaller than the score calculated
+for the data shared for training. It may suggest that the
+model is overfitting and additional steps for increasing
+generalization abilities of the classification model.
+Despite its simple architecture and limited overall
+performance, some significant observations can be made.
+The performance of classification varied for different
+types of arrythmias. The best performance was obtained
+for AF, LBBB, PR, RBBB, SNR, and STach. On the
+other hand, the classifier totally failed to detect some
+other arrythmias such as CRBBB, LAnFB, LQRSV,
+NSIVCB, PVC, RAD, SA, SVPB, TInv, and VPB. There
+are few reasons for that. Some of the weakest-performing
+classes were significantly underrepresented in the dataset.
+
+16 3 same 2 12x(16x3+1)=588
+
+8 (reLu)
+2
+
+4.
+
+1
+
+15
+3
+
+32 3 same 2 12x(32x3+1)=1164
+
+16 (reLu)
+17 (max
+1
+pooling)
+18 (dropout)
+19
+
+2 same 1
+
+12x(1x2+1)=36
+1
+
+64 3 same 2 12x(64x3+1)=2316
+
+20 (reLu)
+4
+
+21
+
+64 3 same 2 12x(64x3+1)=2316
+
+22 (reLu)
+
+total
+
+24 (dropout)
+
+1
+
+dense
+
+27x(12x2+1)=675
+9523
+
+Few other classes were cardiac malfunctions where a
+single pathological pattern occurs in the ECG signal.
+Taking into account the fact that the signal analysis was
+limited to 10 seconds only, any other result for these
+classes could not be expected.
+The main limitation of this work was using the first 10
+seconds of the signal which was the time covering 83% of
+the signals from the available dataset. Such a procedure
+was determined by the computational time requirements
+which were cumbersome when using a single PC
+machine.
+
+A serious potential improvement has been prepared for
+this approach and scored well on the validation set,
+however, it could not be scored on the hidden test set due
+to the computational time excess. The improvement was
+based on the many-source CNN approach and consisted
+of separate networks for: (i) ECG signals themselves, (ii)
+RR intervals, and (iii) mean beats of the signal.
+Additionally, the first 2 minutes of each record were used
+for the analysis.
+
+6.
+
+Conclusions
+
+We (BioS Team) proposed model for 12-lead ECG
+model based on convolutional neural networks full test
+score of 0.279 (14th place out of 41 in the official ranging
+of the Challenge). The model may be the first attempt for
+the further, more complex versions using longer ECG
+signals as an input and multiple inputs data (such as
+averaged beat or RR intervals analysis).
+Despite obvious limitations, the method used in this
+work proved versatility of the convolutional neural
+network approach and its capability and usability for
+biomedical signal tools and analysis.
+
+Acknowledgments
+We would like to thank our colleagues from the
+Cardiovascular Physics Group at the Faculty of Physics
+of Warsaw University of Technology for support.
+
+References
+[1] J. Schläpfer, H. J. Wellens, “Computer-interpreted
+electrocardiograms: benefits and limitations”, J. Am.
+Coll. Cardiol, vol. 70, no. 9, Aug. 2017, pp. 1183-92.
+[2] E. H. Houssein, M. Kilany, A. E. Hassanien, “ECG
+signals classification: a review”, Int. J. Intell. Eng.
+Inform., vol. 5, no. 4, 2017, pp. 376-96.
+[3] T. M. Chen, C. H. Huang, E. S. Shih, Y. F. Hu, M. J.
+Hwang, “Detection and classification of cardiac
+arrhythmias by a challenge-best deep learning neural
+network model”, Iscience, vol. 27, no. 3, Mar. 2020,
+Art. no. 100886.
+[4] E. A. Perez Alday, A. Gu, A. Shah, Ch. Robichaux,
+A.-K. I. Wong, Ch. Liu, F. Liu, A. Bahrami Rad, A.
+Elola, S. Seyedi, Q. Li, A. Sharma, G. D. Clifford, M.
+A. Reyna, “Classification of 12-lead ECGs:
+the PhysioNet/Computing in Cardiology Challenge
+2020”, Physiol. Meas.
+[5] F. Liu, C. Liu, L. Zhao, X. Zhang, X. Wu, X. Xu, Y.
+Liu, C. Ma, S. Wei, Z. He, J. Li, “An open access
+database for evaluating the algorithms of
+electrocardiogram
+rhythm
+and
+morphology
+abnormality detection”, J. Med. Imaging & Health
+Infor., vol. 8, no. 7, Sep. 2018, pp. 1368-73.
+
+[6] V. Tihonenko, A. Khaustov, S. Ivanov, A. Rivin, E.
+Yakushenko, “St Petersburg INCART 12-lead
+Arrhythmia Database”, PhysioBank, PhysioToolkit,
+and PhysioNet, 2008.
+[7] A. Goldberger, L. Amaral, L. Glass, J. Hausdorff, P.
+C. Ivanov, R. Mark, J. E. Mietus, G. B. Moody, C. K.
+Peng, H. E. Stanley, “PhysioBank, PhysioToolkit, and
+PhysioNet: Components of a new research resource
+for complex physiologic signals”, Circulation, vol.
+101, no. 23, Jun. 2000, pp. 215–20.
+[8] R. Bousseljot, D. Kreiseler, A. Schnabel, “Nutzung
+der EKG-Signaldatenbank CARDIODAT der PTB
+über das Internet”, Biomed. Eng-Biomed. Te. Vol. 40,
+no. s1, 1995, pp. 317-8.
+[9] P. Wagner, N. Strodthoff, R. D. Bousseljot, D.
+Kreiseler, F. I. Lunze, W. Samek, T. Schaeffter,
+“PTB-XL,
+a
+large
+publicly
+available
+electrocardiography dataset”, Scientific Data, vol. 7,
+no. 1, May. 2020, pp. 1-5.
+
+Address for correspondence:
+Mateusz Soliński, Koszykowa 75 St. Warsaw 00-662
+Poland, mateusz.solinski.dokt@pw.edu.pl
+
+

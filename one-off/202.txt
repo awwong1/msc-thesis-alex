@@ -1,0 +1,448 @@
+Classification of 12-lead ECGs Using Digital Biomarkers
+and Representation Learning
+David Assaraf1* , Jeremy Levy1* , Janmajay Singh2 , Armand Chocron1 and Joachim A. Behar1
+1
+
+Faculty of Biomedical Engineering, Technion-IIT, Haifa, Israel
+2
+Independent researcher
+*Equal contribution
+
+Abstract
+Background: The 12-lead electrocardiogram (ECG) is
+a standard tool used in medical practice for identifying
+cardiac abnormalities. The 2020 PhysioNet/Computing in
+Cardiology Challenge addresses the topic of automated
+classification of 12-lead ECG. Methods: Two machine
+learning strategies were implemented: a feature engineering approach based on the engineering of physiological
+features (or “digital biomarkers”) and a deep learning approach. Two sets of features were engineered: (1) capturing the interval variation between consecutive heartbeats, commonly called heart rate variability (HRV) measures and (2) using morphological biomarkers (e.g. QT
+interval, QRS width). A total of 16 HRV and 97 morphological biomarkers were implemented in python for each
+lead. A random forest (RF) model was trained using 5-fold
+cross validation to optimize the model hyperparameters.
+For the deep learning approach, a residual neural network
+(ResNet) architecture was used. The RF and ResNet were
+also combined in an ensemble learning (EL). The dataset
+was divided into 80%-20% stratified training-test sets. Results: on the local test set we achieved a Challenge score of
+0.65 using the FE approach, 0.52 using the DL approach
+and 0.66 using the EL approach. For technical reasons
+we did not manage to score our models on the Challenge
+hidden test set.
+
+1.
+
+Introduction
+
+The electrocardiogram (ECG) is a non-invasive representation of the electrical activity of the heart. It is measured using electrodes placed on the surface of the torso.
+The standard 12-lead ECG has been widely used to diagnose a variety of cardiac abnormalities such as cardiac
+arrhythmia and conduction abnormalities. The early and
+correct diagnosis of cardiac abnormalities can increase the
+chances of successful treatments. However, manual interpretation of the electrocardiogram is time-consuming, and
+
+requires skilled personnel with a high degree of training.
+Automatic detection and classification of cardiac abnormalities can assist physicians in performing an accurate
+diagnosis. The 2020 PhysioNet/Computing in Cardiology
+Challenge [1] addresses the topic of automated classification of 12-lead ECG.
+
+2.
+
+Methods
+
+In this work we evaluate two machine learning (ML)
+strategies. The first is a feature engineering (FE) based ML
+approach that captures known patterns in the physiological
+time series thus mimicking the cardiologist’s approach to
+12-lead ECG analysis. The second is a deep learning (DL)
+approach that may capture features beyond the traditional
+ones. Finally, we combine both approaches within an Ensemble Learning (EL) model. A general overview of the
+individual and the combined approaches is shown in Figure 1.
+Signal pre-processing: Similar to the work of Zheng et
+al. [2], we performed a validation step to detect examples where electrodes were switched. In these instances
+we inverted their polarity. The signal quality was estimated
+using the bSQI index [3, 4]. Examples with a low signal
+quality (bSQI < 0.8) were discarded. Recordings had different sampling rates (f s) across databases (Table 1). We
+resampled all the databases to f s = 500Hz. ECGs were
+pre-filtered with a Butterworth band-pass filter in order to
+filter out baseline wander and high-frequency noise. A low
+cutoff frequency at 0.13Hz and a high cut-off frequency at
+88Hz were used. Two Notch filters, with cut-off frequencies at 50Hz and 60Hz respectively were used to remove
+power-line interference noise.
+Databases: The Challenge dataset was composed of
+6 databases (Table 1). We split the long ECGs recordings from the INCART database into independent 10-sec
+12-lead ECGs, thus totalling 13500 10-sec examples. In
+order to augment the number of training examples, external open-access databases were used. The first one,
+from Zhang et al. [2] recorded at the Chapman Univer-
+
+2.1.
+
+Figure 1. Machine learning strategies: (1) a FE approach,
+(2) a DL approach and (3) an EL combining (1) and (2).
+sity and Shaoxing People’s Hospital, denoted ”CUSPH”
+contains 10646 examples. The second, by Zheng et al.
+[5] recorded at the Chapman University and Ningbo First
+Hospital, denoted “CUNFH”, is mostly composed of premature ventricular contractions (PVC) and contains 334
+examples. A total of 27 classes were considered in the
+Challenge among which 26 cardiac abnormalities and normal sinus rhythm (SNR). All examples that had no label
+among the 27 classes considered were excluded because
+these were not scored by the Challenge performance measure. This resulted in n=53730 examples (Table 1). Three
+pairs of classes were considered strictly equivalent by the
+Challenge scoring system: CRBBB with RBBB, PVC with
+VPB and PAC with SVPB. In summary, we considered a
+24 multilabel classification problem.
+Database
+CPSC-1
+CPSC-2
+Georgia
+PTB
+PTB-XL
+INCART
+CUSPH (add)
+CUNFH (add)
+TOTAL
+
+Included
+5279
+1278
+9458
+97
+21604
+5940
+9749
+325
+53730
+
+Excluded
+1598
+2175
+886
+419
+233
+7380
+897
+9
+12691
+
+fs (Hz)
+500
+500
+500
+1000
+500
+257
+500
+2000
+
+Table 1. Examples that were included and excluded for
+each database based on the presence of at least one label
+within the 27 classes that were considered by the Challenge performance measure.
+
+Feature engineering approach
+
+Waveform analysis and features extraction: Fiducial
+points on the ECG waveform were extracted using the
+open source wavedet algorithm by Martı́nez et al. [6].
+QRS complex, P-wave and T-wave delineations were obtained by applying wavedet to a representative ECG cycle [7] for each lead. The QRS duration and frequency
+morphology distortion were extracted to capture premature atrial and ventricular contractions and bundle branch
+blocks, [8], [9], [10], [11]. Atrioventricular block were
+detected through the statistical analysis of the PR interval [12]. A total of 113 morphological biomarkers were
+engineered for each lead or their vectorcardiogram representation [13]. HRV features implemented in Chocron et
+al. [14] were used. Finally age and sex were included.
+Features were standardized by subtracting the mean and
+dividing by the standard deviation.
+Machine learning strategy: The database was divided
+between training and test sets following a 80%-20% split.
+Figure 2 shows the class distribution for the training and
+test sets. Of note, for the purpose of producing this figure,
+an example with multiple labels was virtually considered
+as a count of +1 for each of the class with a positive label. 5-fold cross validation was used for hyperparameters
+tuning. To address the multilabel classification challenge,
+we used a one versus the rest approach, first by training a
+classifier for SNR against the rest, then by training another
+23 different classifiers for each cardiac abnormality against
+all other abnormalities (but not SNR). The minority classes
+were proportionally over-weighted to account for the imbalance of the classes. Feature selection was performed in
+order to prevent overfitting and ensures the model’s generalization. Minimum Redundancy Maximum Relevance
+(mRMR) [15] was used and subsequently, a floating recursive feature addition (RFA) algorithm was used. The feature selection was stopped when the Challenge score did
+not improve significantly on the average validation set Fβ
+score. For each cardiac abnormality we selected the decision threshold that maximized the average Fβ score for
+this class on the validation sets.
+
+2.2.
+
+Deep learning approach
+
+The same preprocessing as for the feature engineering
+approach was used. Two deep learning (DL) networks
+were trained: the first network is a binary classifier for
+SNR against the rest. The second network is used to
+classify for any of the 23 cardiac abnormalities using a
+multi-head model. Padding was performed, to the constant
+length of 40000 samples (i.e. 80 seconds at fs=500Hz).
+The feature extraction part of both networks is a Convolutional Neural Network (CNN) model. Each CNN cell
+was composed of: Conv1d, BatchNorm, ReLu, Conv1d,
+
+Figure 2. 80%/20% Training/Testing split with augmenting databases highlighted.
+BatchNorm, ReLu, MaxPool, Dropout. The network was
+trained with shortcut connections to avoid vanishing gradients. A total of 8 CNN cells were used, with shortcuts
+every 2 cells, followed by a Gated Recurrent Unit (GRU)
+cell. The GRU takes as input a total of 1250 features produced by the CNN. A multi-head model was used, which
+means a fully connected layer for each of the 23 cardiac abnormality. Stratified 5-fold cross validation validation was
+performed to find the best hyperparameters of the model.
+A combination of two losses was used: BCEWithLogitsLoss, and the F-Beta score. The weight of each loss was
+considered a hyperparameter of the model. The Adam optimizer was used.
+
+2.3.
+
+Ensemble Learning Model
+
+Figure 3. Feature Selection process. Performance corresponds to the Challenge score.
+
+In order to combine the strengths of the FE and the DL
+approaches an EL model was evaluated. It consisted in
+adding a logistic regression unit taking as the input the
+probability outputs of the FE and DL models.
+
+3.
+
+Model
+FE
+DL
+EL
+
+Results
+
+Signal quality evaluation using bSQI excluded a total
+of 3213 examples including 2647 from the Challenge original dataset and 566 from the additional databases. A total
+of 140 features were selected (Figure 3) out of the 1360
+features computed for each example. The results of the
+hyperparameter tuning for the one versus the rest RF classifier were: 750 estimators and a max depth of 70. The
+results for each of the three models are reported in Table
+3, for the 5-fold cross validation and the local test set. For
+technical reasons we did not manage to score our models
+on the Challenge hidden test set.
+
+CV
+0.66+/-0.02
+0.54+/-0.04
+0.66+/-0.03
+
+Local Test
+0.65
+0.52
+0.66
+
+Table 2. 5-fold cross validation and local test set scores of
+the different models. Scores on the hidden test set are not
+reported, due to technical difficulties with the submission.
+
+4.
+
+Discussion and conclusion
+
+In our experiment the FE approach outperformed the DL
+approach. The EL approach did not improved significantly
+the results over the FE approach alone. However, by improving further our DL performance we expect that the
+EL approach will significantly improve over the individ-
+
+Model
+FβAF
+FβAF L
+FβBrady
+FβIAV B
+FβIRBBB
+FβLAnF B
+FβLAD
+FβLBBB
+FβLQRSV
+FβN SIV CB
+FβP R
+FβP AC
+FβP V C
+FβLP R
+FβLQT
+FβQAb
+FβRAD
+FβRBBB
+FβSA
+FβSB
+FβSN R
+FβST ach
+FβT Ab
+FβT Inv
+
+FE
+0.91
+0.46
+0.18
+0.76
+0.16
+0.52
+0.81
+0.80
+0.03
+0.59
+0.03
+0.72
+0.52
+0.17
+0.75
+0.27
+0.62
+0.80
+0.50
+0.80
+0.80
+0.90
+0.66
+0.71
+
+DL
+0.41
+0.27
+0.13
+0.38
+0.26
+0.26
+0.69
+0.58
+0.09
+0.23
+0.09
+0.38
+0.42
+0.12
+0.68
+0.24
+0.60
+0.68
+0.29
+0.32
+0.90
+0.63
+0.32
+0.24
+
+EL
+0.92
+0.44
+0.18
+0.77
+0.17
+0.49
+0.83
+0.81
+0.05
+0.57
+0.07
+0.71
+0.51
+0.22
+0.73
+0.27
+0.63
+0.81
+0.46
+0.80
+0.86
+0.90
+0.64
+0.71
+
+Table 3. Fβ scores for individual cardiac abnormalities
+considered in the Challenge and for the local test set. FE:
+feature engineering approach, DL: deep learning approach
+and EL: ensemble learning approach.
+
+[3]
+
+[4]
+
+[5]
+
+[6]
+
+[7]
+
+[8]
+
+[9]
+
+[10]
+
+[11]
+
+ual models.
+Among the five lowest Fβ scores, four (namely Brady,
+LQRSV, PR and LPR) had less than 500 examples in the
+training set (Figure 2). This suggests that augmenting the
+number of examples in these classes will likely improve
+the performance of the model for these classes.
+Among the features selected in the FE approach, the
+most relevant features were: cosEn, SD1, AFEv, OriginCount, PACEV and IRmax for the HRV features and Dqrsmax, Dqrsmean, Dqrsmed, Dqrsstd (which relate to QRS
+duration for PAC, PVC and Bundle Branch Blocks) for the
+morphological biomarkers.
+
+[12]
+
+[13]
+
+[14]
+
+[15]
+
+References
+[1]
+
+[2]
+
+Perez Alday EA, Gu A, Shah A, Robichaux C, Wong AKI,
+Liu C, Liu F, Rad BA, Elola A, Seyedi S, Li Q, Sharma A,
+Clifford GD, Reyna MA. Classification of 12-lead ECGs:
+the PhysioNet/Computing in Cardiology Challenge 2020.
+Physiological Measurement Under Review 2020;.
+Zheng J, Zhang J, Danioko S, Yao H, Guo H, Rakovski C. A
+
+12-lead electrocardiogram database for arrhythmia research
+covering more than 10,000 patients. Scientific Data 2020;
+7(1):1–8.
+Li Q, Mark RG, Clifford GD. Robust heart rate estimation from multiple asynchronous noisy sources using signal
+quality indices and a Kalman filter. Physiological Measurement 2007;29(1):15.
+Behar J, Oster J, Li Q, Clifford GD. ECG signal quality
+during arrhythmia and its application to false alarm reduction. IEEE Transactions on Biomedical Engineering 2013;
+60(6):1660–1666.
+Zheng J, Fu G, Anderson K, Chu H, Rakovski C. A 12-Lead
+ECG database to identify origins of idiopathic ventricular
+arrhythmia containing 334 patients. Scientific Data 2020;
+7(1):1–10.
+Martı́nez JP, Almeida R, Olmos S, Rocha AP, Laguna P.
+A wavelet-based ECG delineator: evaluation on standard
+databases. IEEE Transactions on Biomedical Engineering
+2004;51(4):570–581.
+Oster J, Behar J, Sayadi O, Nemati S, Johnson AE, Clifford GD. Semisupervised ECG ventricular beat classification with novelty detection based on switching Kalman filters. IEEE Transactions on Biomedical Engineering 2015;
+62(9):2125–2134.
+Krasteva VT, Jekova II, Christov II. Automatic detection
+of premature atrial contractions in the electrocardiogram.
+Electrotechniques Electronics E E 2006;9(10).
+Chen H, Bai J, Mao L, Wei J, Song J, Zhang R. Automatic identification of premature ventricular contraction using ECGs. International Conference on Health Information
+Science 2019;143–156.
+Talbi M, Chare A. PVC discrimination using the QRS
+power spectrum and self-organizing maps. Computer methods and programs in biomedicine 2009;94(3):223–231.
+Martı́n-Yebra A, Martı́nez JP. Automatic diagnosis of strict
+left bundle branch block using a wavelet-based approach.
+PloS one 2019;14(2):e0212971.
+Luning Mao HCea. Automated Detection of First-Degree
+Atrioventricular Block Using ECGs. International Conference on Health Information Science 2018;156–167.
+Dawson D, Yang H, Malshe M, Bukkapatnam ST, Benjamin
+B, Komanduri R. Linear affine transformations between 3lead (Frank XYZ leads) vectorcardiogram and 12-lead electrocardiogram signals. Journal of Electrocardiology 2009;
+42(6):622–630.
+Chocron A, Oster J, Biton S, Franck M, Elbaz M, Y.Y.
+Z, Behar J. Remote atrial fibrillation burden estimation using deep recurrent neural network. arXiv preprint
+arXiv200802228 2020;.
+Peng H, Long F, Ding C. Feature selection based on mutual
+information: criteria of max-dependency, max-relevance,
+and min-redundancy. IEEE Transactions on Pattern Analysis and Machine Intelligence 2005;27(8):1226–1239.
+
+Address for correspondence:
+Joachim A. Behar (jbehar@technion.ac.il)
+Technion-IIT Technion City, Haifa 32000, Israel
+
+
