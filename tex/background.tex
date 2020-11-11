@@ -223,17 +223,18 @@ For the purpose of the challenge, a subset of 27 codes/labels have been selected
 All other codes are ignored in this study.
 Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, counts, and proportion within the dataset.
 
-\begin{description}
 
-    \begin{figure}[ht]
+
+\begin{description}
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/IAVB/full_0_1951.pdf}}
         \caption{Instance of \gls{ecg} record with 1st degree av block. Long PR interval greater than 200ms is observed.}
         \label{fig:full_IAVB}
     \end{figure}
     \item[\gls{iavb}] This is when there is an abnormally long delay between the electrical impulse from the atria, through the ventricular node, to the ventricles. On the \gls{ecg}, this is detected by the presence of a PR interval longer than 200ms~\cite{carroz_pseudo-pacemaker_2010} or by the existence of a notched (bimodal) P-wave in leads I, II, III, and aVF~\cite{bayes_de_luna_diagnosis_2017}. See Figure~\ref{fig:full_IAVB} for an example of an \gls{ecg} record containing this ailment.
-
-    \begin{figure}[ht]
+    
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/AF/full_0_3453.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with atrial fibrillation. Irregular, fibrillatory p-waves found in all leads.}
@@ -241,7 +242,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \end{figure}
     \item[\gls{af}] The manifestation of \gls{af} may take on multiple forms, ranging from the absence of P waves, irregular heartbeat rhythm, or fibrillatory (rapid, fluttering) P-waves~\cite{podrid2001cardiac,afib-ecg}. Figure~\ref{fig:full_AF} shows an \gls{ecg} instance with this disorder.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/AFL/full_0_93.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with atrial flutter. Rapid P waves exist.}
@@ -249,7 +250,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \end{figure}
     \item[\gls{afl}] This disorder is indicated by the presence of atrial rhythms at a constant rate $\geq 100$ beats per minute~\cite{saoudi_classification_2001}. Figure~\ref{fig:full_AFL} shows an \gls{ecg} instance with rapid and well-formed P waves.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/Brady/full_0_42568.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with bradycardia. Patient has a mean resting heart rate of 57 beats per minute.}
@@ -257,7 +258,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \end{figure} 
     \item[\gls{brady}] A patient has bradycardia if their sinus rhythm is below the normal range of for the age of the patient. For adults, this is a resting heart rate below 60 beats per minute. An example of a patient with bradycardia is shown in Figure~\ref{fig:full_Brady}.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/CRBBB/full_2_24132.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with complete right bundle branch block. QRS complex exceeds 120 ms (4 boxes) and contains an anterior skew on the right end of the QRS complex.}
@@ -265,7 +266,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \end{figure} 
     \item[\gls{crbbb}] A complete right bundle branch block is when the QRS duration exceeds 120 ms and the terminal halves of the QRS are skewed rightward and anteriorly, indicating that the right ventricle is being depolarized after the left ventricle~\cite{ecg-utah-lesson}. An example \gls{ecg} record is shown in Figure~\ref{fig:full_CRBBB}.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/IRBBB/full_28_18884.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with incomplete right bundle branch block. The QRS complex is within 100 to 120 ms (2.5-3 boxes) and contains an anterior skew on the right end of the QRS complex.}
@@ -273,7 +274,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \end{figure} 
     \item[\gls{irbbb}] An incomplete right bundle branch block has the same terminal QRS features as \gls{crbbb} but has a QRS duration of 100 to 120 ms~\cite{ecg-utah-lesson}, as shown in the example record at Figure~\ref{fig:full_IRBBB}.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LAnFB/full_3_11709.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with left anterior fascicular block. Lead I is positive while leads II and III are negative, indicating left axis deviation. Leads I and aVL show qR complexes, with rS complexes appearing in leads II, III, an aVF.}
@@ -281,7 +282,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \end{figure} 
     \item[\gls{lanfb}] This common intraventricular defect occurs when the anterior fascicle within the left bundle branch is blocked or otherwise unable to respond to action potential stimuli~\cite{ecg-utah-lesson}. The criteria includes: left axis deviation (within $-45\degree$ to $-90\degree$); small Q waves with large R waves (`qR complexes') in leads I and/or aVL; small R waves with deep S waves (`rS complexes') in leads II, III, and aVF; slightly prolonged QRS duration (80-110ms), usually a poor R progression in leads V1, V2, and V3 with deeper S waves in leads V5 and V6. See Figure~\ref{fig:full_LAnFB} for an example.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LAD/full_69_18482.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with left axis deviation. Lead I is positive while leads II and III are negative, indicating left axis deviation using the simple leads I, II, III method. Using the hexaxial axis estimation approach, we see that leads aVL and III have the greatest QRS complex magnitude with aVL being positive and III being negative, giving an electrical axis between $-30\degree$ and $-60\degree$, confirming left axis deviation.}
@@ -289,7 +290,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \end{figure}
     \item[\gls{lad}] Diagnosed when the cardiac axis exists between $-30\degree$ and $-90\degree$. See Figure~\ref{fig:full_LAD} for an example \gls{ecg} record, interpreted using the lead I, II, III approach as well as the hexaxial reference system.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LBBB/full_10_3741.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with left bundle branch block. The QRS complexes exceed 100ms (2.5 boxes) and contain a posterior or leftward skew on the tail halves of the QRS complexes.}
@@ -297,7 +298,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \end{figure}
     \item[\gls{lbbb}] A left bundle branch block is defined by a QRS complex exceeding 100ms with a posterior/leftward skew in the second half of the QRS complex~\cite{ecg-utah-lesson}. An example record is shown in Figure~\ref{fig:full_LBBB}. For the purposes of this challenge, no distinction is made between complete left bundle branch block ($> 120$ms) and incomplete left bundle branch block (between 100ms and 120ms).
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LQRSV/full_53_18474.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with low QRS voltages. All limb leads have QRS complex amplitudes of less than 0.5mV and all precordial leads have QRS complex amplitudes of less than 1.0mV.}
@@ -305,7 +306,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \end{figure}
     \item[\gls{lqrsv}] An \gls{ecg} record with low QRS voltages contains QRS complex amplitudes of $<$ 0.5mV in all limb derived leads (I, II, III, aVR, aVL, aVF) or contains QRS complex amplitudes of $<$ 1mV in all precordial leads (V1, V2, V3, V4, V5, V6)~\cite{madias_low_2008}. See Figure~\ref{fig:full_LQRSV} for an example.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/NSIVCB/full_12_29680.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with nonspecific intraventricular conduction disorder. QRS complexes exceed 100ms (2.5 squares) but do not exhibit a posterior/anterior skew characteristic on the tail half of the QRS complexes.}
@@ -314,7 +315,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \item[\gls{nsivcb}] An \gls{ecg} record with nonspecific intraventricular conduction blocks exhibits QRS durations over 100ms but do not contain a posterior/anterior skew characteristic on the second half of the QRS complex~\cite{ecg-utah-lesson}.
     An example can be found in Figure~\ref{fig:full_NSIVCB}.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/PR/full_0_20814.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with pacing rhythm. Characteristic vertical lines appearing at the P wave onset suggests atrial pacing with normal conduction to the ventricles.}
@@ -323,7 +324,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \item[\gls{pr}] This diagnosis indicates the presence of a pacemaker. One common artifact is a vertical line appearing in the \gls{ecg} prior to the QRS complex~\cite{kirk_basic_2007}.
     An example \gls{ecg} record can be found in Figure~\ref{fig:full_PR}.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         % \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/PAC/full_95_4661.pdf}}
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/PAC/full_95_4661_emph.pdf}}
@@ -333,7 +334,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \item[\gls{pac}] These events may occur as single or repetitive events along the \gls{ecg} record and are characterized by a P wave occurring within the T wave of the preceding beat~\cite{ecg-utah-lesson}.
     An example can be found in Figure~\ref{fig:full_PAC}.
  
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/PVC/full_4_1478.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with premature ventricular contraction. Premature ventricular contraction occurs at the 4.5 second mark.}
@@ -342,7 +343,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \item[\gls{pvc}] This diagnosis indicates that a ventricular contraction has occurred before the next expected sinoatrial node action potential~\cite{surawicz_borys_ahaaccfhrs_2009}. It may occur as singular or repetitive events along the \gls{ecg} record.
     Refer to Figure~\ref{fig:full_PVC} for an example \gls{ecg} record containing this disorder.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LPR/full_17_21546.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with prolonged PR interval. Patient record contains PR intervals exceeding 200ms (5 squares) but is also diagnosed as having normal sinus rhythm.}
@@ -351,7 +352,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \item[\gls{lpr}] This disorder indicates a delayed conduction through the atrioventricular node and is characterized by a PR interval exceeding 200ms~\cite{Kwok672}. This condition has overlap with \gls{iavb} but suggests reduced severity.
     An example record can be found in Figure~\ref{fig:full_LPR}.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/LQT/full_37_19855.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with prolonged QT interval. Patient T waves end past the halfway point of the preceding and upcoming R peaks.}
@@ -360,7 +361,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \item[\gls{lqt}] This disorder indicates that the heart is inadequately recovering after each beat and can be quickly identified by the presence of T waves ending beyond the midway point of an RR interval~\cite{10.1001/jama.1986.03380210081029}.
     See Figure~\ref{fig:full_LQT} for an example record with this disorder.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/QAb/full_0_1740.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with abnormal Q wave. Patient Q waves exceed 40ms wave duration in leads I, III, aVR, aVL, V2, V3, V4, V5, V6 and have Q wave amplutides exceeding 25\% of the QRS complex amplitude in precordial leads V2-V6.}
@@ -369,7 +370,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \item[\gls{qab}]Pathologic Q waves indicate the presence of an old myocardial infarction and are diagnosed as having Q wave duration exceeding 40 ms or Q wave amplitude exceeding 25\% of the amplitude of the QRS complex~\cite{doi:10.1002/clc.4960200515}.
     Figure~\ref{fig:full_QAb} showcases an example record containing abnormal Q wave.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/RAD/full_0_10776.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with right axis deviation. A negative lead I with positive leads II and III suggest right axis deviation. Using the hexaxial system, leads II, III, and aVF all have the largest QRS amplitudes (each approximately 0.3mV), resulting in an cardiac axis estimate between $60\degree$ and $120\degree$. This overlaps with our right axis deviation criteria where the axis exists between $90\degree$ and $180\degree$.}
@@ -379,7 +380,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
 
     \item[\gls{rbbb}] This diagnosis is identical to \gls{crbbb}.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/SA/full_37_14861.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with sinus arrhythmia. Recorded heart rate decreases over time, or distance between R peaks increases over time.}
@@ -389,7 +390,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     This condition is typically not serious.
     An example of an \gls{ecg} record with \gls{sa} can be found in Figure~\ref{fig:full_SA}.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/SB/full_6_10548.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with sinus bradycardia. Upright P wave in lead II exists, with a mean heart rate of 59 beats per minute.}
@@ -399,7 +400,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     It is characterized by an upright P wave in lead II preceding every QRS complex and a heart rate of less than 60 beats per minute in adults.
     An example record is shown in Figure~\ref{fig:full_SB}.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/SNR/full_0_3452.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with normal sinus rhythm. No visible defects or abnormalities indicated.}
@@ -408,7 +409,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \item[\gls{snr}] The normal, healthy case for an \gls{ecg} record must have an upright P wave in leads I and II, with a QRS complex following each P wave~\cite{meek_introduction_2002}. In an adult, the resting heart rate should be between 60-99 beats per minute.
     A reference \gls{ecg} can be found in Figure~\ref{fig:full_SNR}
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/STach/full_0_807.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with sinus tachycardia. The average heart rate is 101 beats per minute.}
@@ -417,7 +418,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     \item[\gls{stach}] This is when the resting heart rate exceeds 100 beats per minute in adults, or above the normal range relative to the patient age.
     An example \gls{ecg} record is shown in Figure~\ref{fig:full_STach}
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/SVPB/full_0_14.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with supraventricular premature beats. Four instances of premature ventricular beats are observed in this record.}
@@ -427,7 +428,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     See Figure~\ref{fig:full_SVPB} for a reference \gls{ecg} with this disorder.
     For the PhysioNet challenge, this diagnosis is treated identically to \gls{pac}, despite different \gls{ecg} characteristics.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/TAb/full_37_12821.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with abnormal T wave.}
@@ -437,7 +438,7 @@ Please refer to Table~\ref{tab:labels_snomed_ct} for the labels, abbreviations, 
     An abnormality in the T wave ranges from low T-wave amplitudes to complete inversion of the T wave. Normal T waves typically align with the QRS complex direction. They should be upright in leads I, II, V3-6, and inverted in lead aVR. Normal T waves are typically asymmetric, with a faster second half compared to the first half~\cite{ecg-utah-lesson}.
     See Figure~\ref{fig:full_TAb} for a reference \gls{ecg} with abnormal T waves.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
         \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figure/TInv/full_29_18766.pdf}}
         \caption{Instance of 12-lead \gls{ecg} with T wave inversion. Leads with T waves of incorrect direction are observed in leads II, III, aVR (should be inverted), aVF, and V3-6.}

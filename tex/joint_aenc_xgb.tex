@@ -20,10 +20,55 @@ I extend the approaches used in Chapters~\ref{chp:xgbensemble} and \ref{chp:dl_a
 \end{itemize}
 
 \section{Methodology}
-TODO
+
+An initial processing step to convert the variable length features into fixed length input vectors is first applied on all \gls{ecg} records.
+We combine the techniques applied in Section~\ref{ssec:xgb_feature_engineering} and Section~\ref{ssec:aenc_seq_embedding} to create different experiment configurations for comparison.
+
+We propose six different experiment configurations:
+\begin{enumerate}
+    \item \label{item:xgb_aenc_model_1} \textbf{All Features with Embeddings}: We combine the feature engineering input vector (size 18,950) with the autoencoder sequence embedding vector (size 768) to create a combined input vector of size 19,718 and train an XGBClassifier for each of the 27 diagnosed labels.
+    \item \label{item:xgb_aenc_model_2} \textbf{All Features}: We use the feature engineering input vector of size 18,950 as the input to our label-wise XGBClassifier ensembles.
+    \item \textbf{Top 1000 Features with Embeddings}: Starting from Configuration~\ref{item:xgb_aenc_model_1}, we select the top 1,000 features for each diagnosis classifier and retrain a new set of 27 classifiers using the reduced feature set.
+    \item \textbf{Top 1000 Features}: Starting from Configuration~\ref{item:xgb_aenc_model_2}, a new set of 27 classifiers is trained using the reduced top 1,000 most important features.
+    \item \textbf{Top 100 Features with Embeddings}: Starting from Configuration~\ref{item:xgb_aenc_model_1}, we select the 100 most important features for each diagnosis classifier and retrain a new set of 27 classifiers.
+    \item \textbf{Top 100 Features}: Starting from Configuration~\ref{item:xgb_aenc_model_2}, 27 classifiers are trained using the reduced top 100 most important features.
+\end{enumerate}
+
+The significant difference distinguishing these approaches from the top 1000 features approach used in Section~\ref{ssec:xgb_classification} is that the importances of features for each of the labels are now evaluated independently, where the prior experiment used the same reduced set of features for all classifiers.
+Aside from the choice of inputs, we also correct the inadequate dataset partitioning scheme and perform Monte Carlo cross-validation 20 times, randomly partitioning the available corpus of public data into 80\% training, 10\% validation, and 10\% test splits.
 
 \section{Results}
-TODO
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[trim={0.2cm 0.3cm 0.2cm 0.1cm},clip,width=\textwidth]{figure/xgb_aenc_classification_metrics.pdf}
+    \caption[Test split classification metrics of XGB ensemble using all engineered features and autoencoder embeddings]{Test split classification metrics of XGB ensemble using 1. All engineered features and autoencoder embeddings; 2. All engineered features; 3. Top 1000 engineered features and autoencoder embeddings per label classifier; 4. Top 1000 engineered features per label classifier; 5. Top 100 engineered features and autoencoder embeddings per label classifier; and 6. Top 100 engineered features per label classifier.}
+    \label{fig:xgb_aenc_classification_metrics}
+\end{figure}
+
+\begin{table}[t]
+    \caption{\label{tab:xgb_aenc_classification_metrics} Test split classification metrics mean ($\bar{x}$) and standard deviations ($\sigma$) for all experiment configurations. Bolded value indicates largest mean for metric category.}
+    \vspace{2 mm}
+    \centerline{\begin{tabular}{@{}rcccccccc@{}}
+    \multirow{2}{*}{\textbf{Experiment}} & & \multirow{2}{*}{\textbf{AUROC}} & \multirow{2}{*}{\textbf{AUPRC}} & \multirow{2}{*}{\textbf{Accuracy}} & \multirow{2}{*}{\textbf{F Measure}} & \multirow{2}{*}{\textbf{F-Beta}} & \multirow{2}{*}{\textbf{G-Beta}} & \textbf{Challenge} \\
+    & & & & & & & & \textbf{Metric} \\ \hline
+    All Feats & $\bar{x}$ & 0.8821 & 0.3813 & 0.3137 & 0.3587 & 0.4047 & 0.2160 & 0.4207 \\
+    w/ Embed & $\sigma$ & $5.3 \times 10^{-3}$ & $5.0 \times 10^{-3}$ & $6.8 \times 10^{-3}$ & $5.9 \times 10^{-3}$ & $8.1 \times 10^{-3}$ & $3.9 \times 10^{-3}$ & $7.7 \times 10^{-3}$ \\ \hline
+    \multirow{2}{*}{All Feats} & $\bar{x}$ & 0.8815 & 0.3809 & \textbf{0.3139} & 0.3582 & 0.4036 & 0.2150 & 0.4206 \\
+    & $\sigma$ & $5.5 \times 10^{-3}$ & $5.0 \times 10^{-3}$ & $7.9 \times 10^{-3}$ & $6.0 \times 10^{-3}$ & $8.6 \times 10^{-3}$ & $5.2 \times 10^{-3}$ & $1.0 \times 10^{-2}$ \\ \hline
+    Top 1000 Feats & $\bar{x}$ & 0.8836 & 0.3837 & 0.3062 & 0.3613 & 0.4128 & \textbf{0.2183} & 0.4316 \\
+    w/ Embed & $\sigma$ & $4.8 \times 10^{-3}$ & $6.4 \times 10^{-3}$ & $5.4 \times 10^{-3}$ & $5.4 \times 10^{-3}$ & $6.7 \times 10^{-3}$ & $4.3 \times 10^{-3}$ & $7.0 \times 10^{-3}$ \\ \hline
+    \multirow{2}{*}{Top 1000 Feats} & $\bar{x}$ & 0.8843 & 0.3836 & 0.3075 & \textbf{0.3619} & 0.4126 & 0.2179 & 0.4295 \\
+    & $\sigma$ & $5.2 \times 10^{-3}$ & $5.6 \times 10^{-3}$ & $6.4 \times 10^{-3}$ & $5.2 \times 10^{-3}$ & $7.5 \times 10^{-3}$ & $4.4 \times 10^{-3}$ & $8.1 \times 10^{-3}$ \\ \hline
+    Top 100 Feats & $\bar{x}$ & 0.8836 & \textbf{0.3876} & 0.2820 & 0.3588 & 0.4190 & 0.2143 & \textbf{0.4348} \\
+    w/ Embed & $\sigma$ & $4.9 \times 10^{-3}$ & $7.0 \times 10^{-3}$ & $6.2 \times 10^{-3}$ & $5.1 \times 10^{-3}$ & $6.8 \times 10^{-3}$ & $4.9 \times 10^{-3}$ & $7.8 \times 10^{-3}$ \\ \hline
+    \multirow{2}{*}{Top 100 Feats} & $\bar{x}$ & \textbf{0.8848} & 0.3857 & 0.2830 & 0.3604 & \textbf{0.4198} & 0.2150 & 0.4335 \\
+    & $\sigma$ & $4.5 \times 10^{-3}$ & $8.5 \times 10^{-3}$ & $7.5 \times 10^{-3}$ & $4.0 \times 10^{-3}$ & $5.3 \times 10^{-3}$ & $3.3 \times 10^{-3}$ & $8.2 \times 10^{-3}$ \\
+    \end{tabular}}
+\end{table}
+
+Refer to Figure~\ref{fig:xgb_aenc_classification_metrics} and Table~\ref{tab:xgb_aenc_classification_metrics} for the test set split classification metric summaries for all experiment configurations.
+The experiment configuration with the largest mean challenge score is used the top 100 important features of all engineered features with the autoencoder embeddings.
 
 \section{Discussion}
 TODO
