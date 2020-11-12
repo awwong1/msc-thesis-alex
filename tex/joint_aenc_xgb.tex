@@ -70,6 +70,15 @@ Aside from the choice of inputs, we also correct the inadequate dataset partitio
 Refer to Figure~\ref{fig:xgb_aenc_classification_metrics} and Table~\ref{tab:xgb_aenc_classification_metrics} for the test set split classification metric summaries for all experiment configurations.
 The experiment configuration with the largest mean challenge score is used the top 100 important features of all engineered features with the autoencoder embeddings.
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\textwidth]{figure/top_1000_feature_importances_all_w_embedding.pdf}
+    \caption{Feature importances of top 1000 features with autoencoder embeddings using an aggregated count over all 20 independent experiments. Each of the 27 diagnosed labels separately displayed, showcasing feature derived lead (or meta/embedding), and category (heart rate, heartbeat, full waveform, embedding, age/sex).}
+    \label{fig:xgb_aenc_top_1000_features_labelwise}
+\end{figure}
+
+A categorical breakdown of the top 1000 most important features, showcasing label-wise counts of the feature derived lead and category types, can be found in Figure~\ref{fig:xgb_aenc_top_1000_features_labelwise}.
+
 \section{Discussion}
 TODO
 
