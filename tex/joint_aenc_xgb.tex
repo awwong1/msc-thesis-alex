@@ -13,29 +13,39 @@ In Chapter~\ref{chp:dl_autoenc} I discover that the autoencoder classification m
 
 This chapter explores the effectiveness of combining the autoencoder learned embeddings with the manually engineered features to train a new set of gradient boosted tree models.
 I extend the approaches used in Chapters~\ref{chp:xgbensemble} and \ref{chp:dl_autoenc} with the following research questions:
-\begin{itemize}
-    \item For the shallow classification ensemble using manual feature engineering, the top $1,000$ features used were averaged across all classifier labels. Will selecting top features with respect to the label-wise classifier improve classification scoring metrics?
-    \item We have a deep learning approach for generating a fixed size embedding representation of a variable length \gls{ecg} record. Will incorporating the sequence embeddings from our deep learning autoencoder improve classification scoring metrics?
-    \item What are the new distributions of important feature categories for these new classifiers, with respect to each diagnosis?
-\end{itemize}
+\begin{enumerate}
+    \item[RQ1] \label{question:xgb_aenc_one} Rather than averaging the feature importances over all classifiers, will selecting top features with respect to the label-wise classifier improve the classification challenge metric?
+    \item[RQ2] We have a deep learning approach for generating a fixed size embedding representation of a variable length \gls{ecg} record. Will incorporating the sequence embeddings from our deep learning autoencoder improve classification challenge metric?
+    \item[RQ3] When adding the deep learning generated autoencoder embeddings, do they represent a significant portion of the important features after feature pruning?
+\end{enumerate}
 
 \section{Methodology}
 
 An initial processing step to convert the variable length features into fixed length input vectors is first applied on all \gls{ecg} records.
-We combine the techniques applied in Section~\ref{ssec:xgb_feature_engineering} and Section~\ref{ssec:aenc_seq_embedding} to create different experiment configurations for comparison.
-
-We propose six different experiment configurations:
+I combine the techniques applied in Section~\ref{ssec:xgb_feature_engineering} and Section~\ref{ssec:aenc_seq_embedding} to create ten different experiment configurations:
 \begin{enumerate}
-    \item \label{item:xgb_aenc_model_1} \textbf{All Features with Embeddings}: We combine the feature engineering input vector (size 18,950) with the autoencoder sequence embedding vector (size 768) to create a combined input vector of size 19,718 and train an XGBClassifier for each of the 27 diagnosed labels.
-    \item \label{item:xgb_aenc_model_2} \textbf{All Features}: We use the feature engineering input vector of size 18,950 as the input to our label-wise XGBClassifier ensembles.
-    \item \textbf{Top 1000 Features with Embeddings}: Starting from Configuration~\ref{item:xgb_aenc_model_1}, we select the top 1,000 features for each diagnosis classifier and retrain a new set of 27 classifiers using the reduced feature set.
+    \item \label{item:xgb_aenc_model_1} \textbf{All Features with Embeddings}: I combine the feature engineering input vector (size 18,950) with the autoencoder sequence embedding vector (size 768) to create a combined input vector of size 19,718 and train an XGBClassifier for each of the 27 diagnosed labels.
+    \item \label{item:xgb_aenc_model_2} \textbf{All Features}: I use the feature engineering input vector of size 18,950 as the input to our label-wise XGBClassifier ensembles.
+    This configuration is identical to the phase 1 methodology described in Section~\ref{ssec:xgb_classification}.
+    \item \label{item:xgb_aenc_model_3} \textbf{Top 1000 Features with Embeddings}: Starting from Configuration~\ref{item:xgb_aenc_model_1}, I select the top 1,000 features for each diagnosis classifier and retrain a new set of 27 classifiers using the reduced feature set.
     \item \textbf{Top 1000 Features}: Starting from Configuration~\ref{item:xgb_aenc_model_2}, a new set of 27 classifiers is trained using the reduced top 1,000 most important features.
-    \item \textbf{Top 100 Features with Embeddings}: Starting from Configuration~\ref{item:xgb_aenc_model_1}, we select the 100 most important features for each diagnosis classifier and retrain a new set of 27 classifiers.
+    \item \textbf{Averaged Top 1000 Features with Embeddings}: Using the trained models from Configuration~\ref{item:xgb_aenc_model_1}, all label-wise classifier feature importances are averaged together before selecting the top 1,000 features.
+    \item \textbf{Averaged Top 1000 Features}: Using Configuration~\ref{item:xgb_aenc_model_2}, the classifier feature importances for all labels are averaged together to select the top 1,000 features.
+    This configuration is identical to the phase 2 methodology described in Section~\ref{ssec:xgb_classification}.
+    \item \label{item:xgb_aenc_model_5} \textbf{Top 100 Features with Embeddings}: Starting from Configuration~\ref{item:xgb_aenc_model_1}, I select the 100 most important features for each diagnosis classifier and retrain a new set of 27 classifiers.
     \item \textbf{Top 100 Features}: Starting from Configuration~\ref{item:xgb_aenc_model_2}, 27 classifiers are trained using the reduced top 100 most important features.
+    \item \textbf{Averaged Top 100 Features with Embeddings}: Using the trained models from Configuration~\ref{item:xgb_aenc_model_1}, all label-wise classifier feature importances are averaged together before selecting the top 100 features.
+    \item \textbf{Averaged Top 100 Features}: Using Configuration~\ref{item:xgb_aenc_model_2}, the classifier feature importances for all labels are averaged together to select the top 100 features.
 \end{enumerate}
 
-The significant difference distinguishing these approaches from the top 1000 features approach used in Section~\ref{ssec:xgb_classification} is that the importances of features for each of the labels are now evaluated independently, where the prior experiment used the same reduced set of features for all classifiers.
-Aside from the choice of inputs, we also correct the inadequate dataset partitioning scheme and perform Monte Carlo cross-validation 20 times, randomly partitioning the available corpus of public data into 80\% training, 10\% validation, and 10\% test splits.
+The significant differences distinguishing these approaches from the top 1000 features approach used in Section~\ref{ssec:xgb_classification} are that the importances of features for each of the labels are now evaluated independently, where the prior experiment used the same reduced set of features for all classifiers.
+I further revise the inadequate dataset partitioning to use Monte Carlo cross-validation 20 times, randomly partitioning the available corpus of public data into 80\% training, 10\% validation, and 10\% test splits.
+
+For each experiment configuration run, I train an \texttt{xgboost}~\cite{chen_xgboost_2016} binary classifier for each of the 27 diagnosed labels.
+I use the dropout augmented regression tree booster proposed by Vinayak and Gilad-Bachrach~\cite{vinayak_dart_2015} and sample the training instances using probabilities proportional to the training gradients.
+I use the scoring function reward matrix weights from Figure~\ref{fig:reward_matrix} as instance sample weights, capping positive examples to a threshold of 0.5.
+I further scale the positive samples using the ratio of negative samples over positive samples for the given label and dataset split.
+During training, if the evaluation set binary logistic regression loss fails to improve after 20 epochs of training, we early stop to mitigate overfitting on the training set.
 
 \section{Results}
 
@@ -49,7 +59,7 @@ Aside from the choice of inputs, we also correct the inadequate dataset partitio
 \begin{table}[t]
     \caption{\label{tab:xgb_aenc_classification_metrics} Test split classification metrics mean ($\bar{x}$) and standard deviations ($\sigma$) for all experiment configurations. Bolded value indicates largest mean for metric category.}
     \vspace{2 mm}
-    \centerline{\begin{tabular}{@{}rcccccccc@{}}
+    \centerline{\begin{tabular}{@{}r@{{ }}c|c@{{ }}c@{{ }}c@{{ }}c@{{ }}c@{{ }}c@{{ }}c@{}}
     \multirow{2}{*}{\textbf{Experiment}} & & \multirow{2}{*}{\textbf{AUROC}} & \multirow{2}{*}{\textbf{AUPRC}} & \multirow{2}{*}{\textbf{Accuracy}} & \multirow{2}{*}{\textbf{F Measure}} & \multirow{2}{*}{\textbf{F-Beta}} & \multirow{2}{*}{\textbf{G-Beta}} & \textbf{Challenge} \\
     & & & & & & & & \textbf{Metric} \\ \hline
     All Feats & $\bar{x}$ & 0.8821 & 0.3813 & 0.3137 & 0.3587 & 0.4047 & 0.2160 & 0.4207 \\
@@ -67,17 +77,41 @@ Aside from the choice of inputs, we also correct the inadequate dataset partitio
     \end{tabular}}
 \end{table}
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=12cm]{figure/xgb_aenc_wilcoxon_srt_p_vals.pdf}
+    \caption[Wilcoxon signed-rank test P-values, comparing test split challenge metric distributions of all 6 experiment configurations.]{Wilcoxon signed-rank test P-values, comparing test split challenge metric distributions of all 6 experiment configurations. Asterisk indicates significantly different challenge metric distribution at a confidence level of 0.1\%.}
+    \label{fig:xgb_aenc_wilcoxon_srt_p_vals}
+\end{figure}
+
 Refer to Figure~\ref{fig:xgb_aenc_classification_metrics} and Table~\ref{tab:xgb_aenc_classification_metrics} for the test set split classification metric summaries for all experiment configurations.
-The experiment configuration with the largest mean challenge score is used the top 100 important features of all engineered features with the autoencoder embeddings.
+The experiment configuration with the largest mean challenge score is the ``Top 100 Features with Embeddings", or the top 100 features from both the engineered and autoencoder sources.
+I apply the Wilcoxon signed-rank test to determine if the challenge metrics from Configuration~\ref{item:xgb_aenc_model_5} are statistically different than all of the other experiment configurations.
+Setting a confidence level of 1\%, Configuration 5 is statistically better than using ``All Features'' (Configuration~\ref{item:xgb_aenc_model_1}) and ``All Features with Embeddings'' (Configuration~\ref{item:xgb_aenc_model_2}).
+Adding embeddings to the classifiers as additional input data does not result in a statistically different improvement in challenge metric score.
+See Figure~\ref{fig:xgb_aenc_wilcoxon_srt_p_vals} for the Wilcoxon signed-rank test evaluated on all configuration pairs.
+To summarize Question~\ref{question:xgb_aenc_one}, the addition of the autoencoder features does not statistically improve the challenge metric
 
 \begin{figure}[t]
     \centering
     \includegraphics[width=\textwidth]{figure/top_1000_feature_importances_all_w_embedding.pdf}
-    \caption{Feature importances summary of configuration: ``Top 1000 Features with Embeddings", aggregated counts over 20 independent experiments. Each of the 27 diagnosed labels displayed separately, showcasing feature derived lead (alternatively Meta or Autoencoder), and category (heart rate, full waveform signal, heartbeat, embedding, age/sex).}
+    \caption{Feature importances summary of Configuration~\ref{item:xgb_aenc_model_3}: ``Top 1000 Features with Embeddings", aggregated counts over 20 independent experiments. Each of the 27 diagnosed labels displayed separately, showcasing feature derived lead (alternatively Meta or Autoencoder), and category (heart rate, full waveform signal, heartbeat, embedding, age/sex).}
     \label{fig:xgb_aenc_top_1000_features_labelwise}
 \end{figure}
 
 A categorical breakdown of the top 1000 most important features, showcasing label-wise counts of the feature derived lead and category types, can be found in Figure~\ref{fig:xgb_aenc_top_1000_features_labelwise}.
+Counting the contribution of the autoencoder embedding features, we see that for \gls{lbbb}, \gls{pr}, \gls{pac}, \gls{pvc}, \gls{lqt}, \gls{qab}, \gls{stach}, \gls{svpb}, and \gls{vpb}, the number of embedding features are proportionally higher than the the heartbeat, heart rate, or full waveform feature contributions of any other lead.
+The top 100 important features variant is displayed in Figure~\ref{fig:xgb_aenc_top_100_features_labelwise}.
+In comparison, the count of autoencoder features have diminished and no longer exceeds the other leads in any category.
+This suggests that the majority of the dominant important features are not provided by the autoencoder embeddings, but still derived from manual feature extraction techniques.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\textwidth]{figure/top_100_feature_importances_all_w_embedding.pdf}
+    \caption{Feature importances summary of Configuration~\ref{item:xgb_aenc_model_5}: ``Top 100 Features with Embeddings", aggregated counts over 20 independent experiments. Each of the 27 diagnosed labels displayed separately, showcasing feature derived lead (alternatively Meta or Autoencoder), and category (heart rate, full waveform signal, heartbeat, embedding, age/sex).}
+    \label{fig:xgb_aenc_top_100_features_labelwise}
+\end{figure}
+
 
 \section{Discussion}
 TODO
