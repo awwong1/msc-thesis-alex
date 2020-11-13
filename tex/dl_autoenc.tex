@@ -281,6 +281,9 @@ Future work should expand on our findings to incorporate heart rate velocities, 
 Using a signal processing and heartbeat window extraction preprocessing step, we train heartbeat autoencoders to be fed into ECG sequence autoencoders before training a multi-label perceptron to classify 27 heart conditions.
 We run $20$ independent experiments, randomly sampling our available dataset into 80\% training, 10\% validation, and 10\% test set splits.
 Our methodology achieves a mean unofficial test challenge score of 0.248 with an overall macro $\text{F}_1$ score of 0.260.
-    
+
+\section*{Errata}
+Figure~\ref{fig:aenc_methodology} incorrectly states the embedding size in stage (4) to be \texttt{[$ 1 \times 786$]}.
+Corrected, this value is \texttt{[$1 \times 768$]}.
 
 \end{document}

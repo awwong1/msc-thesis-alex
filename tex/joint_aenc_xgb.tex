@@ -141,78 +141,57 @@ I analyze the relevant configuration pairs, using a confidence of $0.1\%$:
 
 The results suggest that although adding autoencoder embeddings into the input vector as additional representation of the \gls{ecg} record improves the average classification metric of the experiments, the increased classification metric is not statistically significant.
 
+\subsection{Embedding Feature Importances}
+\label{ssec:xgb_aenc_embd_feat_importances}
+
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\textwidth]{figure/top_1000_feature_importances_all_w_embedding.pdf}
-    \caption{Feature importances summary of Configuration~\ref{item:xgb_aenc_model_top_1000_w_embd}: ``Top 1000 Features with Embeddings", aggregated counts over 20 independent experiments. Each of the 27 diagnosed labels displayed separately, showcasing feature derived lead (alternatively Meta or Autoencoder), and category (heart rate, full waveform signal, heartbeat, embedding, age/sex).}
+    \includegraphics[width=\textwidth]{figure/utilization_top_1000_feature_importances_all_w_embedding.pdf}
+    \caption{Feature importances summary of Configuration~\ref{item:xgb_aenc_model_top_1000_w_embd}: ``Top 1000 Features with Embeddings", aggregated utilization over 20 independent experiments. Each of the 27 diagnosed labels displayed separately, showcasing feature derived lead (alternatively Meta or Autoencoder), and category (heart rate, full waveform signal, heartbeat, embedding, age, sex).}
     \label{fig:xgb_aenc_top_1000_features_labelwise}
 \end{figure}
 
-\subsection{Embedding Feature Importances}
-
 Question~\ref{question:xgb_aenc_embd_ratio} asks whether or not the embeddings, when added to the classifier inputs, are actually used when classifying the cardiac diagnoses.
 A categorical breakdown of the feature importances from Configuration~\ref{item:xgb_aenc_model_top_1000_w_embd}, showcasing label-wise counts of the feature derived lead and category types, can be found in Figure~\ref{fig:xgb_aenc_top_1000_features_labelwise}.
-Counting the contribution of the autoencoder embedding features, we see that for \gls{lbbb}, \gls{pr}, \gls{pac}, \gls{pvc}, \gls{lqt}, \gls{qab}, \gls{stach}, \gls{svpb}, and \gls{vpb}, the number of embedding features are proportionally higher than the the heartbeat, heart rate, or full waveform feature contributions of any other lead.
+Counting the contribution of the autoencoder embedding features, we see that for the \gls{lbbb} and \gls{qab} diagnoses, the utilization of embedding features exceed the heartbeat, heart rate, and full waveform feature contributions of any other lead.
 The top 100 important features variant from Configuration~\ref{item:xgb_aenc_model_top_100_w_embd} is displayed in Figure~\ref{fig:xgb_aenc_top_100_features_labelwise}.
-In comparison, the count of autoencoder features have diminished and no longer exceeds the other leads in any category.
-This suggests that the majority of the dominant important features are not provided by the autoencoder embeddings, but still derived from manual feature extraction techniques.
+In comparison, the utilization of autoencoder embedding features have diminished and no longer exceeds the other leads in any category in any label.
+
+This suggests that the majority of the dominant important features are not provided by the autoencoder embeddings when feature pruning is aggressive (top 100).
+When feature pruning is less aggressive (top 1000), the embedding features are more dominant than any other lead category in predicting \gls{lbbb} and \gls{qab}.
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\textwidth]{figure/top_100_feature_importances_all_w_embedding.pdf}
-    \caption{Feature importances summary of Configuration~\ref{item:xgb_aenc_model_top_100_w_embd}: ``Top 100 Features with Embeddings", aggregated counts over 20 independent experiments. Each of the 27 diagnosed labels displayed separately, showcasing feature derived lead (alternatively Meta or Autoencoder), and category (heart rate, full waveform signal, heartbeat, embedding, age/sex).}
+    \includegraphics[width=\textwidth]{figure/utilization_top_100_feature_importances_all_w_embedding.pdf}
+    \caption{Feature importances summary of Configuration~\ref{item:xgb_aenc_model_top_100_w_embd}: ``Top 100 Features with Embeddings", aggregated utilization over 20 independent experiments. Each of the 27 diagnosed labels displayed separately, showcasing feature derived lead (alternatively Meta or Autoencoder), and category (heart rate, full waveform signal, heartbeat, embedding, age, sex).}
     \label{fig:xgb_aenc_top_100_features_labelwise}
 \end{figure}
 
 
 \section{Discussion}
-TODO
 
-% Unlike the prior two chapters, the work showcased in this chapter has not been published nor submitted for consideration.
-% I acknowledge Dr. Sunil Vasu Kalmady for suggesting the idea of combining my two prior experiments together.
-% All other facets are contributed by myself, as I engineered the experiment, generated the relevant figures, and wrote this writeup.
+Bengio discusses in an informal academic research panel~\cite{2020-yoshua-dlc} current and upcoming deep learning challenges, where he dismisses the viability of engineering deep learning models into old-fashioned symbolic machine learning methods, instead proposing learned attention mechanisms as a viable alternative.
+This is enforced by the experiment results, as no significant improvement in challenge metric can be attributed to the addition of autoenoder embedding representations alone.
+Additionally, although the engineering of the two different mechanisms into one shallow machine learning classifier is feasible, we obscure the semantics of feature importance for the embedding features.
+It is no longer clear how to trace the importances assigned to the embedding features back to their original lead sources.
 
-% The takeaways from this chapter are:
-% \begin{enumerate}
-%     \item Joining the autoencoder embeddings with the manually engineered features to train a set of gradient boosting tree ensemble classifiers resulted in models with poorer classification metrics than using manually engineered features alone.
-%     \item Certain labels had increased mean classification $\text{F}_1$ score but none of the label-wise improvements were statistically significant at $p = 0.01$.
-%     \item Long term viability of this strategy of combining deep learning techniques with shallow models is not promising, with notable disadvantages: no end-to-end training, unclear model interpretability.
-% \end{enumerate}
+The public dataset provided by the challenge contained notable irregularities that were not corrected when training the models.
+Example irregularities include: 
+\begin{itemize}
+    \item \gls{ecg} records containing voltage over time changes exceeding physiologically possible voltage measurements
+    \item \gls{ecg} records with miniscule voltage gain, peaks undiscernible from noise;
+    \item \gls{ecg} records not labeled as \gls{brady} despite having resting heart rate of below 60 beats per minute;
+    \item \gls{lqrsv} \gls{ecg} records incorrectly labeled as \gls{af}, \gls{tab}, or \gls{snr};
+    \item \gls{tab} labeled \gls{ecg} records undiscernible from noise;
+    \item inconsistent dataset labeling of \gls{af} and \gls{afl};
+\end{itemize}
+Additional improvements in the quality of the underlying dataset and the discarding of unusable \gls{ecg} records would likely improve the performance of the classifiers.
 
-% \section{Methodology}
-% We extend the experiments performed in the manual feature engineering methodology~\cite{wong2020CINC-multilabel-ECG} discussed in Chapter~\ref{chp:xgbensemble} as well as the deep learning approach using the beat to sequence autoencoders~\cite{wong2021ICASSP-multilabel-ECG} discussed in Chapter~\ref{chp:dl_autoenc}.
+For future work, a replication of this study using other shallow classifiers, such as support vector machines, could provide insight into the relative effectiveness of the gradient boosted trees.
+Using a wide set of tabular features per \gls{ecg} record appears to be inefficient, as feature pruning was the most useful regularization technique for improving the challenge metric score.
+Expert domain specific knowledge for feature generation and selection may prove to be a more effective approach than distilling features from a general purpose time series feature extraction library.
 
-% We run our corpus of available \gls{ecg} data through the manual feature engineering process to clean and pre-process our signals, then we extract the top 1,000 full waveform, heartbeat template, and heart rate variability features using \emph{tsfresh} and \emph{NeroKit2}.
-% Additionally, using the 20 existing and trained beat to sequence autoencoders, we convert our \gls{ecg} records into embeddings of size 768 floating point numbers.
-% Our classifier receives \gls{ecg} records as input vectors of size $1,768$.
-
-% We use 20 times repeated random subsampling, keeping identical splits of our \gls{ecg} records as performed in our prior experiments, to mitigate internal validity risk.
-% All other XGBoost configuration settings are identical to our previous XGBoost ensemble training experiment, which is discussed in Section~\ref{ssec:xgb_classification}.
-
-% \section{Results}
-
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=10cm]{figure/classification_metrics_3_way.pdf}
-%     \caption[Summary classification metrics comparing gradient boosting decision tree with manual feature engineering, beat to sequence autoencoder classifier, and gradient boosting decision tree with manual feature engineering and autoencoder embeddings.]{Summary classification metrics comparing gradient boosting decision tree with manual feature engineering, beat to sequence autoencoder classifier, and gradient boosting decision tree with manual feature engineering and autoencoder embeddings. Annotations indicate mean value.}
-%     \label{fig:joint_xgb_aenc_classification_metrics_summary}
-% \end{figure}
-
-% Figure~\ref{fig:joint_xgb_aenc_classification_metrics_summary} contains the summary classification metrics of our original XGBoost methodology~\cite{wong2020CINC-multilabel-ECG}, our beat to sequence autoencoder~\cite{wong2021ICASSP-multilabel-ECG}, and the work discussed in this chapter joining these two approaches together.
-% We observe that the additional features derived from the autoencoder caused all classification metrics to decrease respective to using the XGBoost ensemble methodology with manually engineered features alone.
-
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=14cm]{figure/label_f1s_3_way.pdf}
-%     \caption[Label-wise $\text{F}_1$ scores comparing gradient boosting decision tree with manual feature engineering, beat to sequence autoencoder classifier, and gradient boosting decision tree with manual feature engineering and autoencoder embeddings.]{Label-wise $\text{F}_1$ scores comparing gradient boosting decision tree with manual feature engineering, beat to sequence autoencoder classifier, and gradient boosting decision tree with manual feature engineering and autoencoder embeddings. Annotations indicate mean value.}
-%     \label{fig:joint_xgb_aenc_f1_score}
-% \end{figure}
-
-% A label-wise comparison of the joint model's $\text{F}_1$ scores compared to our prior work can be found in Figure~\ref{fig:joint_xgb_aenc_f1_score}.
-% The Wilcoxon signed rank statistical test is used to compare the XGBoost with autoencoder embedding $\text{F}_1$ scores to the XGBoost without embedding $\text{F}_1$ scores.
-% With a $p$-value of $0.01$, none of the labels incurred a statistically significant improvement in $\text{F}_1$ score.
-
-% \section{Discussion}
-% In a 2020 panel where Yoshua Bengio discusses current and upcoming deep learning challenges, he dismisses the viability of engineering deep learning models into old-fashioned symbolic machine learning methods, instead proposing learned attention mechanisms as a viable alternative~\cite{2020-yoshua-dlc}.
+Additionally, the challenge provided dataset contained an additional 88 unused classification labels.
+Future work could consider applying these unused labels as additional features for classification in a gambit to learn diagnosis correlations or interactions.
 
 \end{document}
