@@ -17,8 +17,8 @@ This work has manuscript revisions from Dr.\ Abram Hindle and Dr.\ Sunil Vasu Ka
 % Takeaways
 \paragraph{What to take away from this chapter}
 \begin{itemize}
-    \item Our beat to sequence autoencoder approach is statistically more sensitive than the XGBoost ensemble method in detecting \gls{irbbb}, \gls{lanfb}, \gls{pr}, and \gls{rad}.
-    \item However, for overall \gls{ecg} classification metrics, the beat to sequence autoencoder is a less effective classifier than the prior XGBoost ensemble approach.
+    \item Our beat to sequence autoencoder approach is statistically more sensitive than the XGBoost ensemble method in detecting \gls{irbbb}, \gls{lanfb}, \gls{pr}, and \gls{rad};
+    \item However, for overall \gls{ecg} classification metrics, the beat to sequence autoencoder is a less effective classifier than the prior XGBoost ensemble approach;
     \item Future work, combining the benefits of the autoencoder embeddings and the shallow tree classifier may lead to a better overall classifier.
 \end{itemize}
 
@@ -196,14 +196,14 @@ Training stops if the validation loss fails to attain a new minimum value after 
 \begin{figure*}[b]
     \centering
     \includegraphics[trim={0.15cm 0.35cm 0.2cm 0.25cm},clip,width=\textwidth]{figure/aenc_label_f1s.pdf}
-    \caption{Test set $\text{F}_1$ scores of all 27 labels compared with our prior XGBoost ensemble method~\cite{wong2020CINC-multilabel-ECG}. Mean values annotated.}
+    \caption[Test set $\text{F}_1$ scores of all 27 labels compared with our prior XGBoost ensemble method. Mean values annotated.]{Test set $\text{F}_1$ scores of all 27 labels compared with our prior XGBoost ensemble method~\cite{wong2020CINC-multilabel-ECG}. Mean values annotated.}
     \label{fig:label_f1s}
 \end{figure*}
 
 \begin{figure}[b]
     \centering
     \includegraphics[trim={0.2cm 0.3cm 0.2cm 0.1cm},clip,width=8cm]{figure/aenc_classification_metrics.pdf}
-    \caption{Classification metric summary of 20 experiments compared to XGBoost ensembles~\cite{wong2020CINC-multilabel-ECG}. Mean values annotated.}
+    \caption[Classification metric summary of 20 experiments compared to XGBoost ensembles. Mean values annotated.]{Classification metric summary of 20 experiments compared to XGBoost ensembles~\cite{wong2020CINC-multilabel-ECG}. Mean values annotated.}
     \label{fig:classification_metrics}
 \end{figure}
 
@@ -253,6 +253,7 @@ Training stops if the validation set challenge score fails to improve after 30 e
 We use the highest validation set scoring model from all epochs and calculate the challenge metrics on the test set split, setting thresholds to maximize the training data receiver operating characteristic.
 
 \section{Results and Discussion}
+\label{sec:aenc_results}
 
 % All sequence autoencoders early stopped, running a mean of $70.75$ (std. $22.6$) epochs.
 We compare our results with our prior XGBoost ensemble classifier~\cite{wong2020CINC-multilabel-ECG}.
@@ -285,5 +286,7 @@ Our methodology achieves a mean unofficial test challenge score of 0.248 with an
 \section*{Errata}
 Figure~\ref{fig:aenc_methodology} incorrectly states the embedding size in stage (4) to be \texttt{[$ 1 \times 786$]}.
 Corrected, this value is \texttt{[$1 \times 768$]}.
+
+Extending Section~\ref{sec:aenc_results}, all sequence autoencoders early stopped, running for an average of $70.75$ (standard deviation of 22.6) epochs.
 
 \end{document}
