@@ -16,6 +16,12 @@ Multiple configurations of \gls{ecg} machines exist ranging from consumer portab
 The focus of this research applies to the 12-lead \gls{ecg}, as it is the standard hospital setting device used by cardiologists for evaluating heart disorders~\cite{kligfield_paul_recommendations_2007}.
 
 In this thesis, I discuss approaches for the multi-label, multi-class classification of \gls{ecg} records using a combination of deep learning and traditional machine learning methods.
+I explore in-depth the following claims:
+\begin{itemize}
+    \item Despite the overwhelming popularity of deep learning classifiers, shallow learning methods such as gradient boosted decision trees can remain a viable and sensible choice for the \gls{ecg} classification task, outperforming a deep learning autoencoder model on summary classification metrics such as F-measure and weighted accuracy (see Scoring Function, Section~\ref{ssec:scoring_function}).
+    \item When working with gradient boosted decision trees, regularization of the input feature space and appropriately selecting the important features for the classifier are more effective than incorporating deep learning autoencoder embeddings for improving the challenge classification score.
+    \item Naively joining deep learning autoencoder embeddings with manually engineered features for decision tree classifiers does not improve the summary classification metrics in the \gls{ecg} classification task.
+\end{itemize}
 
 \section{Contributions}
 
@@ -28,7 +34,7 @@ My contributions to this thesis include:
     Our beat to sequence autoencoder classifiers attain an average test split challenge score of $0.248$, with worse overall classification performance compared to the shallow machine learning approach, but slightly improved label-wise specificity on \acrlong{irbbb}, \acrlong{lanfb}, \acrlong{pr}, and \acrlong{rad}.
     \item I created a hybrid shallow/deep machine learning approach for 12-lead \gls{ecg} classification by fusing together the manually engineered features with the autoencoder sequence embedding representation of the record.
     I fix the shortcomings of the prior challenge submission attempt, opting for feature selection for each diagnosis classifier rather than overall importances of all labels.
-    TODO: results, findings
+    The best approach, ``Top 1000 Features with Embeddings'', selects 1000 features by importance for each classifier and attains a test split challenge score of $0.4366$.
 \end{itemize}
 
 \section{Thesis Organization}

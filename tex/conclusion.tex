@@ -17,6 +17,8 @@ I showcased a deep learning \gls{ecg} record classifier using beat to sequence a
 I proposed a set of experiment configurations, experimenting on the original shallow gradient boosted tree ensemble methodology with labelwise feature pruning and incoporating the autoencoder embedding representations into the classifier inputs~(Chapter~\ref{chp:aencxgb}).
 
 All three approaches described in this thesis are capable of predicting multiple cardiac diagnoses from unstructured, 12-lead \gls{ecg} records.
+Specific to the \emph{PhysioNet/CinC 2020 Challenge}, our most prominent approach selects the label-wise top 1000 most important features and autoencoder embeddings from the entire input space of features and trains an XGBoost binary classifier for each of our 27 diagnoses.
+This approach achieves an average test split challenge score of $0.4366$, with an overall test split classification accuracy of $0.3068$.
 
 \section{Future Work}
 The biggest unrealized gain in the classification of \gls{ecg} records using the \emph{PhysioNet/CinC} provided public data is for a human expert to overread and correct all erroneous labels and discard unusable samples from the available corpus.
@@ -24,7 +26,7 @@ This can also be addressed by augmenting the available corpus of data with new \
 Because the \emph{PhysioNet/CinC 2021 Challenge} extends the current challenge and incorporates a 2-lead classification variant, a replication of this study using a subset of 2 leads is also warranted.
 
 For use as a general \gls{ecg} classifier, the success of the wide and deep transformer architecture proposed by Natarajan \emph{et al}~\cite{natarajan2020CINC-multilabel-ECG} emphasizes the importance of the transformer family of neural networks,
-When trained on the raw signal and a selection of manually engineered features, transformers may result in superior classifiers than 1-D convolutions, recurrent neural networks, and shallow classifiers.
+When trained on the raw signal and a selection of manually engineered features, transformers may result in superior classifiers than approaches using convolutions, recurrent neural networks, and shallow classifiers alone.
 
 The classification of \gls{ecg} records in this thesis were limited to the 27 labels defined by the PhysioNet challenge organizers.
 Future work should tailor the multi-label multi-class classification task to incorporate a more broad scope of cardiac diagnoses, or explore matching diagnoses to high dimensional embedding space as an alternative to discrete binary classifiers per label.
