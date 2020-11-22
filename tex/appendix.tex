@@ -3,7 +3,8 @@
 
 \begin{document}
 \begin{appendices}
-\chapter{Label-wise Feature Importances for XGBoost Classifiers with Autoencoder Embeddings}
+\chapter{XGBoost Classifiers with Autoencoder Embeddings}
+\section{Label-wise Feature Importances}
 
 In an extension of Section~\ref{sec:xgb_aenc_results}, I provide a categorical breakdown of the feature utilization from Configuration~\ref{item:xgb_aenc_model_top_1000_w_embd} in Figure~\ref{fig:xgb_aenc_top_1000_features_labelwise}, as well as Configuration~\ref{item:xgb_aenc_model_top_100_w_embd} displayed in Figure~\ref{fig:xgb_aenc_top_100_features_labelwise}.
 
@@ -32,6 +33,20 @@ A utilization of $0.4$ means that only 21 of the available 53 features generated
     \caption{Feature importances of Configuration~\ref{item:xgb_aenc_model_top_100_w_embd}: ``Top 100 Features with Embeddings", utilization over 20 experiments. The 27 labels are displayed separately, showcasing feature derived lead (alternatively Meta or Autoencoder), and category.}
     \label{fig:xgb_aenc_top_100_features_labelwise}
 \end{figure}
+
+\section{Label-wise $F_1$ Scores}
+
+A plot showcasing all of the labelwise F1 scores outputted by the 10 classifier configurations can be found in Figure~\ref{fig:xgb_aenc_label_f1s_10_configuration}.
+
+\begin{figure}[t]
+    \centering
+    \makebox[\textwidth][c]{
+        \includegraphics[width=1.0\textwidth]{figure/label_f1s_10_configuration.pdf}
+    }
+    \caption{Test split label-wise $F_1$ scores for each of the 10 configurations over the 20 independent repeated random subsampling iterations.}
+    \label{fig:xgb_aenc_label_f1s_10_configuration}
+\end{figure}
+
 
 \end{appendices}
 \end{document}
