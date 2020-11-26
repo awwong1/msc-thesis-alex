@@ -16,7 +16,14 @@ I demonstrated that \gls{ecg} records can be classified using traditional signal
 I showcased a deep learning \gls{ecg} record classifier using beat to sequence autoencoders to learn fixed length embeddings from arbitrary length signals (Chapter~\ref{chp:dl_autoenc}).
 I proposed a set of experiment configurations, experimenting on the original shallow gradient boosted tree ensemble methodology with labelwise feature pruning and incoporating the autoencoder embedding representations into the classifier inputs~(Chapter~\ref{chp:aencxgb}).
 
-All three approaches described in this thesis are capable of predicting multiple cardiac diagnoses from unstructured, 12-lead \gls{ecg} records.
+To summarize the three predictions provided in the introduction:
+\begin{itemize}
+    \item I support my original prediction, showing experimental results indicating that shallow learning boosted decision trees can outperform deep learning autoencoder models on summary classification metrics such as the \emph{PhysioNet/CinC 2020 Challenge} scoring function and overall F-measure.
+    \item I support my original prediction, showing that proper regularization of the input feature space and selection of relevant features for the gradient boosted decision tree classifiers are more effective than concatenating autoencoder embeddings for improving the scoring function output.
+    \item I refute my original prediction, as naively joining deep learning autoencoder embeddings with manually engineered features for decision tree classifiers does not significantly improve the summary classification metrics in the \gls{ecg} classification task.
+\end{itemize}
+
+The gradient boosted decision tree approach, stacked autoencoders approach, and combined approaches described in this thesis are capable of predicting multiple cardiac diagnoses from unstructured, 12-lead \gls{ecg} records.
 Specific to the \emph{PhysioNet/CinC 2020 Challenge}, our most prominent approach selects the label-wise top 1000 most important features and autoencoder embeddings from the entire input space of features and trains an XGBoost binary classifier for each of our 27 diagnoses.
 This approach achieves an average test split challenge score of $0.4366$, with an overall test split classification accuracy of $0.3068$.
 
