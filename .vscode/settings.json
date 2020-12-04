@@ -6,6 +6,10 @@
         "fascicular",
         "fibrillatory",
         "hexaxial",
-        "intraventricular"
+        "intraventricular",
+        "labelwise",
+        "overfitting",
+        "unpruned",
+        "wilcoxon"
     ]
 }

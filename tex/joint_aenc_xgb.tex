@@ -19,7 +19,7 @@ I extend the approaches used in Chapters~\ref{chp:xgbensemble} and \ref{chp:dl_a
     \item \label{question:xgb_aenc_pruning} How important is feature selection when evaluating the classifier challenge metric?
     I predict that classifiers that do not perform any feature selection will have a statistically significant lower challenge metric than classifiers that perform feature selection, but there will be no significant difference between aggressive pruning (top 100 features) and moderate pruning (top 1000 features).
     \item \label{question:xgb_aenc_embd_vs_no_embd} Will incorporating the sequence embeddings from our deep learning autoencoder improve classification challenge metric?
-    I predict that adding in the deep learning autoencoder embeddings will have no statistically significant effect on the overall challenge metric.
+    Aligning with my thesis statement, I predict that adding in the deep learning autoencoder will statistically significantly increase the overall challenge metric of the classifiers.
     % \item \label{question:xgb_aenc_embd_ratio} When adding the deep learning generated autoencoder embeddings, are they represented proportionally relative to the standard 12-lead derived heart beat, heart rate, and full waveform derived feature categories?
 \end{enumerate}
 
@@ -30,19 +30,29 @@ I combine the techniques applied in Section~\ref{ssec:xgb_feature_engineering} a
 This chapter focuses on the training of \texttt{xgboost}~\cite{chen_xgboost_2016} binary classifiers for each of the 27 labels selected by the PhysioNet/CinC challenge.
 I explore ten different configurations of the tabular inputs:
 \begin{enumerate}
-    \item \label{item:xgb_aenc_model_all_w_embd} \textbf{All Features with Embeddings}: I combine the feature engineering input vector (size 18,950) with the autoencoder sequence embedding vector (size 768) to create a combined input vector of size 19,718 and train an XGBoost classifier for each of the 27 diagnosed labels.
-    \item \label{item:xgb_aenc_model_all_no_embd} \textbf{All Features}: I use the feature engineering input vector of size 18,950 as the input to our label-wise XGBoost classifier ensembles. This configuration is identical to the Phase 1 methodology described in Section~\ref{ssec:xgb_classification}.
-    \item \label{item:xgb_aenc_model_avgd_top_1000_w_embd} \textbf{Averaged Top 1000 Features with Embeddings}: Using the trained models from Configuration~\ref{item:xgb_aenc_model_all_w_embd}, all label-wise classifier feature importances provided by the XGBoost classifiers are averaged together before selecting the top 1,000 features.
-    \item \label{item:xgb_aenc_model_top_1000_w_embd} \textbf{Top 1000 Features with Embeddings}: Starting from Configuration~\ref{item:xgb_aenc_model_all_w_embd}, I select the top 1,000 features for each XGBoost diagnosis classifier and retrain a new set of 27 classifiers using the reduced feature set.
-    \item \label{item:xgb_aenc_model_avgd_top_100_w_embd} \textbf{Averaged Top 100 Features with Embeddings}: Using the trained models from Configuration~\ref{item:xgb_aenc_model_all_w_embd}, all label-wise XGBoost classifier feature importances are averaged together before selecting the top 100 features.
+    \item \label{item:xgb_aenc_model_all_w_embd} \textbf{All Features with Embeddings}: I combine the heartbeat features, heart rate variability features, and overall waveform features input vector used in Section~\ref{ssec:xgb_feature_engineering} (size 18,950) with the autoencoder sequence embedding vector (size 768) to create a combined input vector of size 19,718 and train an XGBoost classifier for each of the 27 diagnosed labels.
+    These label-wise classifiers provide feature importances for use in configurations~\ref{item:xgb_aenc_model_avgd_top_1000_w_embd},~\ref{item:xgb_aenc_model_top_1000_w_embd},~\ref{item:xgb_aenc_model_avgd_top_100_w_embd},~and~\ref{item:xgb_aenc_model_top_100_w_embd}.
+    \item \label{item:xgb_aenc_model_all_no_embd} \textbf{All Features}: I only use the heartbeat features, heart rate variability features, and overall waveform features to create an input vector of size 18,950 as the input to our label-wise XGBoost classifier ensembles. One XGBoost classifier is trained per label. This configuration is identical to the Phase 1 methodology described in Section~\ref{ssec:xgb_classification}.
+    The trained classifiers are subsequently used to provide feature importances for configurations~\ref{item:xgb_aenc_model_avgd_top_1000_no_embd},~\ref{item:xgb_aenc_model_top_1000_no_embd},~\ref{item:xgb_aenc_model_avgd_top_100_no_embd},~and~\ref{item:xgb_aenc_model_top_100_no_embd}.
+    \item \label{item:xgb_aenc_model_avgd_top_1000_w_embd} \textbf{Averaged Top 1000 Features with Embeddings}: Using the trained models from Configuration~\ref{item:xgb_aenc_model_all_w_embd}, all label-wise classifier feature importances provided by the XGBoost classifiers are averaged together before selecting the top 1,000 features. Using this averaged overall set of 1,000 most important features, one XGBoost classifier is trained per label.
+    \item \label{item:xgb_aenc_model_top_1000_w_embd} \textbf{Top 1000 Features with Embeddings}: Starting from Configuration~\ref{item:xgb_aenc_model_all_w_embd}, I select the top 1,000 features for each XGBoost diagnosis classifier and retrain a new set of 27 classifiers using the reduced feature set. One XGBoost classifier is trained per label only using the importances of the parent model sharing the same label.
+    \item \label{item:xgb_aenc_model_avgd_top_100_w_embd} \textbf{Averaged Top 100 Features with Embeddings}: Using the trained models from Configuration~\ref{item:xgb_aenc_model_all_w_embd}, all label-wise XGBoost classifier feature importances are averaged together before selecting the top 100 features. One XGBoost classifier is trained per label using the averaged 100 most important features of all parent XGBoost label-to-classifier pairs.
     \item \label{item:xgb_aenc_model_top_100_w_embd} \textbf{Top 100 Features with Embeddings}: Starting from Configuration~\ref{item:xgb_aenc_model_all_w_embd}, I select the 100 most important features for each XGBoost diagnosis classifier and retrain a new set of 27 classifiers.
-    \item \label{item:xgb_aenc_model_avgd_top_1000_no_embd} \textbf{Averaged Top 1000 Features}: Using Configuration~\ref{item:xgb_aenc_model_all_no_embd}, the XGBoost classifier feature importances for all labels are averaged together to select the top 1,000 features. This configuration is identical to the Phase 2 methodology described in Section~\ref{ssec:xgb_classification}.
+    A separate XGBoost classifier is trained per label using the 100 most important features of the parent classifier sharing the same label.
+    \item \label{item:xgb_aenc_model_avgd_top_1000_no_embd} \textbf{Averaged Top 1000 Features}: Using Configuration~\ref{item:xgb_aenc_model_all_no_embd}, the XGBoost classifier feature importances for all labels are averaged together to select the top 1,000 features. These 1,000 features are used to train a new model for each label. This configuration is identical to the Phase 2 methodology described in Section~\ref{ssec:xgb_classification}.
     \item \label{item:xgb_aenc_model_top_1000_no_embd} \textbf{Top 1000 Features}: Starting from Configuration~\ref{item:xgb_aenc_model_all_no_embd}, a new set of 27 XGBoost classifiers are trained using the reduced top 1,000 most important features per label classifier.
+    One model is trained per label using only the top 1,000 features of the parent model sharing the same label.
     \item \label{item:xgb_aenc_model_avgd_top_100_no_embd} \textbf{Averaged Top 100 Features}: Using Configuration~\ref{item:xgb_aenc_model_all_no_embd}, the XGBoost classifier feature importances for all labels are averaged together to select the top 100 features.
+    Using the averaged 100 most important features of all classifiers, a model is trained for each label.
     \item \label{item:xgb_aenc_model_top_100_no_embd} \textbf{Top 100 Features}: Starting from Configuration~\ref{item:xgb_aenc_model_all_no_embd}, a new set of 27 classifiers are trained using the reduced top 100 most important features per XGBoost binary label classifier.
+    The reduced set of 100 features are specific to the label and are not averaged together between other classifiers.
 \end{enumerate}
 
 The significant differences distinguishing these approaches from the top 1000 features approach used in Section~\ref{ssec:xgb_classification} are that the importances of features for each of the labels are now evaluated independently, where the prior experiment used the same reduced set of features for all classifiers.
+
+The ``gain'' feature importance is used.
+This is the relative contribution of the provided feature to the overall model, defined as the sum of each feature's contribution for every tree in the XGBoost classifier.
+
 I further revise the inadequate dataset partitioning to use Monte Carlo cross-validation 20 times, randomly partitioning the available corpus of public data into 80\% training, 10\% validation, and 10\% test splits.
 
 For each experiment configuration run, I train an XGBoost binary classifier for each of the 27 diagnosed labels.
@@ -115,7 +125,7 @@ During training, if the evaluation set binary logistic regression loss fails to 
 \begin{figure}[t]
     \centering
     \includegraphics[width=12cm]{figure/xgb_aenc_wilcoxon_srt_p_vals.pdf}
-    \caption[Wilcoxon signed-rank test P-values, comparing test split challenge metric distributions of all 6 experiment configurations.]{Wilcoxon signed-rank test P-values, comparing test split challenge metric distributions of all 6 experiment configurations. Asterisk indicates significantly different challenge metric distribution at a alpha of 0.001.}
+    \caption[Wilcoxon signed-rank test P-values, comparing test split challenge metric distributions of all 6 experiment configurations.]{Wilcoxon signed-rank test P-values, comparing test split challenge metric distributions of all 6 experiment configurations. Asterisk indicates significantly different challenge metric distribution at an alpha of 0.001.}
     \label{fig:xgb_aenc_wilcoxon_srt_p_vals}
 \end{figure}
 
@@ -161,19 +171,19 @@ When aggressively pruning to reduce the feature space to 100 inputs, the improve
 The hypothesis of \ref{question:xgb_aenc_embd_vs_no_embd} aims to test if incorporating the autoencoder embeddings has any effect on the challenge score of the resulting classifiers.
 I analyze the relevant configuration pairs, using an alpha of $0.001$:
 \begin{itemize}
-    \item \textbf{Averaged Top 1000 Features}: Configuration~\ref{item:xgb_aenc_model_avgd_top_1000_w_embd} has a higher challenge score than Configuration~\ref{item:xgb_aenc_model_avgd_top_1000_no_embd}, but it is not statistically significant.
-    \item \textbf{Top 1000 Features}: Configuration~\ref{item:xgb_aenc_model_top_1000_w_embd} has a higher challenge score than Configuration~\ref{item:xgb_aenc_model_top_1000_no_embd}, but it is not statistically significant.
-    \item \textbf{Averaged Top 100 Features}: Configuration~\ref{item:xgb_aenc_model_avgd_top_100_w_embd} has a higher challenge score than Configuration~\ref{item:xgb_aenc_model_avgd_top_100_no_embd}, but it is not statistically significant.
-    \item \textbf{Top 100 Features}: Configuration~\ref{item:xgb_aenc_model_top_100_w_embd} has a higher challenge score than Configuration~\ref{item:xgb_aenc_model_top_100_no_embd}, but it is not statistically significant.
+    \item \textbf{Averaged Top 1000 Features}: Configuration~\ref{item:xgb_aenc_model_avgd_top_1000_w_embd} containing the embeddings has a higher challenge score than Configuration~\ref{item:xgb_aenc_model_avgd_top_1000_no_embd} which does not have embeddings, but it is not statistically significant.
+    \item \textbf{Top 1000 Features}: Configuration~\ref{item:xgb_aenc_model_top_1000_w_embd} containing embeddings has a higher challenge score than Configuration~\ref{item:xgb_aenc_model_top_1000_no_embd} which is missing embeddings, but it is not statistically significant.
+    \item \textbf{Averaged Top 100 Features}: Configuration~\ref{item:xgb_aenc_model_avgd_top_100_w_embd} that includes the autoencoder embeddings has a higher challenge score than Configuration~\ref{item:xgb_aenc_model_avgd_top_100_no_embd} which lacks embeddings, but it is not statistically significant.
+    \item \textbf{Top 100 Features}: Configuration~\ref{item:xgb_aenc_model_top_100_w_embd} with the embeddings from the autoencoder has a higher challenge score than Configuration~\ref{item:xgb_aenc_model_top_100_no_embd} which does not contain embeddings, but it is not statistically significant.
 \end{itemize}
 
 \ref{question:xgb_aenc_embd_vs_no_embd}: Adding autoencoder embeddings into the input vector as additional representation of the \gls{ecg} record does not result in any statistically significant change in the classifier's challenge metric output.
-This affirms my prediction that the proposed approach of combining deep learning autoencoder embeddings with manually extracted features is ineffective for improving classification score.
+These results suggest that my original prediction is incorrect- the proposed approach of combining deep learning autoencoder embeddings with manually extracted features is actually ineffective for improving classification score.
 
 \section{Discussion}
 
 Bengio discusses in an informal academic research panel~\cite{2020-yoshua-dlc} current and upcoming deep learning challenges, where he dismisses the viability of engineering deep learning models into old-fashioned symbolic machine learning methods, instead proposing learned attention mechanisms as a viable alternative.
-This is enforced by the experiment results, as no significant improvement in challenge metric can be attributed to the addition of autoenoder embedding representations alone.
+This is enforced by the experiment results, as no significant improvement in challenge metric can be attributed to the addition of autoencoder embedding representations alone.
 Additionally, although the engineering of the two different mechanisms into one shallow machine learning classifier is feasible, we obscure the semantics of feature importance for the embedding features.
 It is no longer clear how to trace the importances assigned to the embedding features back to their original lead sources.
 
@@ -182,7 +192,7 @@ Example irregularities include:
 \begin{itemize}
     \item \gls{ecg} records containing voltage over time changes exceeding physiologically possible voltage measurements
     \item \gls{ecg} records with miniscule voltage gain, peaks undiscernible from noise;
-    \item \gls{ecg} records not labeled as \gls{brady} despite having resting heart rate of below 60 beats per minute;
+    \item \gls{ecg} records not labeled as bradycardia despite having resting heart rate of below 60 beats per minute;
     \item \gls{lqrsv} \gls{ecg} records incorrectly labeled as \gls{af}, \gls{tab}, or \gls{snr};
     \item \gls{tab} labeled \gls{ecg} records undiscernible from noise;
     \item inconsistent dataset labeling of \gls{af} and \gls{afl};
