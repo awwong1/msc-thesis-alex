@@ -14,7 +14,7 @@
 In this thesis, I proposed three approaches for the classification of 12-lead \gls{ecg} records.
 I demonstrated that \gls{ecg} records can be classified using traditional signal processing and feature extraction techniques in combination with a shallow gradient boosted tree ensemble algorithm (Chapter~\ref{chp:xgbensemble}).
 I showcased a deep learning \gls{ecg} record classifier using beat to sequence autoencoders to learn fixed length embeddings from arbitrary length signals (Chapter~\ref{chp:dl_autoenc}).
-I proposed a set of experiment configurations, experimenting on the original shallow gradient boosted tree ensemble methodology with labelwise feature pruning and incoporating the autoencoder embedding representations into the classifier inputs~(Chapter~\ref{chp:aencxgb}).
+I proposed a set of experiment configurations, experimenting on the original shallow gradient boosted tree ensemble methodology with labelwise feature pruning and incorporating the autoencoder embedding representations into the classifier inputs~(Chapter~\ref{chp:aencxgb}).
 
 To summarize the three predictions provided in the introduction:
 \begin{itemize}
@@ -32,7 +32,7 @@ The biggest unrealized gain in the classification of \gls{ecg} records using the
 This can also be addressed by augmenting the available corpus of data with new \gls{ecg} records that are sourced from known distributions and labelled by trusted cardiologists.
 Because the \emph{PhysioNet/CinC 2021 Challenge} extends the current challenge and incorporates a 2-lead classification variant, a replication of this study using a subset of 2 leads is also warranted.
 
-For use as a general \gls{ecg} classifier, the success of the wide and deep transformer architecture proposed by Natarajan \emph{et al}~\cite{natarajan2020CINC-multilabel-ECG} emphasizes the importance of the transformer family of neural networks,
+For use as a general \gls{ecg} classifier, the success of the wide and deep transformer architecture proposed by Natarajan \emph{et al}~\cite{natarajan2020CINC-multilabel-ECG} emphasizes the importance of the transformer family of neural networks.
 When trained on the raw signal and a selection of manually engineered features, transformers may result in superior classifiers than approaches using convolutions, recurrent neural networks, and shallow classifiers alone.
 
 The classification of \gls{ecg} records in this thesis were limited to the 27 labels defined by the PhysioNet challenge organizers.
