@@ -11,7 +11,7 @@ The electrocardiogram is the standard tool for detecting cardiac abnormalities, 
 However, the interpretation of this data is an unsolved problem with discrepancies among panels of cardiologists and automated analysis requiring additional human over-reading.
 This thesis explores the classification of 12-lead ECGs to a set of 27 diagnoses as defined in the \emph{PhysioNet/CinC 2020} Challenge.
 
-I propose three approaches, starting with manual feature engineering and classification using shallow gradient boosted trees ensembles.
+I propose three approaches, starting with manual feature engineering and classification using shallow gradient boosted tree ensembles.
 Our second approach uses a deep learning approach by combining fixed and variable length autoencoders to learn the features, followed by a multi layer perceptron (MLP) classifier.
 Our third approach combines the deep autoencoders and our shallow decision tree ensembles by training the shallow gradient boosted trees with both the manually extracted features as well as the bottleneck dimension representation of the 12-lead ECG record.
 I empirically evaluate our different approaches using a weighted classification scoring function using repeated random subsampling of the publicly available challenge dataset.
