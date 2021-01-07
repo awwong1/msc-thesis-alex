@@ -1,24 +1,14 @@
-# LaTeX Thesis Template
+# Classification and Analysis of 12-Lead Electrocardiograms
+
+Alexander Wong MSc Thesis Source Code.
+
+Accompanying [seminar slides are available here](https://docs.google.com/presentation/d/10RQSOCvL6TmCcDrgJW0CwtZJoKlX-6AqwZAjzRZmnQs/edit?usp=sharing) and [presentation video can be found here](https://drive.google.com/file/d/1poCt6OlClWx4lS-j55cZYM93buvd6gFZ/view?usp=sharing).
 
 Extends the [University of Alberta](https://www.ualberta.ca/) [Computing Science Graduate Student's Association thesis template](https://sites.google.com/ualberta.ca/csgsa/resources).
 
 ## Quickstart
 
-Instructions for compiling the `.tex` files using [Tectonic](https://tectonic-typesetting.github.io/en-US/).
-
 ```bash
-tectonic --version
-# Tectonic 0.1.12
-tectonic main.tex
+$ sudo apt install latexmk
+$ make
 ```
-
-For live reloading, the `inotify-tools` package is required.
-```bash
-tectonic main.tex && inotifywait --quiet --monitor --event close_write --format %e $(ls tex/*.tex main.tex) | while read events; do tectonic main.tex; done
-# in another terminal, open it in a pdf
-okular ./main.pdf
-```
-
-## License
-
-[The Unlicense](LICENSE); This is free and unencumbered software released into the public domain.
